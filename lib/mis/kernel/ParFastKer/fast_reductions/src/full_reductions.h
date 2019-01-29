@@ -26,6 +26,7 @@ private:
     std::vector<unsigned int> forced_vertices;
     int linearTimeOffset;
     LinearTime::Graph LineartimeKernelizer;
+    std::vector<std::vector<int>> LineartimeKernel;
     std::vector<int> after_force_mapping;
     std::vector<int> after_force_reverse_mapping;
 };

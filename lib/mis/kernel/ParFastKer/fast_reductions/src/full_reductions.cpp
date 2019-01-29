@@ -64,7 +64,6 @@ void full_reductions::reduce_graph() {
     LineartimeKernelizer.inputEdgeList(pstart, edges);
     // std::cout << "finished adding edgelist to lineartime" << std::endl;
     // LineartimeKernelizer.inputGraphAdjList(adj);
-    std::vector<std::vector<int>> LineartimeKernel;
     linearTimeOffset = LineartimeKernelizer.degree_two_kernal_and_remove_max_degree_without_contraction(LineartimeKernel);
 
     std::vector<int> partitions = std::vector<int>(LineartimeKernel.size());

@@ -30,7 +30,6 @@ std::vector<bool> getExactMIS(const std::vector<std::vector<int>> &_adj, MISConf
     fastKer.reduce_graph();
     graph_access FastKerKernel;
     std::vector<NodeID> fastKer_reverse_mapping(fastKer.number_of_nodes_remaining());
-    std::cout << _adj.size() << std::endl;
     fastKer.convert_adj_lists(FastKerKernel, fastKer_reverse_mapping);
 
 

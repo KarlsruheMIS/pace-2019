@@ -862,7 +862,7 @@ void parallel_reductions::getGraphAccess(graph_access &G, std::vector<unsigned i
     std::vector<int> adjncy(m);
     unsigned int adjncy_counter = 0;
     for (unsigned int i = 0; i < node_count; ++i) {
-        std::cout << i << ", " << adjncy_counter << std::endl;
+        // std::cout << i << ", " << adjncy_counter << std::endl;
         xadj[i] = adjncy_counter;
         for (int const neighbor : neighbors[reverse_mapping[i]]) if(inGraph.Contains(neighbor)){
             // if (graph_to_kernel_map[neighbor] == i) continue;
