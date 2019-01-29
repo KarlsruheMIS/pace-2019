@@ -1,0 +1,197 @@
+#/******************************************************************************
+# * SConscript
+# *
+# * Source of Parallel Label Compress.
+# *
+# ******************************************************************************
+# * Copyright (C) 2013 Christian Schulz <christian.schulz@kit.edu>
+# *
+# * This program is free software: you can redistribute it and/or modify it
+# * under the terms of the GNU General Public License as published by the Free
+# * Software Foundation, either version 3 of the License, or (at your option)
+# * any later version.
+# *
+# * This program is distributed in the hope that it will be useful, but WITHOUT
+# * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+# * more details.
+# *
+# * You should have received a copy of the GNU General Public License along with
+# * this program.  If not, see <http://www.gnu.org/licenses/>.
+# *****************************************************************************/
+
+
+# The main SConscript file for the code.
+import platform
+import sys
+
+# Get the current platform.
+SYSTEM = platform.uname()[0]
+
+Import('env')
+
+libparallel_files = [ 'lib/data_structure/parallel_graph_access.cpp',
+                      'lib/data_structure/balance_management.cpp',
+                      'lib/data_structure/balance_management_refinement.cpp',
+                      'lib/data_structure/balance_management_coarsening.cpp',
+                      'lib/parallel_label_compress/node_ordering.cpp',
+                      'lib/parallel_contraction_projection/parallel_contraction.cpp',
+                      'lib/parallel_contraction_projection/parallel_block_down_propagation.cpp',
+                      'lib/parallel_contraction_projection/parallel_projection.cpp',
+                      'lib/graph_generation/generate_kronecker.cpp',
+                      'lib/graph_generation/generate_g500_edgelist.cpp',
+                      'lib/graph_generation/graph500_generator/make_graph.c',
+                      'lib/graph_generation/graph500_generator/graph_generator.c',
+                      'lib/graph_generation/graph500_generator/splittable_mrg.c',
+                      'lib/graph_generation/graph500_generator/utils.c',
+                      'lib/distributed_partitioning/distributed_partitioner.cpp',
+                      'lib/distributed_partitioning/initial_partitioning/initial_partitioning.cpp',
+                      'lib/distributed_partitioning/initial_partitioning/distributed_evolutionary_partitioning.cpp',
+                      'lib/distributed_partitioning/initial_partitioning/random_initial_partitioning.cpp',
+                      'lib/communication/mpi_tools.cpp',
+                      'lib/communication/dummy_operations.cpp',
+                      'lib/io/parallel_graph_io.cpp',
+                      'lib/io/parallel_vector_io.cpp',
+                      'lib/tools/random_functions.cpp',
+                      'lib/graph_generation/generate_rgg.cpp',
+                      'lib/tools/distributed_quality_metrics.cpp'
+                       ]
+
+libgraph2dgffiles = [ 'lib/data_structure/parallel_graph_access.cpp',
+                      'lib/io/parallel_graph_io.cpp',
+                      'lib/data_structure/balance_management.cpp',
+                      'lib/data_structure/balance_management_refinement.cpp',
+                      'lib/data_structure/balance_management_coarsening.cpp',
+                       ]
+
+libedgelistfiles= [ 'lib/data_structure/parallel_graph_access.cpp',
+                      'lib/io/parallel_graph_io.cpp',
+
+                      'lib/data_structure/balance_management.cpp',
+                      'lib/data_structure/balance_management_refinement.cpp',
+                      'lib/data_structure/balance_management_coarsening.cpp'
+                  ]
+
+libyahootometis = [ 'lib/data_structure/parallel_graph_access.cpp',
+                      'lib/io/parallel_graph_io.cpp',
+                      'lib/data_structure/balance_management.cpp',
+                      'lib/data_structure/balance_management_refinement.cpp',
+                      'lib/data_structure/balance_management_coarsening.cpp'
+                  ]
+
+librgg_files = [       'lib/graph_generation/rgg/generate_grid.cpp',
+                      'lib/graph_generation/rgg/generate_rgg.cpp',
+                      'lib/graph_generation/rgg/graph_export.cpp',
+                      'lib/graph_generation/rgg/graph_io.cpp',
+                      'lib/graph_generation/rgg/static_distributed_graph.cpp',
+                      'lib/graph_generation/rgg/static_local_graph.cpp',
+                      'lib/graph_generation/rgg/static_local_graph_properties.cpp',
+                      'lib/graph_generation/rgg/util.cpp',
+                      'lib/graph_generation/rgg/util_rand.cpp',
+                     ]
+
+if env['program'] == 'parallel_label_compress':
+        if SYSTEM == 'Darwin':
+                env['CXX'] = 'mpicxx'
+        else:
+                env['CXX'] = 'mpicxx'
+                env['CC']  = 'mpicc'
+
+        env.Append(CXXFLAGS = '-DGRAPH_GENERATOR_MPI -DGRAPHGEN_DISTRIBUTED_MEMORY -DPARALLEL_LABEL_COMPRESSION')
+        env.Append(CCFLAGS = '-DGRAPH_GENERATOR_MPI -DGRAPHGEN_DISTRIBUTED_MEMORY -DPARALLEL_LABEL_COMPRESSION')
+        env.Program('parallel_label_compress', ['app/parallel_label_compress.cpp']+libparallel_files+librgg_files, LIBS=['libargtable2','libkahip','gomp'])
+
+if env['program'] == 'parmetis_driver':
+        if SYSTEM == 'Darwin':
+                env['CXX'] = 'mpicxx'
+        else:
+                env['CXX'] = 'mpicxx'
+                env['CC']  = 'mpicc'
+
+        env.Append(CXXFLAGS = '-DGRAPH_GENERATOR_MPI -DGRAPHGEN_DISTRIBUTED_MEMORY -DPARALLEL_LABEL_COMPRESSION')
+        env.Append(CCFLAGS = '-DGRAPH_GENERATOR_MPI -DGRAPHGEN_DISTRIBUTED_MEMORY -DPARALLEL_LABEL_COMPRESSION')
+
+        env.Append(LIBPATH=['./extern/parmetis-4.0.3/build/Linux-x86_64/libparmetis/'])
+        env.Append(LIBPATH=['./extern/parmetis-4.0.3/build/Linux-x86_64/libmetis/'])
+        env.Program('parmetis_driver', ['app/parmetis_driver.cpp']+libparallel_files+librgg_files, LIBS=['libargtable2','libkahip','gomp','libparmetis','libmetis'])
+
+if env['program'] == 'graph2dgf':
+        if SYSTEM == 'Darwin':
+                env['CXX'] = 'mpicxx'
+        else:
+                env['CXX'] = 'mpicxx'
+                env['CC']  = 'mpicc'
+
+        env.Append(CXXFLAGS = '-DGRAPH_GENERATOR_MPI -DGRAPHGEN_DISTRIBUTED_MEMORY -DPARALLEL_LABEL_COMPRESSION -DGRAPH2DGF')
+        env.Append(CCFLAGS = '-DGRAPH_GENERATOR_MPI -DGRAPHGEN_DISTRIBUTED_MEMORY -DPARALLEL_LABEL_COMPRESSION -DGRAPH2DGF')
+        env.Program('graph2dgf', ['app/graph2dgf.cpp']+libgraph2dgffiles, LIBS=['libargtable2','gomp'])
+
+if env['program'] == 'readdgf':
+        if SYSTEM == 'Darwin':
+                env['CXX'] = 'mpicxx'
+        else:
+                env['CXX'] = 'mpicxx'
+                env['CC']  = 'mpicc'
+
+        env.Append(CXXFLAGS = '-DGRAPH_GENERATOR_MPI -DGRAPHGEN_DISTRIBUTED_MEMORY -DPARALLEL_LABEL_COMPRESSION')
+        env.Append(CCFLAGS = '-DGRAPH_GENERATOR_MPI -DGRAPHGEN_DISTRIBUTED_MEMORY -DPARALLEL_LABEL_COMPRESSION')
+        env.Program('readdgf', ['app/readdgf.cpp']+libparallel_files, LIBS=['libargtable2','libkahip','gomp'])
+
+if env['program'] == 'parallel_label_compress_reps':
+        if SYSTEM == 'Darwin':
+                env['CXX'] = 'mpicxx'
+        else:
+                env['CXX'] = 'mpicxx'
+                env['CC']  = 'mpicc'
+
+        env.Append(CXXFLAGS = '-DGRAPH_GENERATOR_MPI -DGRAPHGEN_DISTRIBUTED_MEMORY -DPARALLEL_LABEL_COMPRESSION')
+        env.Append(CCFLAGS = '-DGRAPH_GENERATOR_MPI -DGRAPHGEN_DISTRIBUTED_MEMORY -DPARALLEL_LABEL_COMPRESSION')
+        env.Program('parallel_label_compress_reps', ['app/parallel_label_compress_reps.cpp']+libparallel_files + librgg_files, LIBS=['libargtable2','libkahip','gomp'])
+
+if env['program'] == 'generate_kronecker':
+        if SYSTEM == 'Darwin':
+                env['CXX'] = 'mpicxx'
+        else:
+                env['CXX'] = 'mpicxx'
+                env['CC']  = 'mpicc'
+
+
+        env.Append(CXXFLAGS = '-DGRAPH_GENERATOR_MPI -DGRAPHGEN_DISTRIBUTED_MEMORY -DKRONECKER_GENERATOR_PROGRAM')
+        env.Append(CCFLAGS = '-DGRAPH_GENERATOR_MPI -DGRAPHGEN_DISTRIBUTED_MEMORY -DKRONECKER_GENERATOR_PROGRAM')
+                
+        env.Program('generate_kronecker', ['app/generate_kronecker.cpp']+libparallel_files, LIBS=['libargtable2','libkahip','gomp'])
+
+if env['program'] == 'edge_list_to_metis_graph':
+        if SYSTEM == 'Darwin':
+                env['CXX'] = 'mpicxx'
+        else:
+                env['CXX'] = 'mpicxx'
+                env['CC']  = 'mpicc'
+
+
+        env.Append(CXXFLAGS = '-DGRAPH_GENERATOR_MPI -DGRAPHGEN_DISTRIBUTED_MEMORY -DKRONECKER_GENERATOR_PROGRAM')
+        env.Append(CCFLAGS = '-DGRAPH_GENERATOR_MPI -DGRAPHGEN_DISTRIBUTED_MEMORY -DKRONECKER_GENERATOR_PROGRAM')
+                
+        env.Program('edge_list_to_metis_graph', ['app/edge_list_to_metis_graph.cpp']+libedgelistfiles, LIBS=['libargtable2','gomp'])
+
+if env['program'] == 'yahoo_to_metis':
+        if SYSTEM == 'Darwin':
+                env['CXX'] = 'mpicxx'
+        else:
+                env['CXX'] = 'mpicxx'
+                env['CC']  = 'mpicc'
+
+
+        env.Append(CXXFLAGS = '-DGRAPH_GENERATOR_MPI -DGRAPHGEN_DISTRIBUTED_MEMORY -DKRONECKER_GENERATOR_PROGRAM')
+        env.Append(CCFLAGS = '-DGRAPH_GENERATOR_MPI -DGRAPHGEN_DISTRIBUTED_MEMORY -DKRONECKER_GENERATOR_PROGRAM')
+                
+        env.Program('yahoo_to_metis', ['app/yahoo_to_metis.cpp']+libyahootometis, LIBS=['libargtable2','gomp'])
+
+
+if env['program'] == 'generate_rgg':
+
+        env.Append(CXXFLAGS = '-DGRAPH_GENERATOR_MPI -DGRAPHGEN_DISTRIBUTED_MEMORY -DRGG_GENERATOR_PROGRAM ')
+        env.Append(CCFLAGS = '-DGRAPH_GENERATOR_MPI -DGRAPHGEN_DISTRIBUTED_MEMORY  -DRGG_GENERATOR_PROGRAM')
+        librgg = env.Library('librgg', librgg_files)
+        env['CXX'] = "mpicxx"
+        env.Program('generate_rgg', ['app/generate_rgg.cpp'] +  libparallel_files, LIBS=[librgg,'libargtable2','libkahip','gomp'])

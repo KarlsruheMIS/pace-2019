@@ -1,0 +1,5 @@
+#!/bin/bash
+
+for graph_path in ../../graphs/*.graph; do
+	./run_graph $graph_path
+done
