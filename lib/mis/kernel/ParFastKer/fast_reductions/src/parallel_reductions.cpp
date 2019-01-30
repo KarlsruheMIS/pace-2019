@@ -63,9 +63,9 @@ parallel_reductions::parallel_reductions(vector<vector<int>> const &adjacencyArr
     }
     auto numPartitions_ptr = max_element(partitions.begin(), partitions.end());
     int numPartitions = numPartitions_ptr!=partitions.end() ? *numPartitions_ptr + 1 : 0;
-    if(numPartitions == 1) {
-        numPartitions = 2;
-    }
+    // if(numPartitions == 1) {
+    //     numPartitions = 2;
+    // }
     partition_nodes = std::vector<std::vector<int>>(numPartitions);
     for(int node = 0; node < N; ++node) {
         assert(partitions[node] >= 0);
