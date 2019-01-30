@@ -1,6 +1,7 @@
 #ifndef FULL_REDUCTIONS_H
 #define FULL_REDUCTIONS_H
 
+
 #include <vector>
 #include <memory>
 #include "mis_config.h"

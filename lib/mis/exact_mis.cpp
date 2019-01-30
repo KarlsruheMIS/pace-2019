@@ -5,6 +5,7 @@
  *
  *****************************************************************************/
 #include <limits.h>
+// #include <algorithm>
 
 #include "exact_mis.h"
 
@@ -32,6 +33,7 @@ std::vector<bool> getExactMIS(const std::vector<std::vector<int>> &_adj, MISConf
     std::vector<NodeID> fastKer_reverse_mapping(fastKer.number_of_nodes_remaining());
     fastKer.convert_adj_lists(FastKerKernel, fastKer_reverse_mapping);
 
+    std::cout << "FastKer kernel size: " << fastKer.number_of_nodes_remaining() << std::endl;
 
     std::vector<std::vector<int>> FastKerKerneladj(FastKerKernel.number_of_nodes());
 
@@ -52,21 +54,27 @@ std::vector<bool> getExactMIS(const std::vector<std::vector<int>> &_adj, MISConf
     std::vector<NodeID> vcsolver_reverse_mapping(vcSolver.number_of_nodes_remaining());
     vcSolver.convert_adj_lists(VCSolverKernel, vcsolver_reverse_mapping);
 
+    std::cout << "VCSolver kernel size: " << vcSolver.number_of_nodes_remaining() << std::endl;
+
     ils localSearch = ils();
 
     localSearch.perform_ils(config, VCSolverKernel, config.ils_iterations);
 
-    std::vector<int> VCSolverKernelLocalSearchSolution(FastKerKerneladj.size());
+    std::vector<int> VCSolverKernelLocalSearchSolution(fastKer.number_of_nodes_remaining());
 
 
     unsigned int solution_size = 0;
     forall_nodes(VCSolverKernel, node) {
         if (VCSolverKernel.getPartitionIndex(node) == 1) {
             VCSolverKernelLocalSearchSolution[vcsolver_reverse_mapping[node]] = 0;
+        }
+        else {
+            VCSolverKernelLocalSearchSolution[vcsolver_reverse_mapping[node]] = 1;
             solution_size++;
         }
-        else VCSolverKernelLocalSearchSolution[vcsolver_reverse_mapping[node]] = 1;
     } endfor
+
+          std::cout << "Local search found solution of size " << (vcSolver.number_of_nodes_remaining() - solution_size) + fastKer.get_current_is_size_with_folds() + vcSolver.get_current_is_size_with_folds() << std::endl;
 
           vcSolver.addStartingSolution(VCSolverKernelLocalSearchSolution, solution_size);
 
@@ -74,11 +82,14 @@ std::vector<bool> getExactMIS(const std::vector<std::vector<int>> &_adj, MISConf
     timer t;
 	vcSolver.solve(t, config.time_limit);
 
-    std::vector<bool> solution(FastKerKernel.number_of_nodes());
+    std::cout << "Final solution size: " << (fastKer.number_of_nodes_remaining() - vcSolver.opt) + fastKer.get_current_is_size_with_folds() << std::endl;
+
+    std::vector<bool> solution(fastKer.number_of_nodes_remaining());
     vcSolver.get_solved_is(solution);
 
 
     fastKer.extend_finer_is(solution);
+
 
     return solution;
 }
