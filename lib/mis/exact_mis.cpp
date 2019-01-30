@@ -26,6 +26,7 @@
 #include "omp.h"
 
 std::vector<bool> getExactMIS(const std::vector<std::vector<int>> &_adj, MISConfig &config) {
+    int n = _adj.size();
     omp_set_num_threads(1);
     auto fastKer = full_reductions(_adj, _adj.size());
     fastKer.reduce_graph();
@@ -84,12 +85,17 @@ std::vector<bool> getExactMIS(const std::vector<std::vector<int>> &_adj, MISConf
 
     std::cout << "Final solution size: " << (fastKer.number_of_nodes_remaining() - vcSolver.opt) + fastKer.get_current_is_size_with_folds() << std::endl;
 
-    std::vector<bool> solution(fastKer.number_of_nodes_remaining());
-    vcSolver.get_solved_is(solution);
+    std::vector<bool> vcSolverSolution(fastKer.number_of_nodes_remaining());
+    vcSolver.get_solved_is(vcSolverSolution);
+
+    std::vector<bool> finalSolution(n, false);
+
+    for(int i = 0; i < vcSolverSolution.size(); ++i) {
+        finalSolution[fastKer_reverse_mapping[i]] = vcSolverSolution[i];
+    }
+
+    fastKer.extend_finer_is(finalSolution);
 
 
-    fastKer.extend_finer_is(solution);
-
-
-    return solution;
+    return finalSolution;
 }
