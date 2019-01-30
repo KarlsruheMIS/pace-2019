@@ -23,6 +23,7 @@
 #include "full_reductions.h"
 #include "exact_mis.h"
 #include "PACE_graph_reader.h"
+#include "PACE_solution_writer.h"
 
 int main(int argn, char **argv) {
     mis_log::instance()->restart_total_timer();
@@ -47,6 +48,9 @@ int main(int argn, char **argv) {
 
 
     std::vector<bool> MIS = getExactMIS(graph, mis_config);
+
+
+    writePaceSolutionFromMIS(MIS, mis_config.graph_filename + ".vc");
 
     return 0;
 }
