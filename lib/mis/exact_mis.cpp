@@ -47,7 +47,7 @@ std::vector<bool> getExactMIS(const std::vector<std::vector<int>> &_adj, MISConf
         } endfor
     } endfor
 
-          auto vcSolver = branch_and_reduce_algorithm(FastKerKerneladj, FastKerKerneladj.size());
+    auto vcSolver = branch_and_reduce_algorithm(FastKerKerneladj, FastKerKerneladj.size());
 
     vcSolver.reduce();
 
@@ -61,35 +61,76 @@ std::vector<bool> getExactMIS(const std::vector<std::vector<int>> &_adj, MISConf
 
     localSearch.perform_ils(config, VCSolverKernel, config.ils_iterations);
 
-    std::vector<int> VCSolverKernelLocalSearchSolution(fastKer.number_of_nodes_remaining());
+    // std::vector<int> VCSolverKernelLocalSearchSolution(fastKer.number_of_nodes_remaining());
+    // unsigned int solution_size = 0;
+    // forall_nodes(VCSolverKernel, node) {
+    //     if (VCSolverKernel.getPartitionIndex(node) == 1) {
+    //         VCSolverKernelLocalSearchSolution[vcsolver_reverse_mapping[node]] = 0;
+    //     }
+    //     else {
+    //         VCSolverKernelLocalSearchSolution[vcsolver_reverse_mapping[node]] = 1;
+    //         solution_size++;
+    //     }
+    // } endfor
 
+    // std::cout << "Local search found solution of size " << (vcSolver.number_of_nodes_remaining() - solution_size) + fastKer.get_current_is_size_with_folds() + vcSolver.get_current_is_size_with_folds() << std::endl;
+    // vcSolver.addStartingSolution(VCSolverKernelLocalSearchSolution, solution_size);
+    //
 
+    // timer t;
+    // vcSolver.solve(t, config.time_limit);
+    
+    // std::cout << "Final solution size: " << (fastKer.number_of_nodes_remaining() - vcSolver.opt) + fastKer.get_current_is_size_with_folds() << std::endl;
+    //
+
+    // std::vector<bool> vcSolverSolution(fastKer.number_of_nodes_remaining());
+    // vcSolver.get_solved_is(vcSolverSolution);
+
+    // std::vector<bool> finalSolution(n, false);
+
+    std::vector<std::vector<int>> VCSolverKerneladj(vcSolver.number_of_nodes_remaining());
+
+    // Build VCSolverKerneladj vectors
+    forall_nodes(VCSolverKernel, node) {
+        VCSolverKerneladj[node].reserve(VCSolverKernel.getNodeDegree(node));
+        forall_out_edges(VCSolverKernel, edge, node) {
+            NodeID neighbor = VCSolverKernel.getEdgeTarget(edge);
+            VCSolverKerneladj[node].push_back(neighbor);
+        } endfor
+    } endfor
+
+    auto vcSolver2 = branch_and_reduce_algorithm(VCSolverKerneladj, VCSolverKerneladj.size());
+
+    // Compute and apply solution
+    std::vector<int> VCSolverKernelLocalSearchSolution(vcSolver.number_of_nodes_remaining());
     unsigned int solution_size = 0;
     forall_nodes(VCSolverKernel, node) {
         if (VCSolverKernel.getPartitionIndex(node) == 1) {
-            VCSolverKernelLocalSearchSolution[vcsolver_reverse_mapping[node]] = 0;
+            VCSolverKernelLocalSearchSolution[node] = 0;
         }
         else {
-            VCSolverKernelLocalSearchSolution[vcsolver_reverse_mapping[node]] = 1;
+            VCSolverKernelLocalSearchSolution[node] = 1;
             solution_size++;
         }
     } endfor
-
-          std::cout << "Local search found solution of size " << (vcSolver.number_of_nodes_remaining() - solution_size) + fastKer.get_current_is_size_with_folds() + vcSolver.get_current_is_size_with_folds() << std::endl;
-
-          vcSolver.addStartingSolution(VCSolverKernelLocalSearchSolution, solution_size);
-
+    vcSolver2.addStartingSolution(VCSolverKernelLocalSearchSolution, solution_size);
 
     timer t;
-	vcSolver.solve(t, config.time_limit);
+    vcSolver2.solve(t, config.time_limit);
 
-    std::cout << "Final solution size: " << (fastKer.number_of_nodes_remaining() - vcSolver.opt) + fastKer.get_current_is_size_with_folds() << std::endl;
+    std::cout << "Final solution size: " << (fastKer.number_of_nodes_remaining() - vcSolver2.opt) + fastKer.get_current_is_size_with_folds() + vcSolver.get_current_is_size_with_folds() << std::endl;
 
-    std::vector<bool> vcSolverSolution(fastKer.number_of_nodes_remaining());
-    vcSolver.get_solved_is(vcSolverSolution);
+    std::vector<bool> vcSolver2Solution(vcSolver.number_of_nodes_remaining());
+    vcSolver2.get_solved_is(vcSolver2Solution);
+
+    std::vector<bool> vcSolverSolution(fastKer.number_of_nodes_remaining(), false);
+    for(int i = 0; i < vcSolver2Solution.size(); ++i) {
+        vcSolverSolution[vcsolver_reverse_mapping[i]] = vcSolver2Solution[i];
+    }
+
+    vcSolver.extend_finer_is(vcSolverSolution);
 
     std::vector<bool> finalSolution(n, false);
-
     for(int i = 0; i < vcSolverSolution.size(); ++i) {
         finalSolution[fastKer_reverse_mapping[i]] = vcSolverSolution[i];
     }
