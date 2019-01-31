@@ -1143,7 +1143,12 @@ void branch_and_reduce_algorithm::branching(timer & t, double time_limit) {
     lb = oldLB;
     depth--;
     restore(pn);
-    if (lb >= opt) return;
+    if (lb >= opt) {
+        if(startingSolutionIsBest) {
+            ++numBranchesPrunedByStartingSolution;
+        }
+        return;
+    }
     nBranchings++;
     if (mirrorN == 0) {
         used.clear();
@@ -1469,6 +1474,7 @@ bool branch_and_reduce_algorithm::decompose(timer & t, double time_limit) {
         if (debug >= 2 && rootDepth <= maxDepth) fprintf(stderr, "%sopt: %d -> %d\n", debugString().c_str(), opt, sum);
         opt = sum;
         y = x;
+        startingSolutionIsBest = false;
         for (unsigned int i = 0; i < vss.size(); i++) {
             for (unsigned int j = 0; j < vss[i].size(); j++) y[vss[i][j]] = vcs[i]->y[j];
         }
@@ -1511,11 +1517,17 @@ void branch_and_reduce_algorithm::rec(timer & t, double time_limit) {
     if (t.elapsed() >= time_limit) return;
     if (REDUCTION < 3) assert(packing.size() == 0);
     if (reduce()) return;
-    if (lowerBound() >= opt) return;
+    if (lowerBound() >= opt) {
+        if(startingSolutionIsBest) {
+            ++numBranchesPrunedByStartingSolution;
+        }
+        return;
+    }
     if (rn == 0) {
         if (debug >= 2 && rootDepth <= maxDepth) fprintf(stderr, "%sopt: %d -> %d\n", debugString().c_str(), opt, crt);
         opt = crt;
         y = x;
+        startingSolutionIsBest = false;
         reverse();
         return;
     }
@@ -1531,6 +1543,9 @@ void branch_and_reduce_algorithm::addStartingSolution(std::vector<int> solution,
         y[i] = solution[i];
     }
     opt = solutionSize;
+
+    startingSolutionIsBest = true;
+    numBranchesPrunedByStartingSolution = 0;
 }
 
 int branch_and_reduce_algorithm::solve(timer & t, double time_limit) {

@@ -118,6 +118,8 @@ std::vector<bool> getExactMIS(const std::vector<std::vector<int>> &_adj, MISConf
     timer t;
     vcSolver2.solve(t, config.time_limit);
 
+    std::cout << "Number of branches pruned by starting solution: " << vcSolver2.numBranchesPrunedByStartingSolution << std::endl;
+
     std::cout << "Final solution size: " << (fastKer.number_of_nodes_remaining() - vcSolver2.opt) + fastKer.get_current_is_size_with_folds() + vcSolver.get_current_is_size_with_folds() << std::endl;
 
     std::vector<bool> vcSolver2Solution(vcSolver.number_of_nodes_remaining());

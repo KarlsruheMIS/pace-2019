@@ -143,6 +143,10 @@ public:
 	bool reduce();
 	void rec(timer & t, double time_limit);
 
+    // Track how much the starting solution helped
+    bool startingSolutionIsBest = false;
+    int numBranchesPrunedByStartingSolution = 0;
+
     // vestiges of original Java code
 #if 0
 	
