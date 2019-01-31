@@ -73,7 +73,6 @@ std::vector<bool> getExactMIS(const std::vector<std::vector<int>> &_adj, MISConf
     //     }
     // } endfor
 
-    // std::cout << "Local search found solution of size " << (vcSolver.number_of_nodes_remaining() - solution_size) + fastKer.get_current_is_size_with_folds() + vcSolver.get_current_is_size_with_folds() << std::endl;
     // vcSolver.addStartingSolution(VCSolverKernelLocalSearchSolution, solution_size);
     //
 
@@ -115,6 +114,9 @@ std::vector<bool> getExactMIS(const std::vector<std::vector<int>> &_adj, MISConf
     } endfor
     vcSolver2.addStartingSolution(VCSolverKernelLocalSearchSolution, solution_size);
 
+    std::cout << "Local search found solution of size " << (vcSolver.number_of_nodes_remaining() - solution_size) + fastKer.get_current_is_size_with_folds() + vcSolver.get_current_is_size_with_folds() << std::endl;
+
+
     timer t;
     vcSolver2.solve(t, config.time_limit);
 
@@ -137,6 +139,19 @@ std::vector<bool> getExactMIS(const std::vector<std::vector<int>> &_adj, MISConf
 
     fastKer.extend_finer_is(finalSolution);
 
+    // Check if valid MIS
+    for (int i = 0; i < _adj.size(); ++i) {
+      if (finalSolution[i] == 1) {
+        bool valid = true;
+        for (int j = 0; j < _adj[i].size(); j++) {
+          if (finalSolution[_adj[i][j]] == 1) valid = false;
+        }
+        if (!valid) {
+          std::cout << "ERROR! Invalid solution" << std::endl;
+          break;
+        } 
+      }
+    }
 
     return finalSolution;
 }
