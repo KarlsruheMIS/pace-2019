@@ -26,6 +26,14 @@
 #include "omp.h"
 
 std::vector<bool> getExactMIS(const std::vector<std::vector<int>> &_adj, MISConfig &config) {
+    std::vector<std::vector<int>> adj(_adj.size());
+
+    for(int i = 0; i < adj.size(); ++i) {
+        for(int j = 0; j < _adj[i].size(); ++j) {
+            adj[i].push_back(_adj[i][j]);
+        }
+    }
+
     int n = _adj.size();
     omp_set_num_threads(1);
     auto fastKer = full_reductions(_adj, _adj.size());
@@ -142,17 +150,25 @@ std::vector<bool> getExactMIS(const std::vector<std::vector<int>> &_adj, MISConf
     fastKer.extend_finer_is(finalSolution);
 
     // Check if valid MIS
-    for (int i = 0; i < _adj.size(); ++i) {
-      if (finalSolution[i] == 1) {
-        bool valid = true;
-        for (int j = 0; j < _adj[i].size(); j++) {
-          if (finalSolution[_adj[i][j]] == 1) valid = false;
+    bool valid = true;
+    for (int i = 0; i < adj.size(); ++i) {
+      if (finalSolution[i] == true) {
+        for (int j = 0; j < adj[i].size(); j++) {
+            if (finalSolution[adj[i][j]] == true) valid = false;
         }
         if (!valid) {
           std::cout << "ERROR! Invalid solution" << std::endl;
           break;
-        } 
+        }
       }
+    }
+
+
+    if (!valid) {
+        std::cout << "ERROR! Invalid solution" << std::endl;
+    }
+    else {
+        std::cout << "Valid solution" << std::endl;
     }
 
     return finalSolution;

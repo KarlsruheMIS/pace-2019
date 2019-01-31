@@ -1463,8 +1463,25 @@ bool branch_and_reduce_algorithm::decompose(timer & t, double time_limit) {
         }
         vc->reverse();
         for (int j = 0; j < vc->N; j++) assert(vc->y[j] == 0 || vc->y[j] == 1);
+
+
+        // Map current optimal solution to CC
+        int optForMapping = 0;
+        for(int v : vss[i]) {
+            vc->y[pos2[i]] = y[i];
+            if(y[i] == 1) {
+                ++optForMapping;
+            }
+        }
+        vc->opt = optForMapping;
+        vc->numBranchesPrunedByStartingSolution = 0;
+        vc->startingSolutionIsBest = startingSolutionIsBest;
+
         vc->solve(t, time_limit);
         sum += vc->opt;
+
+        numBranchesPrunedByStartingSolution += vc->numBranchesPrunedByStartingSolution;
+
         for (int j = 0; j < vc->N - 2; j++) {
             x2[vss2[i][j]] = vc->y[j];
             assert(vc->y[j] == 0 || vc->y[j] == 1);
@@ -1518,7 +1535,7 @@ void branch_and_reduce_algorithm::rec(timer & t, double time_limit) {
     if (REDUCTION < 3) assert(packing.size() == 0);
     if (reduce()) return;
     if (lowerBound() >= opt) {
-        if(startingSolutionIsBest) {
+        if(startingSolutionIsBest && rn != 0) {
             ++numBranchesPrunedByStartingSolution;
         }
         return;
