@@ -225,7 +225,7 @@ class mis_log {
         void set_avg_solution_size(double avg_size);
 
 
-    private:
+    // private:
         // General information
         timer total_timer;
         timer evo_timer;
