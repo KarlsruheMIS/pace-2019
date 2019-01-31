@@ -149,10 +149,12 @@ std::vector<bool> getExactMIS(const std::vector<std::vector<int>> &_adj, MISConf
 
     fastKer.extend_finer_is(finalSolution);
 
+    int solutionSize = 0;
     // Check if valid MIS
     bool valid = true;
     for (int i = 0; i < adj.size(); ++i) {
       if (finalSolution[i] == true) {
+          ++solutionSize;
         for (int j = 0; j < adj[i].size(); j++) {
             if (finalSolution[adj[i][j]] == true) valid = false;
         }
@@ -170,6 +172,8 @@ std::vector<bool> getExactMIS(const std::vector<std::vector<int>> &_adj, MISConf
     else {
         std::cout << "Valid solution" << std::endl;
     }
+
+    std::cout << "Actual solution size: " << solutionSize << std::endl;
 
     return finalSolution;
 }
