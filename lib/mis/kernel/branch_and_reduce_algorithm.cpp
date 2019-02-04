@@ -1388,6 +1388,7 @@ bool branch_and_reduce_algorithm::decompose(timer & t, double time_limit) {
         for (int i = 0; i < N; i++) if (pos1[i] >= 0) vss2[pos1[i]][pos2[i]] = i;
     }
     int sum = crt;
+    // vector<bool> optChanged(vss.size(), false);
     for (int i = 0; i < static_cast<int>(vss.size()) && opt > sum; i++) {
         branch_and_reduce_algorithm *vc = vcs[i];
         {
@@ -1461,28 +1462,47 @@ bool branch_and_reduce_algorithm::decompose(timer & t, double time_limit) {
         if (i + 1 == static_cast<int>(vss.size())) {
             vc->opt = std::min(vss[i].size(), static_cast<size_t>(opt - sum));
         }
+
+
         vc->reverse();
         for (int j = 0; j < vc->N; j++) assert(vc->y[j] == 0 || vc->y[j] == 1);
 
 
-        // // Map current optimal solution to CC
-        // int optForMapping = 0;
-        // for(int v : vss[i]) {
-        //     assert(pos1[v] == i);
-        //     vc->y[pos2[i]] = y[i];
-        //     if(y[i] == 1) {
-        //         ++optForMapping;
-        //     }
-        // }
-        // // std::cout << "Setting opt for subproblem: " << optForMapping << std::endl;
-        // vc->opt = optForMapping;
+        // Map current optimal solution to CC
+        int optForMapping = 0;
+        for (unsigned int j = 0; j < vss[i].size(); j++) if(y[vss[i][j]] && vcs[i]->x[j] == -1) optForMapping++;
+        int currentOpt = 0;
+        for (unsigned int j = 0; j < vss[i].size(); j++) if(vcs[i]->y[j] && vcs[i]->x[j] == -1) currentOpt++;
+        if(currentOpt > optForMapping) {
+            for (unsigned int j = 0; j < vss[i].size(); j++) if(vcs[i]->x[j] == -1) vcs[i]->y[j] = y[vss[i][j]];
+            optForMapping = 0;
+            // for (unsigned int j = 0; j < vss[i].size(); j++) if(vcs[i]->y[j]) optForMapping++;
+            for (unsigned int j = 0; j < vcs[i]->N; j++) if(vcs[i]->y[j]) optForMapping++;
+            vc->opt = optForMapping;
+            vc->numBranchesPrunedByStartingSolution = 0;
+            vc->startingSolutionIsBest = true;
+        }
+        // // for(int v : vss[i]) {
+        // //     assert(pos1[v] == i);
+        // //     vc->y[pos2[i]] = y[i];
+        // //     if(y[i] == 1) {
+        // //         ++optForMapping;
+        // //     }
+        // // }
+        // // // std::cout << "Setting opt for subproblem: " << optForMapping << std::endl;
         // vc->numBranchesPrunedByStartingSolution = 0;
         // vc->startingSolutionIsBest = startingSolutionIsBest;
+
+
 
         vc->solve(t, time_limit);
         sum += vc->opt;
 
-        // numBranchesPrunedByStartingSolution += vc->numBranchesPrunedByStartingSolution;
+        // if(vc->opt != optForMapping) {
+        //     optChanged[i] = true;
+        // }
+
+        numBranchesPrunedByStartingSolution += vc->numBranchesPrunedByStartingSolution;
 
         for (int j = 0; j < vc->N - 2; j++) {
             x2[vss2[i][j]] = vc->y[j];
@@ -1495,6 +1515,7 @@ bool branch_and_reduce_algorithm::decompose(timer & t, double time_limit) {
         y = x;
         startingSolutionIsBest = false;
         for (unsigned int i = 0; i < vss.size(); i++) {
+            // if(!optChanged[i]) continue;
             for (unsigned int j = 0; j < vss[i].size(); j++) y[vss[i][j]] = vcs[i]->y[j];
         }
         reverse();
