@@ -30,6 +30,8 @@ for line in f:
     if not (line.startswith("p") or line.startswith("c")):
         u = int(line.split()[0]) - 1
         v = int(line.split()[1]) - 1
+        if u==v:
+            continue
         if not v in edges[u]:
             edges[u].append(v)
         if not u in edges[v]:

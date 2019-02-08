@@ -50,7 +50,7 @@ f.close()
 
 f = open(os.path.join("metisGraphs", os.path.basename(graphFile) + ".graph"), 'w')
 
-f.write("%s %s 1\n" % (n, m))
+f.write("%s %s 00\n" % (n, m))
 
 for u in range(n):
     line = ""
