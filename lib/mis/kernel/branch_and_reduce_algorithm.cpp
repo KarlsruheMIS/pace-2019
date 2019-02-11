@@ -1469,19 +1469,19 @@ bool branch_and_reduce_algorithm::decompose(timer & t, double time_limit) {
 
 
         // Map current optimal solution to CC
-        int optForMapping = 0;
-        for (unsigned int j = 0; j < vss[i].size(); j++) if(y[vss[i][j]] && vcs[i]->x[j] == -1) optForMapping++;
-        int currentOpt = 0;
-        for (unsigned int j = 0; j < vss[i].size(); j++) if(vcs[i]->y[j] && vcs[i]->x[j] == -1) currentOpt++;
-        if(currentOpt > optForMapping) {
-            for (unsigned int j = 0; j < vss[i].size(); j++) if(vcs[i]->x[j] == -1) vcs[i]->y[j] = y[vss[i][j]];
-            optForMapping = 0;
-            // for (unsigned int j = 0; j < vss[i].size(); j++) if(vcs[i]->y[j]) optForMapping++;
-            for (unsigned int j = 0; j < vcs[i]->N; j++) if(vcs[i]->y[j]) optForMapping++;
-            vc->opt = optForMapping;
-            vc->numBranchesPrunedByStartingSolution = 0;
-            vc->startingSolutionIsBest = true;
-        }
+        // int optForMapping = 0;
+        // for (unsigned int j = 0; j < vss[i].size(); j++) if(y[vss[i][j]] && vcs[i]->x[j] == -1) optForMapping++;
+        // int currentOpt = 0;
+        // for (unsigned int j = 0; j < vss[i].size(); j++) if(vcs[i]->y[j] && vcs[i]->x[j] == -1) currentOpt++;
+        // if(currentOpt > optForMapping) {
+        //     for (unsigned int j = 0; j < vss[i].size(); j++) if(vcs[i]->x[j] == -1) vcs[i]->y[j] = y[vss[i][j]];
+        //     optForMapping = 0;
+        //     // for (unsigned int j = 0; j < vss[i].size(); j++) if(vcs[i]->y[j]) optForMapping++;
+        //     for (unsigned int j = 0; j < vcs[i]->N; j++) if(vcs[i]->y[j]) optForMapping++;
+        //     vc->opt = optForMapping;
+        //     vc->numBranchesPrunedByStartingSolution = 0;
+        //     vc->startingSolutionIsBest = true;
+        // }
         // // for(int v : vss[i]) {
         // //     assert(pos1[v] == i);
         // //     vc->y[pos2[i]] = y[i];
@@ -1502,7 +1502,7 @@ bool branch_and_reduce_algorithm::decompose(timer & t, double time_limit) {
         //     optChanged[i] = true;
         // }
 
-        numBranchesPrunedByStartingSolution += vc->numBranchesPrunedByStartingSolution;
+        // numBranchesPrunedByStartingSolution += vc->numBranchesPrunedByStartingSolution;
 
         for (int j = 0; j < vc->N - 2; j++) {
             x2[vss2[i][j]] = vc->y[j];
