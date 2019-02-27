@@ -22,6 +22,7 @@
 #include "separator_pool.h"
 #include "data_structure/graph_access.h"
 #include "mis/kernel/branch_and_reduce_algorithm.h"
+#include "mis/darren/Experiments.h"
 #include "ils.h"
 #include "omp.h"
 
@@ -170,5 +171,10 @@ std::vector<bool> getExactMISDarren(const std::vector<std::vector<int>> &_adj, M
         } endfor
     } endfor
 
-    // Add Darrens stuff
+    // Add Darrens stuff (taken from main.cpp)
+    // Still need to add dependencies in Scons
+    // Experiments experiments("", config.time_limit, false, false, fastKernelAdj);
+    // experiments.KernelizeAndRunComponentWiseMISS();
+    
+    return std::vector<bool>();
 }
