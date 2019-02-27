@@ -25,7 +25,11 @@
 #include "ils.h"
 #include "omp.h"
 
-std::vector<bool> getExactMIS(const std::vector<std::vector<int>> &_adj, MISConfig &config) {
+bool evaluateCritertion(const std::vector<std::vector<int>> &_adj, MISConfig &config) {
+    return true;
+}
+
+std::vector<bool> getExactMISCombined(const std::vector<std::vector<int>> &_adj, MISConfig &config) {
     int n = _adj.size();
     omp_set_num_threads(1);
 
@@ -133,4 +137,38 @@ std::vector<bool> getExactMIS(const std::vector<std::vector<int>> &_adj, MISConf
 
     std::cout << "Solution size: " << solutionSize << std::endl;
     return finalSolution;
+}
+
+std::vector<bool> getExactMISDarren(const std::vector<std::vector<int>> &_adj, MISConfig &config) {
+    int n = _adj.size();
+    omp_set_num_threads(1);
+
+    // Copy adj vector
+    std::vector<std::vector<int>> adj(_adj.size());
+    for(int i = 0; i < adj.size(); ++i) {
+        for(int j = 0; j < _adj[i].size(); ++j) {
+            adj[i].push_back(_adj[i][j]);
+        }
+    }
+
+    // Run FastKer reductions on input
+    auto fastKerAlgorithm = full_reductions(_adj, _adj.size());
+    fastKerAlgorithm.reduce_graph();
+
+    // Extract kernel graph
+    graph_access fastKernel;
+    std::vector<NodeID> fastKernelReverseMapping(fastKerAlgorithm.number_of_nodes_remaining());
+    fastKerAlgorithm.convert_adj_lists(fastKernel, fastKernelReverseMapping);
+
+    // Build adjacency lists for kernel graph
+    std::vector<std::vector<int>> fastKernelAdj(fastKernel.number_of_nodes());
+    forall_nodes(fastKernel, node) {
+        fastKernelAdj[node].reserve(fastKernel.getNodeDegree(node));
+        forall_out_edges(fastKernel, edge, node) {
+            NodeID neighbor = fastKernel.getEdgeTarget(edge);
+            fastKernelAdj[node].push_back(neighbor);
+        } endfor
+    } endfor
+
+    // Add Darrens stuff
 }
