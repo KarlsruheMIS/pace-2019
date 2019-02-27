@@ -26,154 +26,111 @@
 #include "omp.h"
 
 std::vector<bool> getExactMIS(const std::vector<std::vector<int>> &_adj, MISConfig &config) {
-    std::vector<std::vector<int>> adj(_adj.size());
+    int n = _adj.size();
+    omp_set_num_threads(1);
 
+    // Copy adj vector
+    std::vector<std::vector<int>> adj(_adj.size());
     for(int i = 0; i < adj.size(); ++i) {
         for(int j = 0; j < _adj[i].size(); ++j) {
             adj[i].push_back(_adj[i][j]);
         }
     }
 
-    int n = _adj.size();
-    omp_set_num_threads(1);
-    auto fastKer = full_reductions(_adj, _adj.size());
-    fastKer.reduce_graph();
-    graph_access FastKerKernel;
-    std::vector<NodeID> fastKer_reverse_mapping(fastKer.number_of_nodes_remaining());
-    fastKer.convert_adj_lists(FastKerKernel, fastKer_reverse_mapping);
+    // Run FastKer reductions on input
+    auto fastKerAlgorithm = full_reductions(_adj, _adj.size());
+    fastKerAlgorithm.reduce_graph();
 
-    std::cout << "FastKer kernel size: " << fastKer.number_of_nodes_remaining() << std::endl;
+    // Extract kernel graph
+    graph_access fastKernel;
+    std::vector<NodeID> fastKernelReverseMapping(fastKerAlgorithm.number_of_nodes_remaining());
+    fastKerAlgorithm.convert_adj_lists(fastKernel, fastKernelReverseMapping);
 
-    std::vector<std::vector<int>> FastKerKerneladj(FastKerKernel.number_of_nodes());
-
-    // Build FastKerKerneladjacency vectors
-    forall_nodes(FastKerKernel, node) {
-        FastKerKerneladj[node].reserve(FastKerKernel.getNodeDegree(node));
-        forall_out_edges(FastKerKernel, edge, node) {
-            NodeID neighbor = FastKerKernel.getEdgeTarget(edge);
-            FastKerKerneladj[node].push_back(neighbor);
+    // Build adjacency lists for kernel graph
+    std::vector<std::vector<int>> fastKernelAdj(fastKernel.number_of_nodes());
+    forall_nodes(fastKernel, node) {
+        fastKernelAdj[node].reserve(fastKernel.getNodeDegree(node));
+        forall_out_edges(fastKernel, edge, node) {
+            NodeID neighbor = fastKernel.getEdgeTarget(edge);
+            fastKernelAdj[node].push_back(neighbor);
         } endfor
     } endfor
 
-    auto vcSolver = branch_and_reduce_algorithm(FastKerKerneladj, FastKerKerneladj.size());
+    // Run VCSolver reductions on preliminary kernel
+    auto vcSolverAlgorithm = branch_and_reduce_algorithm(fastKernelAdj, fastKernelAdj.size());
+    vcSolverAlgorithm.reduce();
 
-    vcSolver.reduce();
+    // Extract kernel graph
+    graph_access vcKernel;
+    std::vector<NodeID> vcKernelReverseMapping(vcSolverAlgorithm.number_of_nodes_remaining());
+    vcSolverAlgorithm.convert_adj_lists(vcKernel, vcKernelReverseMapping);
 
-    graph_access VCSolverKernel;
-    std::vector<NodeID> vcsolver_reverse_mapping(vcSolver.number_of_nodes_remaining());
-    vcSolver.convert_adj_lists(VCSolverKernel, vcsolver_reverse_mapping);
-
-    std::cout << "VCSolver kernel size: " << vcSolver.number_of_nodes_remaining() << std::endl;
-
+    // Run iterated local search on kernel graph
     ils localSearch = ils();
+    localSearch.perform_ils(config, vcKernel, config.ils_iterations);
 
-    localSearch.perform_ils(config, VCSolverKernel, config.ils_iterations);
-
-    // std::vector<int> VCSolverKernelLocalSearchSolution(fastKer.number_of_nodes_remaining());
-    // unsigned int solution_size = 0;
-    // forall_nodes(VCSolverKernel, node) {
-    //     if (VCSolverKernel.getPartitionIndex(node) == 1) {
-    //         VCSolverKernelLocalSearchSolution[vcsolver_reverse_mapping[node]] = 0;
-    //     }
-    //     else {
-    //         VCSolverKernelLocalSearchSolution[vcsolver_reverse_mapping[node]] = 1;
-    //         solution_size++;
-    //     }
-    // } endfor
-
-    // vcSolver.addStartingSolution(VCSolverKernelLocalSearchSolution, solution_size);
-    //
-
-    // timer t;
-    // vcSolver.solve(t, config.time_limit);
-    
-    // std::cout << "Final solution size: " << (fastKer.number_of_nodes_remaining() - vcSolver.opt) + fastKer.get_current_is_size_with_folds() << std::endl;
-    //
-
-    // std::vector<bool> vcSolverSolution(fastKer.number_of_nodes_remaining());
-    // vcSolver.get_solved_is(vcSolverSolution);
-
-    // std::vector<bool> finalSolution(n, false);
-
-    std::vector<std::vector<int>> VCSolverKerneladj(vcSolver.number_of_nodes_remaining());
-
-    // Build VCSolverKerneladj vectors
-    forall_nodes(VCSolverKernel, node) {
-        VCSolverKerneladj[node].reserve(VCSolverKernel.getNodeDegree(node));
-        forall_out_edges(VCSolverKernel, edge, node) {
-            NodeID neighbor = VCSolverKernel.getEdgeTarget(edge);
-            VCSolverKerneladj[node].push_back(neighbor);
+    // Build adjacency lists for kernel graph
+    std::vector<std::vector<int>> vcKernelAdj(vcSolverAlgorithm.number_of_nodes_remaining());
+    // Build vcKernelAdj vectors
+    forall_nodes(vcKernel, node) {
+        vcKernelAdj[node].reserve(vcKernel.getNodeDegree(node));
+        forall_out_edges(vcKernel, edge, node) {
+            NodeID neighbor = vcKernel.getEdgeTarget(edge);
+            vcKernelAdj[node].push_back(neighbor);
         } endfor
     } endfor
 
-    auto vcSolver2 = branch_and_reduce_algorithm(VCSolverKerneladj, VCSolverKerneladj.size());
-
-    // Compute and apply solution
-    std::vector<int> VCSolverKernelLocalSearchSolution(vcSolver.number_of_nodes_remaining());
+    // Extract solution from iterated local search 
+    std::vector<int> ilsSolution(vcSolverAlgorithm.number_of_nodes_remaining());
     unsigned int solution_size = 0;
-    forall_nodes(VCSolverKernel, node) {
-        if (VCSolverKernel.getPartitionIndex(node) == 1) {
-            VCSolverKernelLocalSearchSolution[node] = 0;
-        }
+    forall_nodes(vcKernel, node) {
+        if (vcKernel.getPartitionIndex(node) == 1) 
+            ilsSolution[node] = 0;
         else {
-            VCSolverKernelLocalSearchSolution[node] = 1;
+            ilsSolution[node] = 1;
             solution_size++;
         }
     } endfor
-    vcSolver2.addStartingSolution(VCSolverKernelLocalSearchSolution, solution_size);
 
-    std::cout << "Local search found solution of size " << (vcSolver.number_of_nodes_remaining() - solution_size) + fastKer.get_current_is_size_with_folds() + vcSolver.get_current_is_size_with_folds() << std::endl;
+    // Apply solution to exact algorithm
+    auto BnRAlgorithm = branch_and_reduce_algorithm(vcKernelAdj, vcKernelAdj.size());
+    BnRAlgorithm.addStartingSolution(ilsSolution, solution_size);
 
-
+    // Run exact algorithm
     timer t;
-    vcSolver2.solve(t, config.time_limit);
+    BnRAlgorithm.solve(t, config.time_limit);
 
-    std::cout << "Number of branches pruned by starting solution: " << vcSolver2.numBranchesPrunedByStartingSolution << std::endl;
+    // Extract solution from exact algorithm
+    std::vector<bool> exactSolution(vcSolverAlgorithm.number_of_nodes_remaining());
+    BnRAlgorithm.get_solved_is(exactSolution);
 
-    std::cout << "Final solution size: " << (vcSolver.number_of_nodes_remaining() - vcSolver2.opt) + fastKer.get_current_is_size_with_folds() + vcSolver.get_current_is_size_with_folds() << std::endl;
+    // Propagate solution to preliminary kernel
+    std::vector<bool> extendedSolution(fastKerAlgorithm.number_of_nodes_remaining(), false);
+    for(int i = 0; i < exactSolution.size(); ++i)
+        extendedSolution[vcKernelReverseMapping[i]] = exactSolution[i];
+    vcSolverAlgorithm.extend_finer_is(extendedSolution);
 
-    std::vector<bool> vcSolver2Solution(vcSolver.number_of_nodes_remaining());
-    vcSolver2.get_solved_is(vcSolver2Solution);
-
-    std::vector<bool> vcSolverSolution(fastKer.number_of_nodes_remaining(), false);
-    for(int i = 0; i < vcSolver2Solution.size(); ++i) {
-        vcSolverSolution[vcsolver_reverse_mapping[i]] = vcSolver2Solution[i];
-    }
-
-    vcSolver.extend_finer_is(vcSolverSolution);
-
+    // Propagate solution to input graph
     std::vector<bool> finalSolution(n, false);
-    for(int i = 0; i < vcSolverSolution.size(); ++i) {
-        finalSolution[fastKer_reverse_mapping[i]] = vcSolverSolution[i];
-    }
+    for(int i = 0; i < extendedSolution.size(); ++i) 
+        finalSolution[fastKernelReverseMapping[i]] = extendedSolution[i];
+    fastKerAlgorithm.extend_finer_is(finalSolution);
 
-    fastKer.extend_finer_is(finalSolution);
-
+    // Check validity of solution
     int solutionSize = 0;
-    // Check if valid MIS
     bool valid = true;
     for (int i = 0; i < adj.size(); ++i) {
       if (finalSolution[i] == true) {
           ++solutionSize;
-        for (int j = 0; j < adj[i].size(); j++) {
+        for (int j = 0; j < adj[i].size(); j++) 
             if (finalSolution[adj[i][j]] == true) valid = false;
-        }
         if (!valid) {
           std::cout << "ERROR! Invalid solution" << std::endl;
-          break;
+          exit(1);
         }
       }
     }
 
-
-    if (!valid) {
-        std::cout << "ERROR! Invalid solution" << std::endl;
-    }
-    else {
-        std::cout << "Valid solution" << std::endl;
-    }
-
-    std::cout << "Actual solution size: " << solutionSize << std::endl;
-
+    std::cout << "Solution size: " << solutionSize << std::endl;
     return finalSolution;
 }

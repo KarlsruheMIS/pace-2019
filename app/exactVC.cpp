@@ -34,12 +34,9 @@ int main(int argn, char **argv) {
 
     // Parse the command line parameters;
     int ret_code = parse_parameters(argn, argv, mis_config, graph_filepath);
-    if (ret_code) {
-        return 0;
-    }
+    if (ret_code) return 0;
     mis_config.graph_filename = graph_filepath.substr(graph_filepath.find_last_of( '/' ) +1);
     mis_log::instance()->set_config(mis_config);
-
 
 
     vector<vector<int>> graph = readPaceGraph(graph_filepath);
@@ -50,10 +47,12 @@ int main(int argn, char **argv) {
     mis_log::instance()->print_graph();
     mis_log::instance()->print_config();
 
-    std::vector<bool> MIS = getExactMIS(graph, mis_config);
-
+    std::vector<bool> MIS;
+    if (evaluateCriterion(graph, mis_config))
+      MIS = getExactMISCombined(graph, mis_config);
+    else
+      MIS = getExactMISDarren(graph, mis_config);
 
     writePaceSolutionFromMIS(MIS, mis_config.graph_filename + ".vc");
-
     return 0;
 }
