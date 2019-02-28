@@ -25,8 +25,8 @@ std::vector<bool> getExactMISCombined(const std::vector<std::vector<int>> &_adj,
 
     // Copy adj vector
     std::vector<std::vector<int>> adj(_adj.size());
-    for(int i = 0; i < adj.size(); ++i) {
-        for(int j = 0; j < _adj[i].size(); ++j) {
+    for(unsigned int i = 0; i < adj.size(); ++i) {
+        for(unsigned int j = 0; j < _adj[i].size(); ++j) {
             adj[i].push_back(_adj[i][j]);
         }
     }
@@ -100,13 +100,13 @@ std::vector<bool> getExactMISCombined(const std::vector<std::vector<int>> &_adj,
 
     // Propagate solution to preliminary kernel
     std::vector<bool> extendedSolution(fastKerAlgorithm.number_of_nodes_remaining(), false);
-    for(int i = 0; i < exactSolution.size(); ++i)
+    for(unsigned int i = 0; i < exactSolution.size(); ++i)
         extendedSolution[vcKernelReverseMapping[i]] = exactSolution[i];
     vcSolverAlgorithm.extend_finer_is(extendedSolution);
 
     // Propagate solution to input graph
     std::vector<bool> finalSolution(n, false);
-    for(int i = 0; i < extendedSolution.size(); ++i) 
+    for(unsigned int i = 0; i < extendedSolution.size(); ++i) 
         finalSolution[fastKernelReverseMapping[i]] = extendedSolution[i];
     fastKerAlgorithm.extend_finer_is(finalSolution);
 
