@@ -8,7 +8,7 @@
 
 #include "exact_mis.h"
 
-#include "full_reductions.h"
+// #include "full_reductions.h"
 #include "mis_log.h"
 #include "graph_io.h"
 #include "timer.h"
@@ -19,7 +19,7 @@
 #include "ils.h"
 #include "omp.h"
 
-std::vector<bool> getExactMISCombined(const std::vector<std::vector<int>> &_adj, MISConfig &config) {
+std::vector<bool> getExactMISCombined(std::vector<std::vector<int>> &_adj, MISConfig &config) {
     unsigned int n = _adj.size();
     omp_set_num_threads(1);
 
@@ -31,27 +31,8 @@ std::vector<bool> getExactMISCombined(const std::vector<std::vector<int>> &_adj,
         }
     }
 
-    // Run FastKer reductions on input
-    auto fastKerAlgorithm = full_reductions(_adj, _adj.size());
-    fastKerAlgorithm.reduce_graph();
-
-    // Extract kernel graph
-    graph_access fastKernel;
-    std::vector<NodeID> fastKernelReverseMapping(fastKerAlgorithm.number_of_nodes_remaining());
-    fastKerAlgorithm.convert_adj_lists(fastKernel, fastKernelReverseMapping);
-
-    // Build adjacency lists for kernel graph
-    std::vector<std::vector<int>> fastKernelAdj(fastKernel.number_of_nodes());
-    forall_nodes(fastKernel, node) {
-        fastKernelAdj[node].reserve(fastKernel.getNodeDegree(node));
-        forall_out_edges(fastKernel, edge, node) {
-            NodeID neighbor = fastKernel.getEdgeTarget(edge);
-            fastKernelAdj[node].push_back(neighbor);
-        } endfor
-    } endfor
-
     // Run VCSolver reductions on preliminary kernel
-    auto vcSolverAlgorithm = branch_and_reduce_algorithm(fastKernelAdj, fastKernelAdj.size());
+    auto vcSolverAlgorithm = branch_and_reduce_algorithm(_adj, _adj.size());
     vcSolverAlgorithm.reduce();
 
     // Extract kernel graph
@@ -99,72 +80,11 @@ std::vector<bool> getExactMISCombined(const std::vector<std::vector<int>> &_adj,
     BnRAlgorithm.get_solved_is(exactSolution);
 
     // Propagate solution to preliminary kernel
-    std::vector<bool> extendedSolution(fastKerAlgorithm.number_of_nodes_remaining(), false);
-    for(unsigned int i = 0; i < exactSolution.size(); ++i)
-        extendedSolution[vcKernelReverseMapping[i]] = exactSolution[i];
-    vcSolverAlgorithm.extend_finer_is(extendedSolution);
-
-    // Propagate solution to input graph
     std::vector<bool> finalSolution(n, false);
-    for(unsigned int i = 0; i < extendedSolution.size(); ++i) 
-        finalSolution[fastKernelReverseMapping[i]] = extendedSolution[i];
-    fastKerAlgorithm.extend_finer_is(finalSolution);
-
-    // Check validity of solution
-    // bool valid = true;
-    // for (int i = 0; i < adj.size(); ++i) {
-    //   if (finalSolution[i] == false) {
-    //     for (int j = 0; j < adj[i].size(); j++) 
-    //         if (finalSolution[adj[i][j]] == true) valid = false;
-    //     if (!valid) {
-    //       std::cout << "ERROR! Invalid solution" << std::endl;
-    //       exit(1);
-    //     }
-    //   }
-    // }
+    for(unsigned int i = 0; i < exactSolution.size(); ++i)
+        finalSolution[vcKernelReverseMapping[i]] = exactSolution[i];
+    vcSolverAlgorithm.extend_finer_is(finalSolution);
 
     return finalSolution;
 }
 
-// std::vector<bool> getExactMISDarren(const std::vector<std::vector<int>> &_adj, MISConfig &config) {
-//     int n = _adj.size();
-//     omp_set_num_threads(1);
-// 
-//     // Copy adj vector
-//     std::vector<std::vector<int>> adj(_adj.size());
-//     for(int i = 0; i < adj.size(); ++i) {
-//         for(int j = 0; j < _adj[i].size(); ++j) {
-//             adj[i].push_back(_adj[i][j]);
-//         }
-//     }
-// 
-//     // Run FastKer reductions on input
-//     auto fastKerAlgorithm = full_reductions(_adj, _adj.size());
-//     fastKerAlgorithm.reduce_graph();
-// 
-//     // Extract kernel graph
-//     graph_access fastKernel;
-//     std::vector<NodeID> fastKernelReverseMapping(fastKerAlgorithm.number_of_nodes_remaining());
-//     fastKerAlgorithm.convert_adj_lists(fastKernel, fastKernelReverseMapping);
-// 
-//     // Build adjacency lists for kernel graph
-//     std::vector<std::vector<int>> fastKernelAdj(fastKernel.number_of_nodes());
-//     forall_nodes(fastKernel, node) {
-//         fastKernelAdj[node].reserve(fastKernel.getNodeDegree(node));
-//         forall_out_edges(fastKernel, edge, node) {
-//             NodeID neighbor = fastKernel.getEdgeTarget(edge);
-//             fastKernelAdj[node].push_back(neighbor);
-//         } endfor
-//     } endfor
-// 
-//     // Add Darrens stuff (taken from main.cpp)
-//     // Still need to add dependencies in Scons
-//     // Experiments experiments("", config.time_limit, false, false, fastKernelAdj);
-//     // experiments.KernelizeAndRunComponentWiseMISS();
-//     
-//     return std::vector<bool>();
-// }
-
-// bool evaluateCritertion(const std::vector<std::vector<int>> &_adj, MISConfig &config) {
-//     return true;
-// }

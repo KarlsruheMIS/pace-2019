@@ -10,6 +10,6 @@
 #include <vector>
 #include "mis_config.h"
 
-bool evaluateCriterion(const std::vector<std::vector<int>> &_adj, MISConfig &config);
-std::vector<bool> getExactMISCombined(const std::vector<std::vector<int>> &_adj, MISConfig &config);
-std::vector<bool> getExactMISDarren(const std::vector<std::vector<int>> &_adj, MISConfig &config);
+bool evaluateCriterion(std::vector<std::vector<int>> &_adj, MISConfig &config);
+std::vector<bool> getExactMISCombined(std::vector<std::vector<int>> &_adj, MISConfig &config);
+std::vector<bool> getExactMISDarren(std::vector<std::vector<int>> &_adj, MISConfig &config);

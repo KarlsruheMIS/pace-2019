@@ -17,7 +17,6 @@
 #include "parse_parameters.h"
 #include "data_structure/graph_access.h"
 #include "data_structure/mis_permutation.h"
-#include "full_reductions.h"
 #include "exact_mis.h"
 #include "PACE_graph_reader.h"
 #include "PACE_solution_writer.h"
@@ -36,7 +35,7 @@ int main(int argn, char **argv) {
     mis_log::instance()->set_config(mis_config);
 
     // Read input file
-    vector<vector<int>> graph = readPaceGraph(graph_filepath);
+    std::vector<std::vector<int>> graph = readPaceGraph(graph_filepath);
     mis_log::instance()->number_of_nodes = graph.size();
     unsigned int num_edges = 0;
     for (auto &v : graph) num_edges += v.size();

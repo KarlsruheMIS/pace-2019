@@ -22,11 +22,6 @@ libfiles = [
                 'lib/mis/exact_mis.cpp',
                 'lib/mis/kernel/branch_and_reduce_algorithm.cpp',
                 'lib/mis/kernel/modified.cpp',
-                'lib/mis/kernel/ParFastKer/fast_reductions/src/full_reductions.cpp',
-                'lib/mis/kernel/ParFastKer/fast_reductions/src/MaximumMatching.cpp',
-                'lib/mis/kernel/ParFastKer/fast_reductions/src/parallel_reductions.cpp',
-                'lib/mis/kernel/ParFastKer/LinearTime/MIS_sigmod_pub/Graph.cpp',
-                'lib/mis/kernel/ParFastKer/LinearTime/MIS_sigmod_pub/Utility.cpp',
                 'lib/mis/evolutionary/population_mis.cpp',
                 ]
 
