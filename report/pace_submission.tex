@@ -1,0 +1,105 @@
+\documentclass[a4paper,UKenglish]{lipics-v2016}
+\usepackage{t1enc}
+\usepackage[utf8]{inputenc}
+\usepackage{numprint}
+\npdecimalsign{.} % we want . not , in numbers
+\usepackage{hyperref}
+\usepackage{xspace}
+
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+\def\MdR{\ensuremath{\mathbb{R}}}
+\def\MdN{\ensuremath{\mathbb{N}}}
+\DeclareMathOperator{\sgn}{sgn}
+\newcommand{\Id}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\Is}       {:=}
+\newcommand{\setGilt}[2]{\left\{ #1\sodass #2\right\}}
+\newcommand{\sodass}{\,:\,}
+\newcommand{\set}[1]{\left\{ #1\right\}}
+\newcommand{\gilt}{:}
+\newcommand{\ie}{i.\,e.,\xspace}
+\newcommand{\eg}{e.\,g.,\xspace}
+\newcommand{\etal}{et~al.\xspace}
+\newcommand{\Wlog}{w.\,l.\,o.\,g.\ }
+\newcommand{\wrt}{w.\,r.\,t.\xspace}
+
+\newcommand{\mytitle}{We Got You Covered}
+
+\subjclass{G.2.2 Graph Theory -- Graph Algorithms, G.4 Mathematical Software -- Algorithm Design and Analysis} 
+\keywords{kernelization, branch-and-reduce, local search}
+\EventEditors{}
+\EventNoEds{0}
+\EventLongTitle{}
+\EventShortTitle{PACE 2019}
+\EventAcronym{PACE}
+\EventYear{2019}
+\EventDate{}
+\EventLocation{}
+\EventLogo{}
+\SeriesVolume{}
+\ArticleNo{}
+
+\begin{document}
+\title{\mytitle}
+\author[1]{Demian Hespe}
+\author[2]{Sebastian Lamm}
+\author[3]{Darren Strash}
+\author[4]{Christian Schulz}
+
+\affil[1]{Karlsruhe Institute of Technology, Karlsruhe, Germany \\
+  \texttt{hespe@kit.edu}}
+\affil[2]{Karlsruhe Institute of Technology, Karlsruhe, Germany\\
+  \texttt{lamm@kit.edu}}
+\affil[3]{Hamilton College, New York, USA,  \texttt{dstrash@hamilton.edu}}
+\affil[4]{University of Vienna, Faculty of Computer Science, Vienna, Austria\\ \texttt{christian.schulz@univie.ac.at}}
+
+\date{}
+
+
+\Copyright{}
+\maketitle
+\begin{abstract}
+The vertex cover problem is one of a handful of problems for which \emph{kernelization}---the repeated reducing of the input size via \emph{reduction rules}--is known to be highly effective in practice. For our submission, we apply an initial aggressive kernelization strategy, using all known reduction rules for the problem. From there we use local search to produce a high-quality solution on the (hopefully smaller) kernel, which we use as a starting solution for a branch-and-bound solver. Our branch and bound solver also applies reduction rules via a branch-and-reduce scheme -- applying rules when possible, and branching otherwise -- though this may be toggled to omit reductions if they are not effective.\end{abstract}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Solver Overview}
+
+A vertex cover of a graph $G$ can be thought of as a set $S$ of vertices of $G$ such that every edge of $G$ has at least one of member of $S$ as an endpoint.
+A minimum vertex cover is a vertex cover having the smallest possible number of vertices for a given graph. 
+The goal of the independent set problem is to compute a maximum cardinality set of vertices $\mathcal{I}\subseteq V$ such that no vertices in $\mathcal{I}$ are adjacent to one another. Such a set is called a \emph{maximum independent set} (MIS).
+The \emph{minimum vertex cover} problems is 
+equivalent to the maximum independent set problem: a
+minimum vertex cover $C$ in $G$ is the complement of a maximum independent set $V\setminus C$ in $G$. Thus, an algorithm that solves one of these problems can be used to~solve~the~other.
+For the sake of simplicity, we \emph{write this report from the~independent~set~perspective}. 
+
+The most efficient algorithms for finding maximum independent sets in both theory and practice use reduction rules to obtain a much smaller problem instance called a \emph{kernel}. The kernel can then be solved quickly using exact or heuristic algorithms---or by repeatedly kernelizing recursively in the branch-and-reduce paradigm. 
+Our solver is a combination of different kernelization techniques \cite{DBLP:conf/alenex/Hespe0S18}, local search~\cite{DBLP:conf/wea/AndradeRW08}, as well as branch-and-reduce~\cite{akiba-tcs-2016}.
+
+%
+Our algorithm starts by kernelizing the graph using \cite{DBLP:conf/alenex/Hespe0S18}. 
+This algorithm uses all known reduction rules for the problem,
+and has an additional technique to accelerate kernelization: dependency checking to prune reductions that cannot be applied.
+More precisely, to compute a kernel, Akiba and Iwata~\cite{akiba-tcs-2016} apply their
+reductions~$r_1, \dots ,r_j$ by iterating over all reductions and trying to
+apply the current reduction $r_i$ to all vertices. If $r_i$ reduces at
+least one vertex, they restart with reduction~$r_1$. When reduction~$r_j$ 
+is executed, but does not reduce any vertex, all reductions have been applied
+exhaustively, and a kernel is found. Trying to apply every reduction to all
+vertices can be expensive in later stages of the algorithm where 
+few reductions succeed. 
+In \cite{DBLP:conf/alenex/Hespe0S18}, we define a scheme for checking dependencies between reductions, which allows us to
+avoid applying isolated vertex removal, vertex folding, and twin reductions when they
+will provably not succeed. After unsuccessfully trying to apply one
+of these reductions to a vertex $v$, one only has to consider $v$ again for reduction
+after its neighborhood has changed. We therefore keep a
+set $D$ of \emph{viable} candidate vertices: vertices whose neighborhood has changed
+and vertices that have never been considered for~reductions.
+
+From there we use local search to produce a high-quality solution on the (hopefully smaller) kernel, which we use as a starting solution for a branch-and-bound solver. We use iterated local search algorithm from \cite{DBLP:conf/wea/AndradeRW08} to do this task.
+The algorithm is based on  the notion of $(j,k)$-swaps. A $(j,k)$-swap removes $j$ nodes from the current solution and inserts $k$ nodes. The authors present a fast linear-time implementation that, given a maximal solution, can find a $(1,2)$-swap or prove that none exists. We implemented the algorithm and use to find a high-quality solution of the kernel. 
+
+
+The solution is then used as input to a branch-and-bound solver. Our branch and bound solver also applies reduction rules via a branch-and-reduce scheme -- applying rules when possible, and branching otherwise -- though this may be toggled to omit reductions if they are not effective.
+Our implementation is similar to the algorithm of Akiba and Iwata~\cite{akiba-tcs-2016}. 
+
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}

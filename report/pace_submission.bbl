@@ -1,0 +1,24 @@
+\begin{thebibliography}{1}
+
+\bibitem{akiba-tcs-2016}
+T.~Akiba and Y.~Iwata.
+\newblock Branch-and-reduce exponential/{FPT} algorithms in practice: A case
+  study of vertex cover.
+\newblock {\em Theor. Comput. Sci.}, 609, Part 1:211--225, 2016.
+
+\bibitem{DBLP:conf/wea/AndradeRW08}
+Diogo~Vieira Andrade, Mauricio G.~C. Resende, and Renato Fonseca~F. Werneck.
+\newblock Fast local search for the maximum independent set problem.
+\newblock In Catherine~C. McGeoch, editor, {\em Experimental Algorithms, 7th
+  International Workshop, {WEA} 2008, Provincetown, MA, USA, May 30-June 1,
+  2008, Proceedings}, volume 5038 of {\em Lecture Notes in Computer Science},
+  pages 220--234. Springer, 2008.
+
+\bibitem{DBLP:conf/alenex/Hespe0S18}
+Demian Hespe, Christian Schulz, and Darren Strash.
+\newblock Scalable kernelization for maximum independent sets.
+\newblock In {\em Proceedings of the Twentieth Workshop on Algorithm
+  Engineering and Experiments, {ALENEX} 2018, New Orleans, LA, USA, January
+  7-8, 2018.}, pages 223--237, 2018.
+
+\end{thebibliography}

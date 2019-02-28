@@ -1,0 +1,208 @@
+\begin{thebibliography}{10}
+
+\bibitem{Abdel-GawadThottethodiBhatele14}
+A.~H. Abdel{-}Gawad, M.~Thottethodi, and A.~Bhatele.
+\newblock {RAHTM: Routing Algorithm Aware Hierarchical Task Mapping}.
+\newblock In {\em Intl. Conference for High Performance Computing, Networking,
+  Storage and Analysis ({SC})}, pages 325--335, 2014.
+
+\bibitem{benchmarksfornetworksanalysis}
+D.~A. Bader, H.~Meyerhenke, P.~Sanders, C.~Schulz, A.~Kappes, and D.~Wagner.
+\newblock Benchmarking for graph clustering and partitioning.
+\newblock In {\em Encyclopedia of Social Network Analysis and Mining}, pages
+  73--82. Springer, 2014.
+
+\bibitem{bender2000lca}
+M.~A. Bender and M.~Farach-Colton.
+\newblock The {LCA} problem revisited.
+\newblock In {\em Latin American Symposium on Theoretical Informatics}, volume
+  1776, pages 88--94. Springer, LNCS, 2000.
+
+\bibitem{GPOverviewBook}
+C.~Bichot and P.~Siarry, editors.
+\newblock {\em Graph Partitioning}.
+\newblock Wiley, 2011.
+
+\bibitem{DBLP:journals/tc/Bokhari81}
+S.~H. Bokhari.
+\newblock On the mapping problem.
+\newblock {\em {IEEE} Trans. Computers}, 30(3):207--214, 1981.
+
+\bibitem{bokhari2012assignment}
+S.~H. Bokhari.
+\newblock Assignment problems in parallel and distributed computing, 2012.
+
+\bibitem{brandfass2013rank}
+B.~Brandfass, T.~Alrutz, and T.~Gerhold.
+\newblock Rank reordering for {MPI} communication optimization.
+\newblock {\em Computers \& Fluids}, 80:372--380, 2013.
+
+\bibitem{SPPGPOverviewPaper}
+A.~Bulu\c{c}, H.~Meyerhenke, I.~Safro, P.~Sanders, and C.~Schulz.
+\newblock {Recent Advances in Graph Partitioning}.
+\newblock In {\em Algorithm Engineering -- Selected Topics, \emph{to app.},
+  ArXiv:1311.3144}, 2014.
+
+\bibitem{burkard1998quadratic}
+R.~E Burkard, E.~Cela, P.~M. Pardalos, and L.~S. Pitsoulis.
+\newblock The quadratic assignment problem.
+\newblock In {\em Handbook of combinatorial optimization}, pages 1713--1809.
+  Springer, 1998.
+
+\bibitem{catalyuerek1996dis}
+{\"U}.~V. {\c{C}}ataly{\"u}rek and C.~Aykanat.
+\newblock {Decomposing Irregularly Sparse Matrices for Parallel Matrix-Vector
+  Multiplication}.
+\newblock In {\em Proc. of the 3rd Intl. Workshop on Parallel Algorithms for
+  Irregularly Structured Problems}, volume 1117, pages 75--86. Springer, 1996.
+
+\bibitem{DBLP:journals/cluster/ChanLA12}
+Siew~Yin Chan, Teck~Chaw Ling, and Eric Aubanel.
+\newblock The impact of heterogeneous multi-core clusters on graph
+  partitioning: an empirical study.
+\newblock {\em Cluster Computing}, 15(3):281--302, 2012.
+
+\bibitem{UFsparsematrixcollection}
+T.~Davis.
+\newblock {The University of Florida Sparse Matrix Collection}.
+
+\bibitem{DSSW09}
+D.~Delling, P.~Sanders, D.~Schultes, and D.~Wagner.
+\newblock Engineering route planning algorithms.
+\newblock In {\em Algorithmics of Large and Complex Networks}, volume 5515 of
+  {\em LNCS State-of-the-Art Survey}, pages 117--139. Springer, 2009.
+
+\bibitem{heuvelinecoop}
+J.~Fietz, M.~Krause, C.~Schulz, P.~Sanders, and V.~Heuveline.
+\newblock {Optimized Hybrid Parallel Lattice Boltzmann Fluid Flow Simulations
+  on Complex Geometries}.
+\newblock In {\em Proc. of Euro-Par 2012 Parallel Processing}, volume 7484 of
+  {\em LNCS}, pages 818--829. Springer, 2012.
+
+\bibitem{glantzMapping2015}
+R.~Glantz, H.~Meyerhenke, and A.~Noe.
+\newblock Algorithms for mapping parallel processes onto grid and torus
+  architectures.
+\newblock In {\em 23rd Euromicro Intl. Conference on Parallel, Distributed, and
+  Network-Based Processing}, pages 236--243. {IEEE} Computer Society, 2015.
+
+\bibitem{Hatazaki98}
+T.~Hatazaki.
+\newblock Rank reordering strategy for {MPI} topology creation functions.
+\newblock In {\em 5th European {PVM/MPI} User's Group Meeting}, volume 1497 of
+  {\em LNCS}, pages 188--195. Springer, 1998.
+
+\bibitem{heider1972computationally}
+C.~H. Heider.
+\newblock A computationally simplified pair-exchange algorithm for the
+  quadratic assignment problem.
+\newblock Technical report, DTIC Document, CENTER FOR NAVAL ANALYSES ARLINGTON
+  VA, 1972.
+
+\bibitem{HoeflerSnir11}
+T.~Hoefler and M.~Snir.
+\newblock Generic topology mapping strategies for large-scale parallel
+  architectures.
+\newblock In {\em Proc. 25th Intl. Conf. on Supercomputing}, pages 75--84.
+  {ACM}, 2011.
+
+\bibitem{karypis1998fast}
+G.~Karypis and V.~Kumar.
+\newblock {A Fast and High Quality Multilevel Scheme for Partitioning Irregular
+  Graphs}.
+\newblock {\em SIAM Journal on Scientific Computing}, 20(1):359--392, 1998.
+
+\bibitem{mercier2009towards}
+G.~Mercier and J.~Clet-Ortega.
+\newblock Towards an efficient process placement policy for {MPI} applications
+  in multicore environments.
+\newblock In {\em European Parallel Virtual Machine/Message Passing Interface
+  Users’ Group Meeting (EuroMPI)}, pages 104--115. Springer, 2009.
+
+\bibitem{MercierJeannot11}
+G.~Mercier and Emmanuel J.
+\newblock Improving {MPI} applications performance on multicore clusters with
+  rank reordering.
+\newblock In {\em 18th European {MPI} Users' Group Meeting}, pages 39--49,
+  2011.
+
+\bibitem{MPI-3.1}
+{MPI Forum}.
+\newblock {\textsf{MPI}: A Message-Passing Interface Standard. Version 3.1}.
+
+\bibitem{muller2013optimale}
+H.~M{\"u}ller-Merbach.
+\newblock {\em Optimale reihenfolgen}, volume~15 of {\em \"Okonometrie und
+  Unternehmensforschung}.
+\newblock Springer, 1970.
+
+\bibitem{DBLP:conf/dimacs/dimacs16}
+P.~M. Pardalos and H.~Wolkowicz, editors.
+\newblock {\em Quadratic Assignment and Related Problems, Proceedings of a
+  {DIMACS} Workshop, New Brunswick, New Jersey, USA, May 20-21, 1993},
+  volume~16 of {\em {DIMACS} Series in Discrete Mathematics and Theoretical
+  Computer Science}. {DIMACS/AMS}, 1994.
+
+\bibitem{Scotch}
+F.~Pellegrini.
+\newblock {Scotch Home Page}.
+\newblock {\url{http://www. labri.fr/pelegrin/scotch}}.
+
+\bibitem{SahniG76}
+S.~Sahni and T.~F. Gonzalez.
+\newblock P-complete approximation problems.
+\newblock {\em J. {ACM}}, 23(3):555--565, 1976.
+
+\bibitem{kabapeE}
+P.~Sanders and C.~Schulz.
+\newblock {Think Locally, Act Globally: Highly Balanced Graph Partitioning}.
+\newblock In {\em 12th Intl. Sym. on Experimental Algorithms (SEA'13)}, volume
+  7933 of {\em LNCS}. Springer, 2013.
+
+\bibitem{schloegel2000gph}
+K.~Schloegel, G.~Karypis, and V.~Kumar.
+\newblock {Graph Partitioning for High Performance Scientific Simulations}.
+\newblock In {\em The Sourcebook of Parallel Computing}, pages 491--541, 2003.
+
+\bibitem{DBLP:journals/corr/SchulzT17a}
+C.~Schulz and J.~L. Tr{\"{a}}ff.
+\newblock {VieM v1.00 - Vienna Mapping and Sparse Quadratic Assignment User
+  Guide}.
+\newblock {\em CoRR}, abs/1703.05509, \url{http://viem.taa.univie.ac.at/},
+  2017.
+
+\bibitem{soper2004combined}
+A.~J. Soper, C.~Walshaw, and M.~Cross.
+\newblock {A Combined Evolutionary Search and Multilevel Optimisation Approach
+  to Graph-Partitioning}.
+\newblock {\em Global Optimization}, 29(2):225--241, 2004.
+
+\bibitem{Sou35}
+R.~V. Southwell.
+\newblock {Stress-Calculation in Frameworks by the Method of {``Systematic
+  Relaxation of Constraints''}}.
+\newblock {\em Proc. of the Royal Society of London}, 151(872):56--95, 1935.
+
+\bibitem{Traff02:topology}
+J.~L. Tr{\"{a}}ff.
+\newblock Implementing the {MPI} process topology mechanism.
+\newblock In {\em ACM/IEEE Supercomputing}, 2002.
+
+\bibitem{Vogelstein15}
+J.~T. Vogelstein, J.~M. Conroy, V.~Lyzinski, L.~J. Podrazik, S.~G. Kratzer,
+  E.~T. Harley, D.~E. Fishkind, R.~J. Vogelstein, and C.~E. Priebe.
+\newblock Fast approximate quadratic programming for graph matching.
+\newblock PLOS One, April 2015.
+\newblock \url{http://dx.doi.org/10.1371/journal.pone.0121002}.
+
+\bibitem{walshaw2000mpm}
+C.~Walshaw and M.~Cross.
+\newblock {Mesh Partitioning: A Multilevel Balancing and Refinement Algorithm}.
+\newblock {\em SIAM Journal on Scientific Computing}, 22(1):63--80, 2000.
+
+\bibitem{YuChungMoreira06}
+H.~Yu, I-H. Chung, and J.~E. Moreira.
+\newblock Topology mapping for {Blue Gene/L} supercomputer.
+\newblock In {\em ACM/IEEE Supercomputing}, page 116, 2006.
+
+\end{thebibliography}
