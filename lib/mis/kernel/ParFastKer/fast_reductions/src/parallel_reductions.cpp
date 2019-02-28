@@ -82,9 +82,9 @@ parallel_reductions::parallel_reductions(vector<vector<int>> const &adjacencyArr
             }
         }
     }
-    for(int partition = 0; partition < numPartitions; ++partition) {
-        std::cout << partition << ": " << partition_nodes[partition].size() << " vertices" << std::endl;
-    }
+    // for(int partition = 0; partition < numPartitions; ++partition) {
+    //     std::cout << partition << ": " << partition_nodes[partition].size() << " vertices" << std::endl;
+    // }
     // std::cout << "Finished constructor" << std::endl;
 }
 
@@ -92,7 +92,7 @@ parallel_reductions::~parallel_reductions()
 {
 
 #ifdef TIMERS
-    cout << "Total time spent undoing  reductions  : " << (replaceTimer/(double)CLOCKS_PER_SEC) << endl;
+    // cout << "Total time spent undoing  reductions  : " << (replaceTimer/(double)CLOCKS_PER_SEC) << endl;
 #endif // TIMERS
 }
 
@@ -952,7 +952,7 @@ void parallel_reductions::ExtendPartialSolution(std::vector<bool> &in_out_indepe
     }
 
     if(size_after == size_before) {
-        std::cout << "Same size" << std::endl;
+        // std::cout << "Same size" << std::endl;
     } else {
         std::cout << "ERROR: Before: " << size_before << "; after: " << size_after << "; without folds: " << size_without_folds <<  std::endl;
     }
@@ -1001,7 +1001,7 @@ void parallel_reductions::reduce_graph_parallel(std::vector<unsigned int> forced
     {
         numThreads = omp_get_num_threads();
     }
-    std::cout << "num threads: " << numThreads << std::endl;
+    // std::cout << "num threads: " << numThreads << std::endl;
 
     int numPartitions = partition_nodes.size();
     auto numPartitionsRealPointer = max_element(partitions.begin(), partitions.end());
@@ -1209,16 +1209,16 @@ void parallel_reductions::reduce_graph_parallel(std::vector<unsigned int> forced
         // std::cout << " -- Current rest time: " << restTime << " -- Current LP time: " << LPTime << std::endl;
         numIterations++;
     }
-    std::cout << "Num iterations: " << numIterations << std::endl;
+    // std::cout << "Num iterations: " << numIterations << std::endl;
 
 
     double endClock = omp_get_wtime();
     AllReductions.push_back(ReductionsPerPartition);
     profilingPrint(&profilingHelper);
 
-    for(int partition = 0; partition< numPartitions; partition++) {
-        cout << partition << ": Time spent applying reductions  : " << partitionTimes[partition] << endl;
-    }
+    // for(int partition = 0; partition< numPartitions; partition++) {
+    //     cout << partition << ": Time spent applying reductions  : " << partitionTimes[partition] << endl;
+    // }
 
     // for(int partition = 0; partition< numPartitions; partition++) {
     //     cout << partition << ": Number of isolated clique reductions: " << numIsolatedCliqueReductions[partition]<< endl;
@@ -1244,11 +1244,11 @@ void parallel_reductions::reduce_graph_parallel(std::vector<unsigned int> forced
     //     cout << partition << ": Number of diamond reductions: " << numDiamondReductions[partition] << endl;
     // }
 
-    cout << "Number of vertices removed by LP reduction: " << numLPReductions << endl;
-    cout << "Total time spent applying reductions  : " << (endClock - startClock) << endl;
+    // cout << "Number of vertices removed by LP reduction: " << numLPReductions << endl;
+    // cout << "Total time spent applying reductions  : " << (endClock - startClock) << endl;
 
-    std::cout << "LP time: " << LPTime << std::endl;
-    std::cout << "Rest time: " << restTime << std::endl;
+    // std::cout << "LP time: " << LPTime << std::endl;
+    // std::cout << "Rest time: " << restTime << std::endl;
 
     int sum_isolated_clique = std::accumulate(numIsolatedCliqueReductions.begin(), numIsolatedCliqueReductions.end(), 0);
     int sum_vertex_fold = std::accumulate(numVertexFoldReductions.begin(), numVertexFoldReductions.end(), 0);
@@ -1268,7 +1268,7 @@ void parallel_reductions::reduce_graph_parallel(std::vector<unsigned int> forced
         is_offset++;
       }
     }
-    std::cout << "Independent set offset: " << is_offset << std::endl;
+    // std::cout << "Independent set offset: " << is_offset << std::endl;
 }
 
 bool parallel_reductions::checkDegrees() {

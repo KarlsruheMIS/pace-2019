@@ -95,11 +95,11 @@ void mis_log::print_newline() {
 
 void mis_log::print_title() {
     filebuffer_string << "=========================================="                           << std::endl;
-    filebuffer_string << "\t\tReduMIS"                                                          << std::endl;
+    filebuffer_string << "\t\tVCSolver"                                                          << std::endl;
     filebuffer_string << "=========================================="                           << std::endl;
 
     std::cout << "=========================================="                           << std::endl;
-    std::cout << "\t\tReduMIS"                                                          << std::endl;
+    std::cout << "\t\tVCSolver"                                                          << std::endl;
     std::cout << "=========================================="                           << std::endl;
 }
 

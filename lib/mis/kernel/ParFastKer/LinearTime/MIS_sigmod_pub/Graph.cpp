@@ -1307,7 +1307,7 @@ int Graph::degree_two_kernal_and_remove_max_degree_without_contraction(std::vect
 	mtime1 = seconds1*1000000 + useconds1;
 #endif
 
-	printf("Degree_two_path MIS: %d (kernal (|V|,|E|): (%d,%d), inexact reduction: %d)\n", res, kernal_size, kernal_edges, inexact);
+	// printf("Degree_two_path MIS: %d (kernal (|V|,|E|): (%d,%d), inexact reduction: %d)\n", res, kernal_size, kernal_edges, inexact);
 
 
     long offset = 0;
@@ -1321,7 +1321,7 @@ int Graph::degree_two_kernal_and_remove_max_degree_without_contraction(std::vect
         printf("ERROR! S.size() = %d", S.size());
     }
     offset += S.size() / 2;
-    printf("Offset = %d\n", offset);
+    // printf("Offset = %d\n", offset);
     // write_graph_metis(is, degree, pend);
     write_kernel_to_adj_list(is, degree, pend, out_kernel);
 
@@ -1369,7 +1369,7 @@ int Graph::degree_two_kernal_and_remove_max_degree_without_contraction(std::vect
 	useconds = end.tv_usec - start.tv_usec;
 	mtime = seconds*1000000 + useconds;
 
-	printf("Process time: %lld, Swap time: %lld, Total time: %lld\n", mtime1, mtime-mtime1, mtime);
+	// printf("Process time: %lld, Swap time: %lld, Total time: %lld\n", mtime1, mtime-mtime1, mtime);
 #endif
     return offset;
 }

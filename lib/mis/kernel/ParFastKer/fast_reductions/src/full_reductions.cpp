@@ -99,13 +99,13 @@ void full_reductions::reduce_graph() {
     //         0,
     //         &edgecut,
     //         partitions.data());
-	std::cout << "Creating object" << std::endl;
+	// std::cout << "Creating object" << std::endl;
 	parallel_reducer = std::unique_ptr<parallel_reductions>(new parallel_reductions(LineartimeKernel, partitions));
-	std::cout << "Finished creating object" << std::endl;
+	// std::cout << "Finished creating object" << std::endl;
 	// std::cout << "Before call to parallel reduce_graph" << std::endl;
 	parallel_reducer->reduce_graph_parallel(forced_vertices);
 	// std::cout << "After call to parallel reduce_graph" << std::endl;
-	std::cout << "Kernel size after parallel run: " << parallel_reducer->size() << std::endl;
+	// std::cout << "Kernel size after parallel run: " << parallel_reducer->size() << std::endl;
 	// std::cout << "Before call to sequential reduce_graph" << std::endl;
     // parallel_reducers.back()->reduce_graph_sequential();
 	// std::cout << "After call to sequential reduce_graph" << std::endl;
