@@ -17,7 +17,7 @@ def GetEnvironment():
     """
 
     opts = Variables()
-    opts.Add('program', 'program or interface to compile', 'redumis, graph_checker, library, exactVC')
+    opts.Add('program', 'program or interface to compile', 'vc_solver')
     opts.Add('variant', 'the variant to build, optimized or optimized with output', 'optimized, optimized_output, debug')
 
     env = Environment(options=opts, ENV=os.environ)
@@ -26,7 +26,7 @@ def GetEnvironment():
         print 'Illegal value for variant: %s' % env['variant']
         sys.exit(1)
 
-    if not env['program'] in ['redumis', 'graph_checker', 'library', 'exactVC']:
+    if not env['program'] in ['vc_solver']:
         print 'Illegal value for program: %s' % env['program']
         sys.exit(1)
 
@@ -43,8 +43,6 @@ env.Append(CPPPATH = [ './lib' ])
 env.Append(CPPPATH = [ './lib/mis' ])
 env.Append(CPPPATH = [ './lib/mis/initial_mis' ])
 env.Append(CPPPATH = [ './lib/mis/evolutionary' ])
-env.Append(CPPPATH = [ './lib/mis/evolutionary/combine' ])
-env.Append(CPPPATH = [ './lib/mis/hopcroft' ])
 env.Append(CPPPATH = [ './lib/mis/kernel' ])
 env.Append(CPPPATH = [ './lib/mis/ils' ])
 
@@ -94,7 +92,6 @@ env.Append(LIBPATH = [ '../extern/KaHIP' ])
 env.Append(CPPPATH = [ './extern/argtable-2.10/include' ])
 env.Append(CPPPATH = [ '../extern/argtable-2.10/include' ])
 
-
 env.Append(CPPPATH = [ './lib/mis/kernel/ParFastKer/fast_reductions/src' ])
 
 if not SYSTEM == 'Darwin':
@@ -105,12 +102,9 @@ if not SYSTEM == 'Darwin':
 conf = Configure(env)
 
 # Set compiler flags
-# env.Append(CXXFLAGS = '-fopenmp -g')
 env.Append(CXXFLAGS = '-fopenmp')
-# env.Append(CXXFLAGS = '-DNDEBUG -Wall -funroll-loops -fno-stack-limit -O3 -std=c++0x -fsanitize=address')
 env.Append(CXXFLAGS = '-DNDEBUG -Wall -funroll-loops -fno-stack-limit -O3 -std=c++0x')
 env.Append(CCFLAGS  = '-DNDEBUG -Wall -funroll-loops -fno-stack-limit -O3 -std=c++0x')
-# env.Append(LINKFLAGS = '-fsanitize=address')
 
 # Execute the SConscript.
 SConscript('SConscript', exports=['env'],variant_dir=env['variant'], duplicate=False)

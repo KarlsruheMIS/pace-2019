@@ -1,8 +1,0 @@
-#!/bin/bash
-nodir=${1##*/}
-noextension=${nodir%.txt}
-
-for ((i=0; i<=2; i++)); do
-	echo $1 run $i
-        ./run_alg.py $1 $i 7200 &> results/$noextension$i
-done

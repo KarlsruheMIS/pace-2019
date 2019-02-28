@@ -6,7 +6,7 @@ SYSTEM = platform.uname()[0]
 
 Import('env')
 
-# Library files needed for EvoMIS
+# Library files needed for VC Solver
 libfiles = [    
                 'lib/tools/mis_log.cpp',
                 'lib/mis/ils/ils.cpp',
@@ -19,22 +19,15 @@ libfiles = [
                 'lib/data_structure/candidate_list.cpp',
                 'lib/data_structure/operation_log.cpp',
                 'lib/data_structure/priority_queues/bucket_array.cpp',
-                'lib/mis/evolutionary/population_mis.cpp',
-                'lib/mis/evolutionary/reduction_evolution.cpp',
                 'lib/mis/exact_mis.cpp',
-                'lib/mis/hopcroft/bipartite_vertex_cover.cpp',
                 'lib/mis/kernel/branch_and_reduce_algorithm.cpp',
                 'lib/mis/kernel/modified.cpp',
-                'lib/mis/evolutionary/separator_pool.cpp',
-                'lib/mis/evolutionary/combine/combine.cpp',
-                'lib/mis/evolutionary/combine/cover_combine.cpp',
-                'lib/mis/evolutionary/combine/separator_combine.cpp',
-                'lib/mis/evolutionary/combine/multiway_combine.cpp',
                 'lib/mis/kernel/ParFastKer/fast_reductions/src/full_reductions.cpp',
                 'lib/mis/kernel/ParFastKer/fast_reductions/src/MaximumMatching.cpp',
                 'lib/mis/kernel/ParFastKer/fast_reductions/src/parallel_reductions.cpp',
                 'lib/mis/kernel/ParFastKer/LinearTime/MIS_sigmod_pub/Graph.cpp',
                 'lib/mis/kernel/ParFastKer/LinearTime/MIS_sigmod_pub/Utility.cpp',
+                'lib/mis/evolutionary/population_mis.cpp',
                 ]
 
 libkahip_files = [   'extern/KaHIP//lib/data_structure/graph_hierarchy.cpp',
@@ -102,9 +95,5 @@ if SYSTEM == 'Darwin':
 
 libkahip = env.Library('libkahip', libkahip_files)
 
-if env['program'] == 'redumis':
-        env.Program('redumis', ['app/reduction_evomis.cpp']+libfiles, LIBS=[libkahip, 'libargtable2', 'gomp'])
-if env['program'] == 'graph_checker':
-        env.Program('graphchecker', ['app/graphchecker.cpp']+libfiles, LIBS=[libkahip, 'libargtable2', 'gomp'])
-if env['program'] == 'exactVC':
-        env.Program('exactVC', ['app/exactVC.cpp']+libfiles, LIBS=[libkahip, 'libargtable2', 'gomp'])
+if env['program'] == 'vc_solver':
+        env.Program('vc_solver', ['app/vc_solver.cpp']+libfiles, LIBS=[libkahip, 'libargtable2', 'gomp'])

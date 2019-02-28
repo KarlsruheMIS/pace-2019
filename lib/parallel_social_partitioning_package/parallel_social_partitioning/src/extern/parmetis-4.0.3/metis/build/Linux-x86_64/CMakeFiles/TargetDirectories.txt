@@ -1,7 +1,0 @@
-/home/c_schulz/local/opt/parmetis-4.0.3/metis/build/Linux-x86_64/programs/CMakeFiles/cmpfillin.dir
-/home/c_schulz/local/opt/parmetis-4.0.3/metis/build/Linux-x86_64/programs/CMakeFiles/gpmetis.dir
-/home/c_schulz/local/opt/parmetis-4.0.3/metis/build/Linux-x86_64/programs/CMakeFiles/graphchk.dir
-/home/c_schulz/local/opt/parmetis-4.0.3/metis/build/Linux-x86_64/programs/CMakeFiles/m2gmetis.dir
-/home/c_schulz/local/opt/parmetis-4.0.3/metis/build/Linux-x86_64/libmetis/CMakeFiles/metis.dir
-/home/c_schulz/local/opt/parmetis-4.0.3/metis/build/Linux-x86_64/programs/CMakeFiles/mpmetis.dir
-/home/c_schulz/local/opt/parmetis-4.0.3/metis/build/Linux-x86_64/programs/CMakeFiles/ndmetis.dir
