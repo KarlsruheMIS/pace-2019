@@ -90,5 +90,7 @@ if SYSTEM == 'Darwin':
 
 libkahip = env.Library('libkahip', libkahip_files)
 
+# if env['program'] == 'vc_solver':
+#         env.Program('vc_solver', ['app/vc_solver.cpp']+libfiles, LIBS=[libkahip, 'libargtable2', 'gomp'])
 if env['program'] == 'vc_solver':
-        env.Program('vc_solver', ['app/vc_solver.cpp']+libfiles, LIBS=[libkahip, 'libargtable2', 'gomp'])
+        env.Program('vc_solver', ['app/vc_solver.cpp']+libfiles, LIBS=[libkahip, 'libargtable2'], LINKFLAGS="--static")

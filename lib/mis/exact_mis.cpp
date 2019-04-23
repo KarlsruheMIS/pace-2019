@@ -21,7 +21,7 @@
 
 std::vector<bool> getExactMISCombined(std::vector<std::vector<int>> &_adj, MISConfig &config) {
     unsigned int n = _adj.size();
-    omp_set_num_threads(1);
+    // omp_set_num_threads(1);
 
     // Copy adj vector
     std::vector<std::vector<int>> adj(_adj.size());
