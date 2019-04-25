@@ -32,6 +32,8 @@ std::vector<bool> getExactMISCombined(std::vector<std::vector<int>> &_adj, MISCo
     }
 
     // Run VCSolver reductions on preliminary kernel
+    timer rt;
+    rt.restart();
     auto vcSolverAlgorithm = branch_and_reduce_algorithm(_adj, _adj.size());
     vcSolverAlgorithm.reduce();
 
@@ -40,7 +42,12 @@ std::vector<bool> getExactMISCombined(std::vector<std::vector<int>> &_adj, MISCo
     std::vector<NodeID> vcKernelReverseMapping(vcSolverAlgorithm.number_of_nodes_remaining());
     vcSolverAlgorithm.convert_adj_lists(vcKernel, vcKernelReverseMapping);
 
+    std::cout << "Reduced size:\t\t\t" << vcSolverAlgorithm.number_of_nodes_remaining() << std::endl;
+    std::cout << "Time taken:\t\t\t" << rt.elapsed() << std::endl;
+    std::cout << std::endl;
+
     // Run iterated local search on kernel graph
+    timer lt;
     ils localSearch = ils();
     localSearch.perform_ils(config, vcKernel, config.ils_iterations);
 
@@ -66,6 +73,10 @@ std::vector<bool> getExactMISCombined(std::vector<std::vector<int>> &_adj, MISCo
             solution_size++;
         }
     } endfor
+
+    std::cout << "Starting solution:\t\t" << n - (vcSolverAlgorithm.get_current_is_size_with_folds() + solution_size) << std::endl;
+    std::cout << "Time taken:\t\t\t" << lt.elapsed() << std::endl;
+    std::cout << std::endl;
 
     // Apply solution to exact algorithm
     auto BnRAlgorithm = branch_and_reduce_algorithm(vcKernelAdj, vcKernelAdj.size());

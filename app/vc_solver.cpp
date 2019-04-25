@@ -45,6 +45,8 @@ int main(int argn, char **argv) {
     mis_log::instance()->print_graph();
     // mis_log::instance()->print_config();
 
+    timer t;
+    t.restart();
     std::vector<bool> MIS;
     MIS = getExactMISCombined(graph, mis_config);
 
@@ -52,6 +54,7 @@ int main(int argn, char **argv) {
     std::cout << "\t\tResult"        << std::endl;
     std::cout << "=========================================="                           << std::endl;
     std::cout << "VC size:\t\t\t" << std::count(MIS.begin(), MIS.end(), false) << std::endl;
+    std::cout << "Time taken:\t\t\t" << t.elapsed() << std::endl;
     writePaceSolutionFromMIS(MIS, mis_config.graph_filename + ".vc");
     return 0;
 }
