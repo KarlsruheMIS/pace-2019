@@ -1,0 +1,50 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: pace_submission.aux
+The style file: plain.bst
+Database file #1: references.bib
+A bad cross reference---entry "DBLP:conf/alenex/Hespe0S18"
+refers to entry "DBLP:conf/alenex/2018", which doesn't exist
+Warning--I didn't find a database entry for "DBLP:conf/alenex/2018"
+You've used 3 entries,
+            2118 wiz_defined-function locations,
+            558 strings with 5681 characters,
+and the built_in function-call counts, 1368 in all, are:
+= -- 139
+> -- 53
+< -- 3
++ -- 20
+- -- 17
+* -- 94
+:= -- 209
+add.period$ -- 10
+call.type$ -- 3
+change.case$ -- 17
+chr.to.int$ -- 0
+cite$ -- 3
+duplicate$ -- 58
+empty$ -- 111
+format.name$ -- 17
+if$ -- 301
+int.to.chr$ -- 0
+int.to.str$ -- 3
+missing$ -- 3
+newline$ -- 18
+num.names$ -- 8
+pop$ -- 19
+preamble$ -- 1
+purify$ -- 14
+quote$ -- 0
+skip$ -- 47
+stack$ -- 0
+substring$ -- 104
+swap$ -- 25
+text.length$ -- 3
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 12
+warning$ -- 0
+while$ -- 15
+width$ -- 4
+write$ -- 37
+(There was 1 error message)

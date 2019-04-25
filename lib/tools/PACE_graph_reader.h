@@ -12,9 +12,7 @@
 #include <iostream>
 
 
-std::vector<std::vector<int>> readPaceGraph(std::string fileName) {
-    std::ifstream infile(fileName);
-
+std::vector<std::vector<int>> readPaceGraph(std::istream& infile) {
     int numVertices;
     int numEdges;
     std::string line;
@@ -76,4 +74,14 @@ std::vector<std::vector<int>> readPaceGraph(std::string fileName) {
     }
 
     return graph;
+}
+
+
+std::vector<std::vector<int>> readPaceGraphFromFile(std::string fileName) {
+    std::ifstream fin(fileName);
+    return readPaceGraph(fin);
+}
+
+std::vector<std::vector<int>> readPaceGraphFromCin() {
+    return readPaceGraph(std::cin);
 }

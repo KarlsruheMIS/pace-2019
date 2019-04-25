@@ -45,7 +45,7 @@ int parse_parameters(int argn, char **argv,
     struct arg_lit *help                = arg_lit0(NULL, "help", "Print help.");
     struct arg_int *user_seed           = arg_int0(NULL, "seed", NULL, "Seed to use for the PRNG.");
 
-    struct arg_str *filename            = arg_strn(NULL, NULL, "FILE", 1, 1, "Path to graph file.");
+    struct arg_str *filename            = arg_strn(NULL, NULL, "FILE", 0, 1, "Path to graph file.");
     struct arg_dbl *time_limit          = arg_dbl0(NULL, "time_limit", NULL, "Time limit in s. Default 1000s.");
     struct arg_lit *console_log         = arg_lit0(NULL, "console_log", "Stream the log into the console");
 

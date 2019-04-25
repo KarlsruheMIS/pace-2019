@@ -23,7 +23,7 @@
 
 int main(int argn, char **argv) {
     mis_log::instance()->restart_total_timer();
-    mis_log::instance()->print_title();
+    // mis_log::instance()->print_title();
     
     MISConfig mis_config;
     std::string graph_filepath;
@@ -35,14 +35,19 @@ int main(int argn, char **argv) {
     mis_log::instance()->set_config(mis_config);
 
     // Read input file
-    std::vector<std::vector<int>> graph = readPaceGraph(graph_filepath);
+    std::vector<std::vector<int>> graph;
+    if(graph_filepath.empty()) {
+        graph = readPaceGraphFromCin();
+    } else {
+     graph = readPaceGraphFromFile(graph_filepath);
+    }
     mis_log::instance()->number_of_nodes = graph.size();
     unsigned int num_edges = 0;
     for (auto &v : graph) num_edges += v.size();
     mis_log::instance()->number_of_edges = num_edges;
 
     // Print setup information
-    mis_log::instance()->print_graph();
+    // mis_log::instance()->print_graph();
     // mis_log::instance()->print_config();
 
     timer t;
@@ -51,10 +56,13 @@ int main(int argn, char **argv) {
     MIS = getExactMISCombined(graph, mis_config);
 
     // Output size and solution
-    std::cout << "\t\tResult"        << std::endl;
-    std::cout << "=========================================="                           << std::endl;
-    std::cout << "VC size:\t\t\t" << std::count(MIS.begin(), MIS.end(), false) << std::endl;
-    std::cout << "Time taken:\t\t\t" << t.elapsed() << std::endl;
-    writePaceSolutionFromMIS(MIS, mis_config.graph_filename + ".vc");
+    // std::cout << "\t\tResult"        << std::endl;
+    // std::cout << "=========================================="                           << std::endl;
+    // std::cout << "VC size:\t\t\t" << std::count(MIS.begin(), MIS.end(), false) << std::endl;
+    if(graph_filepath.empty()) {
+        writePaceSolutionFromMISToCout(MIS);
+    } else {
+        writePaceSolutionFromMISToFile(MIS, mis_config.graph_filename + ".vc");
+    }
     return 0;
 }
