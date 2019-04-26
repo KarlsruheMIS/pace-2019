@@ -93,7 +93,7 @@ int main(int argn, char **argv) {
 
     // std::cout << "Reduced size:\t\t\t" << vcSolverAlgorithm.number_of_nodes_remaining() << std::endl;
     // std::cout << "Time taken:\t\t\t" << rt.elapsed() << std::endl;
-    std::cout << std::endl;
+    // std::cout << std::endl;
 
     // Build adjacency lists for kernel graph
     std::vector<std::vector<int>> vcKernelAdj(vcSolverAlgorithm.number_of_nodes_remaining());
