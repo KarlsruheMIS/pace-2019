@@ -116,8 +116,10 @@ int main(int argn, char **argv) {
     writeCliqueInstanceToFile(vcKernelAdj, cliqueFileName);
 
     // std::cout << "Wrote file" <<std::endl;
-
-    std::string cmdString = "./extern/cliqueSolver/a.out " + cliqueFileName;
+    std::string executablePath = std::string(argv[0]);
+    size_t dirIndex = executablePath.find_last_of("/\\");
+    // std::cout << " folder: " << executablePath.substr(0, dirIndex) << std::endl;
+    std::string cmdString = executablePath.substr(0, dirIndex) + "/extern/cliqueSolver/a.out " + cliqueFileName;
     std::string cliqueSolverResult = exec(cmdString.c_str());
 
 
@@ -130,8 +132,10 @@ int main(int argn, char **argv) {
     // std::cout << cliqueSolverResult <<std::endl;
     std::istringstream iss(cliqueSolverResult);
 
+    bool foundSolution = false;
     for (std::string line; std::getline(iss, line); ) {
         if(line[0] == 'M') {
+            foundSolution = true;
             // std::cout << line <<std::endl;
             std::istringstream s(line);
 
@@ -143,6 +147,11 @@ int main(int argn, char **argv) {
                 }
             }
         }
+    }
+
+    if(!foundSolution) {
+        fprintf( stderr, "Clique solver did not find a solution" );
+        exit(1);
     }
 
 
