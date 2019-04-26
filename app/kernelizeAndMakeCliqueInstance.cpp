@@ -22,6 +22,27 @@
 #include "PACE_solution_writer.h"
 #include "CliqueInstanceWriter.h"
 #include "mis/kernel/branch_and_reduce_algorithm.h"
+#include <cstdio>
+#include <iostream>
+#include <memory>
+#include <stdexcept>
+#include <string>
+#include <array>
+#include <sstream> 
+
+
+std::string exec(const char* cmd) {
+    std::array<char, 128> buffer;
+    std::string result;
+    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
+    if (!pipe) {
+        throw std::runtime_error("popen() failed!");
+    }
+    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+        result += buffer.data();
+    }
+    return result;
+}
 
 int main(int argn, char **argv) {
     mis_log::instance()->restart_total_timer();
@@ -38,19 +59,31 @@ int main(int argn, char **argv) {
 
     // Read input file
     std::vector<std::vector<int>> graph;
-     graph = readPaceGraphFromFile(graph_filepath);
+
+    if(graph_filepath.empty()) {
+        graph = readPaceGraphFromCin();
+    } else {
+        graph = readPaceGraphFromFile(graph_filepath);
+    }
     mis_log::instance()->number_of_nodes = graph.size();
     unsigned int num_edges = 0;
     for (auto &v : graph) num_edges += v.size();
     mis_log::instance()->number_of_edges = num_edges;
 
+    // Copy adj vector
+    std::vector<std::vector<int>> adj(graph.size());
+    for(unsigned int i = 0; i < adj.size(); ++i) {
+        for(unsigned int j = 0; j < graph[i].size(); ++j) {
+            adj[i].push_back(graph[i][j]);
+        }
+    }
     // Print setup information
     // mis_log::instance()->print_graph();
     // mis_log::instance()->print_config();
 
     timer rt;
     rt.restart();
-    auto vcSolverAlgorithm = branch_and_reduce_algorithm(graph, graph.size());
+    auto vcSolverAlgorithm = branch_and_reduce_algorithm(adj, adj.size());
     vcSolverAlgorithm.reduce();
 
     // Extract kernel graph
@@ -58,8 +91,8 @@ int main(int argn, char **argv) {
     std::vector<NodeID> vcKernelReverseMapping(vcSolverAlgorithm.number_of_nodes_remaining());
     vcSolverAlgorithm.convert_adj_lists(vcKernel, vcKernelReverseMapping);
 
-    std::cout << "Reduced size:\t\t\t" << vcSolverAlgorithm.number_of_nodes_remaining() << std::endl;
-    std::cout << "Time taken:\t\t\t" << rt.elapsed() << std::endl;
+    // std::cout << "Reduced size:\t\t\t" << vcSolverAlgorithm.number_of_nodes_remaining() << std::endl;
+    // std::cout << "Time taken:\t\t\t" << rt.elapsed() << std::endl;
     std::cout << std::endl;
 
     // Build adjacency lists for kernel graph
@@ -74,9 +107,69 @@ int main(int argn, char **argv) {
             ++numEdgesKernel;
         } endfor
     } endfor
-          std::cout << "Kernel has " << numEdgesKernel / 2 << " edges" <<std::endl;
+          // std::cout << "Kernel has " << numEdgesKernel / 2 << " edges" <<std::endl;
 
-          writeCliqueInstanceToFile(vcKernelAdj, graph_filepath + "_kernel");
+    char cliqueFileNamecstr[L_tmpnam];
+    std::tmpnam(cliqueFileNamecstr);
 
+    std::string cliqueFileName(cliqueFileNamecstr);
+    writeCliqueInstanceToFile(vcKernelAdj, cliqueFileName);
+
+    // std::cout << "Wrote file" <<std::endl;
+
+    std::string cmdString = "./extern/cliqueSolver/a.out " + cliqueFileName;
+    std::string cliqueSolverResult = exec(cmdString.c_str());
+
+
+    cmdString = "rm " + cliqueFileName;
+    exec(cmdString.c_str());
+
+
+    std::vector<bool> exactSolution(vcSolverAlgorithm.number_of_nodes_remaining());
+
+    // std::cout << cliqueSolverResult <<std::endl;
+    std::istringstream iss(cliqueSolverResult);
+
+    for (std::string line; std::getline(iss, line); ) {
+        if(line[0] == 'M') {
+            // std::cout << line <<std::endl;
+            std::istringstream s(line);
+
+            std::string word;
+            int solutionVertex;
+            while (s >> word) {
+                if (std::stringstream(word) >> solutionVertex) {
+                    exactSolution[solutionVertex - 1] = true;
+                }
+            }
+        }
+    }
+
+
+    std::vector<bool> finalSolution(graph.size(), false);
+    for(unsigned int i = 0; i < exactSolution.size(); ++i)
+        finalSolution[vcKernelReverseMapping[i]] = exactSolution[i];
+    vcSolverAlgorithm.extend_finer_is(finalSolution);
+
+    int numVerticesChecked = 0;
+    int numEdgesInCheckedGraph = 0;
+    int MISSize = 0;
+    for(unsigned i = 0; i < graph.size(); ++i) {
+        numVerticesChecked++;
+        numEdgesInCheckedGraph += graph[i].size();
+        if(finalSolution[i]) {
+            ++MISSize;
+            for(int j = 0; j < graph[i].size(); ++j) {
+                if(finalSolution[graph[i][j]]) {
+                    std::cout << "NOT AN INDEPENDENT SET!" << std::endl;
+                }
+            }
+        }
+    }
+
+    // std::cout << "Done checking graph (" << numVerticesChecked << ", " << numEdgesInCheckedGraph << ")" << std::endl;
+    // std::cout << "MIS size: " << MISSize << std::endl;
+
+    writePaceSolutionFromMISToCout(finalSolution);
     return 0;
 }
