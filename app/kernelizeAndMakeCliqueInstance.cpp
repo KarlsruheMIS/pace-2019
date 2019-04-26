@@ -29,20 +29,7 @@
 #include <string>
 #include <array>
 #include <sstream> 
-
-
-std::string exec(const char* cmd) {
-    std::array<char, 128> buffer;
-    std::string result;
-    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
-    if (!pipe) {
-        throw std::runtime_error("popen() failed!");
-    }
-    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
-        result += buffer.data();
-    }
-    return result;
-}
+#include "CliqueSolverAdapter.h"
 
 int main(int argn, char **argv) {
     mis_log::instance()->restart_total_timer();
@@ -109,51 +96,13 @@ int main(int argn, char **argv) {
     } endfor
           // std::cout << "Kernel has " << numEdgesKernel / 2 << " edges" <<std::endl;
 
-    char cliqueFileNamecstr[L_tmpnam];
-    std::tmpnam(cliqueFileNamecstr);
-
-    std::string cliqueFileName(cliqueFileNamecstr);
-    writeCliqueInstanceToFile(vcKernelAdj, cliqueFileName);
-
-    // std::cout << "Wrote file" <<std::endl;
-    std::string executablePath = std::string(argv[0]);
-    size_t dirIndex = executablePath.find_last_of("/\\");
-    // std::cout << " folder: " << executablePath.substr(0, dirIndex) << std::endl;
-    std::string cmdString = executablePath.substr(0, dirIndex) + "/extern/cliqueSolver/a.out " + cliqueFileName;
-    std::string cliqueSolverResult = exec(cmdString.c_str());
-
-
-    cmdString = "rm " + cliqueFileName;
-    exec(cmdString.c_str());
-
-
     std::vector<bool> exactSolution(vcSolverAlgorithm.number_of_nodes_remaining());
 
-    // std::cout << cliqueSolverResult <<std::endl;
-    std::istringstream iss(cliqueSolverResult);
+    auto solutionvertices = solveMISInstanceWithCliqueSolver(vcKernelAdj);
 
-    bool foundSolution = false;
-    for (std::string line; std::getline(iss, line); ) {
-        if(line[0] == 'M') {
-            foundSolution = true;
-            // std::cout << line <<std::endl;
-            std::istringstream s(line);
-
-            std::string word;
-            int solutionVertex;
-            while (s >> word) {
-                if (std::stringstream(word) >> solutionVertex) {
-                    exactSolution[solutionVertex - 1] = true;
-                }
-            }
-        }
+    for(const auto & solutionVertex: solutionvertices) {
+        exactSolution[solutionVertex - 1] = true;
     }
-
-    if(!foundSolution) {
-        fprintf( stderr, "Clique solver did not find a solution" );
-        exit(1);
-    }
-
 
     std::vector<bool> finalSolution(graph.size(), false);
     for(unsigned int i = 0; i < exactSolution.size(); ++i)
@@ -171,6 +120,7 @@ int main(int argn, char **argv) {
             for(int j = 0; j < graph[i].size(); ++j) {
                 if(finalSolution[graph[i][j]]) {
                     std::cout << "NOT AN INDEPENDENT SET!" << std::endl;
+                    exit(1);
                 }
             }
         }

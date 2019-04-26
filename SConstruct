@@ -89,6 +89,7 @@ env.Append(CPPPATH = [ './extern/KaHIP/lib/partition/uncoarsening/refinement/quo
 
 env.Append(LIBPATH = [ '../extern/KaHIP' ])
 env.Append(LIBPATH = [ '../extern/KaHIP' ])
+env.Append(CPPPATH = [ '../extern/cliqueSolver' ])
 env.Append(CPPPATH = [ './extern/argtable-2.10/include' ])
 env.Append(CPPPATH = [ '../extern/argtable-2.10/include' ])
 
