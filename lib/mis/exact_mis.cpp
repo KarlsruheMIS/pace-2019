@@ -84,7 +84,6 @@ void getMISCliqueInitial(std::vector<std::vector<int>> & input, std::vector<bool
     //} endfor
 
     auto solutionvertices = solveMISInstanceWithCliqueSolver(vcKernelAdj,2000000000, false);
-    std::cout <<  "done here"  << std::endl;
 
     for(const auto & solutionVertex: solutionvertices) {
         if(solution[solutionVertex - 1]) {
