@@ -62,6 +62,10 @@ int main(int argn, char **argv) {
     if(graph_filepath.empty()) {
         writePaceSolutionFromMISToCout(MIS);
     } else {
+        // Output size and solution
+        std::cout << "\t\tResult"        << std::endl;
+        std::cout << "=========================================="                           << std::endl;
+        std::cout << "VC size:\t\t\t" << std::count(MIS.begin(), MIS.end(), false) << std::endl;
         writePaceSolutionFromMISToFile(MIS, mis_config.graph_filename + ".vc");
     }
     return 0;

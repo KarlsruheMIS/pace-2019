@@ -95,5 +95,3 @@ libkahip = env.Library('libkahip', libkahip_files)
 if env['program'] == 'vc_solver':
         env.Program('vc_solver', ['app/vc_solver.cpp']+libfiles, LIBS=[libkahip, 'libargtable2'], LINKFLAGS="--static")
 
-if env['program'] == 'kernelizeAndMakeCliqueInstance':
-        env.Program('kernelizeAndMakeCliqueInstance', ['app/kernelizeAndMakeCliqueInstance.cpp']+libfiles, LIBS=[libkahip, 'libargtable2'], LINKFLAGS="--static")

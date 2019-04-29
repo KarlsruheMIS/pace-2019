@@ -26,7 +26,7 @@ def GetEnvironment():
         print 'Illegal value for variant: %s' % env['variant']
         sys.exit(1)
 
-    if not env['program'] in ['vc_solver', 'kernelizeAndMakeCliqueInstance']:
+    if not env['program'] in ['vc_solver']:
         print 'Illegal value for program: %s' % env['program']
         sys.exit(1)
 
