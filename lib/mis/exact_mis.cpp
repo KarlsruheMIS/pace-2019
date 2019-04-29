@@ -100,7 +100,7 @@ bool canSolveClique(graph_access &graph) {
     }
     int numEdgesComplement = graph.number_of_nodes() * (graph.number_of_nodes() - 1) - graph.number_of_edges();
 
-    if(graph.number_of_nodes() < 1000) {
+    if(graph.number_of_nodes() < 3000) {
         return true;
     }
 }
@@ -135,7 +135,10 @@ std::vector<bool> getExactMISCombined(std::vector<std::vector<int>> &_adj, MISCo
     std::vector<bool> exactSolution(vcSolverAlgorithm.number_of_nodes_remaining(), false);
     if(vcKernel.number_of_nodes() > 0){
         if(canSolveClique(vcKernel)) {
-            getMISClique(vcKernel, exactSolution);
+            bool foundSolution = getMISBnR(vcKernel, exactSolution, config.time_limit, config);
+            if(!foundSolution) {
+                getMISClique(vcKernel, exactSolution);
+            }
         } else {
             bool foundSolution = getMISBnR(vcKernel, exactSolution, 9999999.0, config);
         }
