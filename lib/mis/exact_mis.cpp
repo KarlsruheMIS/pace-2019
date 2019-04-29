@@ -72,7 +72,6 @@ bool getMISBnR(graph_access &graph, std::vector<bool> &solution, double time_lim
 
 void getMISCliqueInitial(std::vector<std::vector<int>> & input, std::vector<bool> &solution) {
     std::vector<std::vector<int>> vcKernelAdj = input;
-    std::cout <<  "input size " <<  input.size()  << std::endl;
     //// Build vcKernelAdj vectors
     //int numEdgesKernel = 0;
     //forall_nodes(graph, node) {
@@ -173,9 +172,8 @@ std::vector<bool> getExactMISCombined(std::vector<std::vector<int>> &_adj, MISCo
                                 if(!MISfoundsolution) {
                                         // call getMISClique on origianl instance with large ...
                                         //
-                                        std::cout <<  "finished is false, so trying on input"  << std::endl;
+                                        std::cout <<  "c finished is false, so trying on input"  << std::endl;
                                         getMISCliqueInitial(adj, finalSolution);
-                                        std::cout <<  "test "   << std::endl;
                                         return finalSolution;
 
                                 }
