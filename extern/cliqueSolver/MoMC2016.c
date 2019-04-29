@@ -1616,18 +1616,29 @@ static void init_for_search() {
 //	}
 }
 
-static void search_maxclique(int cutoff, int print_info) {
+static bool search_maxclique(int cutoff, int print_info, int limit=1000000000, bool docheck=false) {
 	int node;
 	init_for_search();
 	BRANCHING_COUNT = 0;
+ bool finished = true;
 	if (print_info == TRUE) {
 		printf(
 				"c  -----------------------------------------------------------------\n");
 		printf(
 				"c  Size| Index|NB_Vertex  NB_IncUB    NB_Iset  NB_MaxSat|  NB_Branch\n");
 	}
+	/*struct rusage starttime, endtime;*/
+	/*getrusage(RUSAGE_SELF, &starttime);*/
 	while (CURSOR> 0) {
 		node=Candidate_Stack[--CURSOR];
+	  /*getrusage(RUSAGE_SELF, &endtime);*/
+	  /*long sec = (int) endtime.ru_utime.tv_sec;*/
+    /*if( sec > 20 ) break;*/
+    if( docheck && BRANCHING_COUNT > limit) {
+            finished = false;
+            break;
+    }
+	
 		if(CUR_CLQ_SIZE>0 && node>0)
 		continue;
 		if(CUR_CLQ_SIZE==0)STATIC_ORDERING=TRUE;
@@ -1682,6 +1693,7 @@ static void search_maxclique(int cutoff, int print_info) {
 				"c  ----------------------------------------------------------------\n");
 		printf("c %4d |%5d |%8d %10d %10d %10d|%10d \n", MAX_CLQ_SIZE, CURSOR+1,total_cut_ver,total_cut_inc, total_cut_iset, total_cut_satz,BRANCHING_COUNT);
 	}
+  return finished;
 }
 
 static int sort_by_maxiset(int mandatory) {
@@ -1891,6 +1903,7 @@ int mainOld(int argc, char *argv[]) {
 	struct rusage starttime, endtime;
 	long sec, usec, sec_p, usec_p;
 	int i, ordering = -1, _all = FALSE;
+bool finished = false; 
 	INIT_CLIQUE = 0;
 	LIST_ALL = FALSE;
 	print_version();
@@ -1922,7 +1935,7 @@ int mainOld(int argc, char *argv[]) {
 		search_initial_maximum_clique();
 		init_for_maxclique(ordering, _all);
 		re_code();
-		search_maxclique(0, TRUE);
+		finished = search_maxclique(0, TRUE);
 		printallMaxClique();
 	}
 	getrusage(RUSAGE_SELF, &endtime);

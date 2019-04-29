@@ -70,7 +70,33 @@ bool getMISBnR(graph_access &graph, std::vector<bool> &solution, double time_lim
         }
 }
 
-void getMISClique(graph_access &graph, std::vector<bool> &solution) {
+void getMISCliqueInitial(std::vector<std::vector<int>> & input, std::vector<bool> &solution) {
+    std::vector<std::vector<int>> vcKernelAdj = input;
+    std::cout <<  "input size " <<  input.size()  << std::endl;
+    //// Build vcKernelAdj vectors
+    //int numEdgesKernel = 0;
+    //forall_nodes(graph, node) {
+        //vcKernelAdj[node].reserve(graph.getNodeDegree(node));
+        //forall_out_edges(graph, edge, node) {
+            //NodeID neighbor = graph.getEdgeTarget(edge);
+            //vcKernelAdj[node].push_back(neighbor);
+            //++numEdgesKernel;
+        //} endfor
+    //} endfor
+
+    auto solutionvertices = solveMISInstanceWithCliqueSolver(vcKernelAdj,2000000000, false);
+    std::cout <<  "done here"  << std::endl;
+
+    for(const auto & solutionVertex: solutionvertices) {
+        if(solution[solutionVertex - 1]) {
+            std::cout << "ERROR! solution vector was not false!" <<std::endl;
+            exit(1);
+        }
+        solution[solutionVertex - 1] = true;
+    }
+}
+
+bool getMISClique(graph_access &graph, std::vector<bool> &solution, bool check) {
     std::vector<std::vector<int>> vcKernelAdj(graph.number_of_nodes());
     // Build vcKernelAdj vectors
     int numEdgesKernel = 0;
@@ -83,7 +109,8 @@ void getMISClique(graph_access &graph, std::vector<bool> &solution) {
         } endfor
     } endfor
 
-    auto solutionvertices = solveMISInstanceWithCliqueSolver(vcKernelAdj);
+    auto solutionvertices = solveMISInstanceWithCliqueSolver(vcKernelAdj, 20000, check);
+    if( solutionvertices.size() == 0) return false;
 
     for(const auto & solutionVertex: solutionvertices) {
         if(solution[solutionVertex - 1]) {
@@ -92,6 +119,7 @@ void getMISClique(graph_access &graph, std::vector<bool> &solution) {
         }
         solution[solutionVertex - 1] = true;
     }
+    return true;
 }
 
 bool canSolveClique(graph_access &graph) {
@@ -109,11 +137,12 @@ bool canSolveClique(graph_access &graph) {
 
 std::vector<bool> getExactMISCombined(std::vector<std::vector<int>> &_adj, MISConfig &config) {
     unsigned int n = _adj.size();
+    std::vector<bool> finalSolution(n, false);
     // omp_set_num_threads(1);
 
     // Copy adj vector
     std::vector<std::vector<int>> adj(_adj.size());
-    for(unsigned int i = 0; i < adj.size(); ++i) {
+    for(unsigned int i = 0; i < _adj.size(); ++i) {
         for(unsigned int j = 0; j < _adj[i].size(); ++j) {
             adj[i].push_back(_adj[i][j]);
         }
@@ -137,9 +166,24 @@ std::vector<bool> getExactMISCombined(std::vector<std::vector<int>> &_adj, MISCo
     std::vector<bool> exactSolution(vcSolverAlgorithm.number_of_nodes_remaining(), false);
     if(vcKernel.number_of_nodes() > 0){
         if(canSolveClique(vcKernel)) {
-            bool foundSolution = getMISBnR(vcKernel, exactSolution, config.time_limit, config);
-            if(!foundSolution) {
-                getMISClique(vcKernel, exactSolution);
+                bool foundSolution = getMISBnR(vcKernel, exactSolution, config.time_limit, config);
+                if(!foundSolution) {
+                        if( adj.size() < 3000 ) {
+                                bool MISfoundsolution = getMISClique(vcKernel, exactSolution, true);
+                                if(!MISfoundsolution) {
+                                        // call getMISClique on origianl instance with large ...
+                                        //
+                                        std::cout <<  "finished is false, so trying on input"  << std::endl;
+                                        getMISCliqueInitial(adj, finalSolution);
+                                        std::cout <<  "test "   << std::endl;
+                                        return finalSolution;
+
+                                }
+                        }
+                else {
+                       getMISClique(vcKernel, exactSolution, false);
+                       //getMISCliqueInitial(adj, finalSolution );
+                }
             }
         } else {
             bool foundSolution = getMISBnR(vcKernel, exactSolution, 9999999.0, config);
@@ -147,7 +191,6 @@ std::vector<bool> getExactMISCombined(std::vector<std::vector<int>> &_adj, MISCo
     }
 
     // Propagate solution to preliminary kernel
-    std::vector<bool> finalSolution(n, false);
     for(unsigned int i = 0; i < exactSolution.size(); ++i)
         finalSolution[vcKernelReverseMapping[i]] = exactSolution[i];
     vcSolverAlgorithm.extend_finer_is(finalSolution);

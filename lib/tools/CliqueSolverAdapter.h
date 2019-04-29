@@ -83,7 +83,8 @@ static int build_simple_graph_instance_from_pointer_to_edge_list(int* inputEdges
 	return TRUE;
 }
 
-std::vector<int> solveMISInstanceWithCliqueSolver(std::vector<std::vector<int>> &MISInstance) {
+std::vector<int> solveMISInstanceWithCliqueSolver(std::vector<std::vector<int>> &MISInstance, long limit, bool docheck=false) {
+        std::cout <<  "c"  << std::endl;
     int numVertices = MISInstance.size();
     int numEdges = numVertices * (numVertices - 1);
     std::vector<std::vector<bool>> adjMatrix(numVertices);
@@ -112,7 +113,7 @@ std::vector<int> solveMISInstanceWithCliqueSolver(std::vector<std::vector<int>> 
         std::cout << "Wrong number of edges!!" << std::endl;
         exit(1);
     }
-
+std::cout <<  "d"  << std::endl;
 	struct rusage starttime, endtime;
 	long sec, usec, sec_p, usec_p;
 	int i, ordering = -1, _all = FALSE;
@@ -120,14 +121,19 @@ std::vector<int> solveMISInstanceWithCliqueSolver(std::vector<std::vector<int>> 
 	LIST_ALL = FALSE;
 	getrusage(RUSAGE_SELF, &starttime);
     build_simple_graph_instance_from_pointer_to_edge_list(edgesFrom.data(), edgesTo.data(), numVertices, numEdges);
+std::cout <<  "e"  << std::endl;
     search_initial_maximum_clique();
     init_for_maxclique(ordering, _all);
     re_code();
-    search_maxclique(0, FALSE);
 
+    std::cout <<  "a"  << std::endl;
+    bool finished = search_maxclique(0, FALSE, limit, docheck);
+    std::cout <<  "b"  << std::endl;
     std::vector<int> solution;
-	for (i = 0; i < MAX_CLQ_SIZE; i++)
-        solution.push_back(NEW_OLD[MaxCLQ_Stack[i]]);
+    if(!finished) return solution;
+        	for (i = 0; i < MAX_CLQ_SIZE; i++) {
+                solution.push_back(NEW_OLD[MaxCLQ_Stack[i]]);
+          }
 
     return solution;
 }
