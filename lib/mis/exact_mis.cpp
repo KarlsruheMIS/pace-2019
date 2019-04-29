@@ -164,11 +164,32 @@ std::vector<bool> getExactMISCombined(std::vector<std::vector<int>> &_adj, MISCo
     std::vector<bool> exactSolution(vcSolverAlgorithm.number_of_nodes_remaining(), false);
     if(vcKernel.number_of_nodes() > 0){
         if(canSolveClique(vcKernel)) {
-                bool foundSolution = getMISBnR(vcKernel, exactSolution, config.time_limit, config);
-                if(!foundSolution) {
+//bool foundSolution = getMISBnR(vcKernel, exactSolution, config.time_limit, config);
+                //if(!foundSolution) {
+                        //if( adj.size() < 3000 ) {
+                                //bool MISfoundsolution = getMISClique(vcKernel, exactSolution, true);
+                                //if(!MISfoundsolution) {
+                                        //// call getMISClique on origianl instance with large ...
+                                        ////
+                                        //std::cout <<  "c finished is false, so trying on input"  << std::endl;
+                                        //getMISCliqueInitial(adj, finalSolution);
+                                        //return finalSolution;
+
+                                //}
+                        //}
+                        //else {
+                                //getMISClique(vcKernel, exactSolution, false);
+                                ////getMISCliqueInitial(adj, finalSolution );
+                        //}
+                //}
+                bool MISfoundsolution = getMISClique(vcKernel, exactSolution, true);
+                if(!MISfoundsolution) {
                         if( adj.size() < 3000 ) {
-                                bool MISfoundsolution = getMISClique(vcKernel, exactSolution, true);
-                                if(!MISfoundsolution) {
+                                for( unsigned i = 0; i < exactSolution.size(); i++) {
+                                        exactSolution[i] = false;
+                                }
+                                bool foundSolution = getMISBnR(vcKernel, exactSolution, config.time_limit, config);
+                                if(!foundSolution) {
                                         // call getMISClique on origianl instance with large ...
                                         //
                                         std::cout <<  "c finished is false, so trying on input"  << std::endl;
@@ -177,11 +198,12 @@ std::vector<bool> getExactMISCombined(std::vector<std::vector<int>> &_adj, MISCo
 
                                 }
                         }
-                else {
-                       getMISClique(vcKernel, exactSolution, false);
-                       //getMISCliqueInitial(adj, finalSolution );
+                        else {
+                                //getMISClique(vcKernel, exactSolution, false);
+                                bool foundSolution = getMISBnR(vcKernel, exactSolution, 9999999.0, config);
+                                //getMISCliqueInitial(adj, finalSolution );
+                        }
                 }
-            }
         } else {
             bool foundSolution = getMISBnR(vcKernel, exactSolution, 9999999.0, config);
         }
