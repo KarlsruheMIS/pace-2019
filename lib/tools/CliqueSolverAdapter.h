@@ -95,13 +95,20 @@ std::vector<int> solveMISInstanceWithCliqueSolver(std::vector<std::vector<int>> 
     }
 
     std::vector<int> edgesFrom, edgesTo;
+    int numEdgesReal = 0;
     for(int i = 0; i < numVertices; i++) {
         for(int j = 0; j < numVertices; j++) {
             if(adjMatrix[i][j]) {
                 edgesFrom.push_back(i + 1);
                 edgesTo.push_back(j + 1);
+                ++numEdgesReal;
             }
         }
+    }
+
+    if(numEdges != numEdgesReal) {
+        std::cout << "Wrong number of edges!!" << std::endl;
+        exit(1);
     }
 
 	struct rusage starttime, endtime;

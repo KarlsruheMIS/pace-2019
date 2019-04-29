@@ -9,7 +9,7 @@ graphFile = ""
 
 for arg in sys.argv:
     # print(arg)
-    if arg.endswith(".hgr"):
+    if arg.endswith(".gr"):
         graphFile = arg
         break
 
