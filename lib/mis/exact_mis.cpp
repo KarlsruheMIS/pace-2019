@@ -102,6 +102,8 @@ bool canSolveClique(graph_access &graph) {
 
     if(graph.number_of_nodes() < 3000) {
         return true;
+    } else {
+        return false;
     }
 }
 
