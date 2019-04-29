@@ -66,8 +66,8 @@ int main(int argn, char **argv) {
         std::cout << "\t\tResult"        << std::endl;
         std::cout << "=========================================="                           << std::endl;
         std::cout << "VC size:\t\t\t" << std::count(MIS.begin(), MIS.end(), false) << std::endl;
-        // writePaceSolutionFromMISToFile(MIS, mis_config.graph_filename + ".vc");
-        writePaceSolutionFromMISToCout(MIS);
+        writePaceSolutionFromMISToFile(MIS, mis_config.graph_filename + ".vc");
+        // writePaceSolutionFromMISToCout(MIS);
     }
     return 0;
 }

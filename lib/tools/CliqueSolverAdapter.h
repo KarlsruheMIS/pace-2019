@@ -48,8 +48,10 @@ static int build_simple_graph_instance_from_pointer_to_edge_list(int* inputEdges
 		node_neibors[i] = (int *) malloc((static_degree[i] + 1) * sizeof(int));
 
 		none_degree[i] = NB_NODE - static_degree[i] - 1;
+		// none_neibors[i] = (int *) malloc(
+		// 		(NB_NODE - static_degree[i]) * sizeof(int));
 		none_neibors[i] = (int *) malloc(
-				(NB_NODE - static_degree[i]) * sizeof(int));
+                                         (NB_NODE) * sizeof(int));
 		nb1 = 0;
 		nb2 = 0;
 		for (j = 1; j <= NB_NODE; j++) {
