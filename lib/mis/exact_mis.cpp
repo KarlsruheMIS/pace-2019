@@ -107,7 +107,7 @@ bool getMISClique(graph_access &graph, std::vector<bool> &solution, bool check) 
         } endfor
     } endfor
 
-    auto solutionvertices = solveMISInstanceWithCliqueSolver(vcKernelAdj, 20000, check);
+    auto solutionvertices = solveMISInstanceWithCliqueSolver(vcKernelAdj, 200000, check);
     if( solutionvertices.size() == 0) return false;
 
     for(const auto & solutionVertex: solutionvertices) {
@@ -164,44 +164,27 @@ std::vector<bool> getExactMISCombined(std::vector<std::vector<int>> &_adj, MISCo
     std::vector<bool> exactSolution(vcSolverAlgorithm.number_of_nodes_remaining(), false);
     if(vcKernel.number_of_nodes() > 0){
         if(canSolveClique(vcKernel)) {
-//bool foundSolution = getMISBnR(vcKernel, exactSolution, config.time_limit, config);
-                //if(!foundSolution) {
-                        //if( adj.size() < 3000 ) {
-                                //bool MISfoundsolution = getMISClique(vcKernel, exactSolution, true);
-                                //if(!MISfoundsolution) {
-                                        //// call getMISClique on origianl instance with large ...
-                                        ////
-                                        //std::cout <<  "c finished is false, so trying on input"  << std::endl;
-                                        //getMISCliqueInitial(adj, finalSolution);
-                                        //return finalSolution;
-
-                                //}
-                        //}
-                        //else {
-                                //getMISClique(vcKernel, exactSolution, false);
-                                ////getMISCliqueInitial(adj, finalSolution );
-                        //}
-                //}
-                bool MISfoundsolution = getMISClique(vcKernel, exactSolution, true);
-                if(!MISfoundsolution) {
-                        if( adj.size() < 3000 ) {
-                                for( unsigned i = 0; i < exactSolution.size(); i++) {
-                                        exactSolution[i] = false;
-                                }
-                                bool foundSolution = getMISBnR(vcKernel, exactSolution, config.time_limit, config);
-                                if(!foundSolution) {
-                                        // call getMISClique on origianl instance with large ...
-                                        //
-                                        std::cout <<  "c finished is false, so trying on input"  << std::endl;
-                                        getMISCliqueInitial(adj, finalSolution);
-                                        return finalSolution;
-
-                                }
+               bool foundsolution = getMISBnR(vcKernel, exactSolution, 1, config);
+                if( !foundsolution ) {
+                        for( unsigned i = 0; i < exactSolution.size(); i++) {
+                                                exactSolution[i] = false;
                         }
-                        else {
-                                //getMISClique(vcKernel, exactSolution, false);
-                                bool foundSolution = getMISBnR(vcKernel, exactSolution, 9999999.0, config);
-                                //getMISCliqueInitial(adj, finalSolution );
+                        foundsolution = getMISClique(vcKernel, exactSolution, true);
+                        if(!foundsolution) {
+                                if( adj.size() < 3000 ) {
+                                        for( unsigned i = 0; i < exactSolution.size(); i++) {
+                                                exactSolution[i] = false;
+                                        }
+                                        foundsolution = getMISBnR(vcKernel, exactSolution, config.time_limit, config);
+                                        if(!foundsolution) {
+                                                getMISCliqueInitial(adj, finalSolution);
+                                                return finalSolution;
+
+                                        }
+                                }
+                                else {
+                                        bool foundSolution = getMISBnR(vcKernel, exactSolution, 9999999.0, config);
+                                }
                         }
                 }
         } else {
