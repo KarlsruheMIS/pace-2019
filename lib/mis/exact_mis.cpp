@@ -70,7 +70,7 @@ bool getMISBnR(graph_access &graph, std::vector<bool> &solution, double time_lim
         }
 }
 
-void getMISCliqueInitial(std::vector<std::vector<int>> & input, std::vector<bool> &solution) {
+bool getMISCliqueInitial(std::vector<std::vector<int>> & input, std::vector<bool> &solution, bool limited=false) {
     std::vector<std::vector<int>> vcKernelAdj = input;
     //// Build vcKernelAdj vectors
     //int numEdgesKernel = 0;
@@ -83,7 +83,9 @@ void getMISCliqueInitial(std::vector<std::vector<int>> & input, std::vector<bool
         //} endfor
     //} endfor
 
-    auto solutionvertices = solveMISInstanceWithCliqueSolver(vcKernelAdj,2000000000, false);
+    auto solutionvertices = solveMISInstanceWithCliqueSolver(vcKernelAdj,100000, limited);
+    if( solutionvertices.size() == 0) return false;
+
 
     for(const auto & solutionVertex: solutionvertices) {
         if(solution[solutionVertex - 1]) {
@@ -92,6 +94,7 @@ void getMISCliqueInitial(std::vector<std::vector<int>> & input, std::vector<bool
         }
         solution[solutionVertex - 1] = true;
     }
+    return true;
 }
 
 bool getMISClique(graph_access &graph, std::vector<bool> &solution, bool check) {
@@ -107,7 +110,7 @@ bool getMISClique(graph_access &graph, std::vector<bool> &solution, bool check) 
         } endfor
     } endfor
 
-    auto solutionvertices = solveMISInstanceWithCliqueSolver(vcKernelAdj, 200000, check);
+    auto solutionvertices = solveMISInstanceWithCliqueSolver(vcKernelAdj, 50000, check);
     if( solutionvertices.size() == 0) return false;
 
     for(const auto & solutionVertex: solutionvertices) {
@@ -172,22 +175,33 @@ std::vector<bool> getExactMISCombined(std::vector<std::vector<int>> &_adj, MISCo
                         foundsolution = getMISClique(vcKernel, exactSolution, true);
                         if(!foundsolution) {
                                 if( adj.size() < 3000 ) {
-                                        for( unsigned i = 0; i < exactSolution.size(); i++) {
-                                                exactSolution[i] = false;
-                                        }
-                                        foundsolution = getMISBnR(vcKernel, exactSolution, config.time_limit, config);
-                                        if(!foundsolution) {
-                                                getMISCliqueInitial(adj, finalSolution);
+                                        bool foundsolution = getMISCliqueInitial(adj, finalSolution, true);
+                                        if(foundsolution) {
                                                 return finalSolution;
+                                        } else {
+                                                for( unsigned i = 0; i < exactSolution.size(); i++) {
+                                                        exactSolution[i] = false;
+                                                }
+                                                foundsolution = getMISBnR(vcKernel, exactSolution, config.time_limit, config);
+                                                if(!foundsolution) {
+                                                        getMISCliqueInitial(adj, finalSolution);
+                                                        return finalSolution;
 
+                                                }
                                         }
                                 }
                                 else {
+                                        for( unsigned i = 0; i < exactSolution.size(); i++) {
+                                                exactSolution[i] = false;
+                                        }
+
+                        std::cout <<  "a8"  << std::endl;
                                         bool foundSolution = getMISBnR(vcKernel, exactSolution, 9999999.0, config);
                                 }
                         }
                 }
         } else {
+                        std::cout <<  "a9"  << std::endl;
             bool foundSolution = getMISBnR(vcKernel, exactSolution, 9999999.0, config);
         }
     }
