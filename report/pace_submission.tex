@@ -69,11 +69,13 @@ The \emph{minimum vertex cover} problems is
 equivalent to the maximum independent set problem: a
 minimum vertex cover $C$ in $G$ is the complement of a maximum independent set $V\setminus C$ in $G$. Thus, an algorithm that solves one of these problems can be used to~solve~the~other.
 For the sake of simplicity, we \emph{write this report from the~independent~set~perspective}. 
+Since we also use a clique solver in our approach, note that an independent set is a clique in the complement graph.
 
 The most efficient algorithms for finding maximum independent sets in both theory and practice use reduction rules to obtain a much smaller problem instance called a \emph{kernel}. The kernel can then be solved quickly using exact or heuristic algorithms---or by repeatedly kernelizing recursively in the branch-and-reduce paradigm. 
-Our solver is a combination of different kernelization techniques \cite{DBLP:conf/alenex/Hespe0S18}, local search~\cite{DBLP:conf/wea/AndradeRW08}, as well as branch-and-reduce~\cite{akiba-tcs-2016}.
+Our solver is a combination of different kernelization techniques \cite{DBLP:conf/alenex/Hespe0S18}, local search~\cite{DBLP:conf/wea/AndradeRW08}, as well as branch-and-reduce~\cite{akiba-tcs-2016,DBLP:journals/cor/LiJM17}.
 
 %
+Our algorithm uses a portfolio of solvers, i.e., a branch-and-bound solver for vertex cover~\cite{akiba-tcs-2016} as well as a branch-and-bound solver for the maximum clique problem \cite{DBLP:journals/cor/LiJM17}.
 Our algorithm starts by kernelizing the graph using \cite{DBLP:conf/alenex/Hespe0S18}. 
 This algorithm uses all known reduction rules for the problem,
 and has an additional technique to accelerate kernelization: dependency checking to prune reductions that cannot be applied.
@@ -98,7 +100,7 @@ The algorithm is based on  the notion of $(j,k)$-swaps. A $(j,k)$-swap removes $
 
 
 The solution is then used as input to a branch-and-bound solver. Our branch and bound solver also applies reduction rules via a branch-and-reduce scheme -- applying rules when possible, and branching otherwise -- though this may be toggled to omit reductions if they are not effective.
-Our implementation is similar to the algorithm of Akiba and Iwata~\cite{akiba-tcs-2016}. 
+Our implementation is similar to the algorithm of Akiba and Iwata~\cite{akiba-tcs-2016}. If this is unsuccessful in a small time limit, we run the clique solver~\cite{DBLP:journals/cor/LiJM17} on the complement of the kernel also using a small time limit. Sometimes kernelization can make the problem harder in the complement graph. Hence, we also run the clique solver on the complement of the input. Afterwards, if we still did not find a solution, we run our branch-and-bound vertex solver on the kernel using a larger time limit. If unsuccessful, we run the clique solver until the end of the time limit. Note the way we integrated the different solvers is such that the overall algorithm will output solutions of the ``easy'' instances quickly, while still being able to solve hard instance.
 
 \bibliographystyle{plain}
 \bibliography{references}

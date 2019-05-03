@@ -6,45 +6,45 @@ Database file #1: references.bib
 A bad cross reference---entry "DBLP:conf/alenex/Hespe0S18"
 refers to entry "DBLP:conf/alenex/2018", which doesn't exist
 Warning--I didn't find a database entry for "DBLP:conf/alenex/2018"
-You've used 3 entries,
+You've used 4 entries,
             2118 wiz_defined-function locations,
-            558 strings with 5681 characters,
-and the built_in function-call counts, 1368 in all, are:
-= -- 139
-> -- 53
+            566 strings with 5868 characters,
+and the built_in function-call counts, 1700 in all, are:
+= -- 173
+> -- 71
 < -- 3
-+ -- 20
-- -- 17
-* -- 94
-:= -- 209
-add.period$ -- 10
-call.type$ -- 3
-change.case$ -- 17
++ -- 27
+- -- 23
+* -- 119
+:= -- 267
+add.period$ -- 13
+call.type$ -- 4
+change.case$ -- 23
 chr.to.int$ -- 0
-cite$ -- 3
-duplicate$ -- 58
-empty$ -- 111
-format.name$ -- 17
-if$ -- 301
+cite$ -- 4
+duplicate$ -- 69
+empty$ -- 134
+format.name$ -- 23
+if$ -- 367
 int.to.chr$ -- 0
-int.to.str$ -- 3
-missing$ -- 3
-newline$ -- 18
-num.names$ -- 8
-pop$ -- 19
+int.to.str$ -- 4
+missing$ -- 4
+newline$ -- 23
+num.names$ -- 10
+pop$ -- 23
 preamble$ -- 1
-purify$ -- 14
+purify$ -- 19
 quote$ -- 0
-skip$ -- 47
+skip$ -- 54
 stack$ -- 0
-substring$ -- 104
-swap$ -- 25
+substring$ -- 125
+swap$ -- 26
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 12
+type$ -- 16
 warning$ -- 0
-while$ -- 15
-width$ -- 4
-write$ -- 37
+while$ -- 19
+width$ -- 5
+write$ -- 48
 (There was 1 error message)

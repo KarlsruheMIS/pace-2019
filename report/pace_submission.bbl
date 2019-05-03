@@ -7,7 +7,7 @@ T.~Akiba and Y.~Iwata.
 \newblock {\em Theor. Comput. Sci.}, 609, Part 1:211--225, 2016.
 
 \bibitem{DBLP:conf/wea/AndradeRW08}
-Diogo~Vieira Andrade, Mauricio G.~C. Resende, and Renato Fonseca~F. Werneck.
+D.~V. Andrade, M.~G.~C. Resende, and Renato~F. Werneck.
 \newblock Fast local search for the maximum independent set problem.
 \newblock In Catherine~C. McGeoch, editor, {\em Experimental Algorithms, 7th
   International Workshop, {WEA} 2008, Provincetown, MA, USA, May 30-June 1,
@@ -15,10 +15,16 @@ Diogo~Vieira Andrade, Mauricio G.~C. Resende, and Renato Fonseca~F. Werneck.
   pages 220--234. Springer, 2008.
 
 \bibitem{DBLP:conf/alenex/Hespe0S18}
-Demian Hespe, Christian Schulz, and Darren Strash.
+D.~Hespe, C.~Schulz, and D.~Strash.
 \newblock Scalable kernelization for maximum independent sets.
 \newblock In {\em Proceedings of the Twentieth Workshop on Algorithm
   Engineering and Experiments, {ALENEX} 2018, New Orleans, LA, USA, January
   7-8, 2018.}, pages 223--237, 2018.
+
+\bibitem{DBLP:journals/cor/LiJM17}
+C.{-}M. Li, H.~Jiang, and F.~Many{\`{a}}.
+\newblock On minimization of the number of branches in branch-and-bound
+  algorithms for the maximum clique problem.
+\newblock {\em Computers {\&} {OR}}, 84:1--15, 2017.
 
 \end{thebibliography}
