@@ -23,7 +23,7 @@ static int build_simple_graph_instance_from_pointer_to_edge_list(int* inputEdges
         left_node = inputEdgesFrom[i];
         right_node = inputEdgesTo[i];
 		if (left_node == right_node) {
-            printf("ERROR: Self loop!");
+            //printf("ERROR: Self loop!");
             exit(1);
 		} else {
 			if (left_node > right_node) {
@@ -76,9 +76,7 @@ static int build_simple_graph_instance_from_pointer_to_edge_list(int* inputEdges
 		qsort(node_neibors[node], static_degree[node], sizeof(int),
 				static_degree_dec);
 	}
-	printf("c Instance Information: #node=%d, #edge=%d density= %5.4f \n",
-			NB_NODE, NB_EDGE,
-			((float) NB_EDGE * 2) / (NB_NODE * (NB_NODE - 1)));
+	//printf("c Instance Information: #node=%d, #edge=%d density= %5.4f \n", NB_NODE, NB_EDGE, ((float) NB_EDGE * 2) / (NB_NODE * (NB_NODE - 1)));
 
 	return TRUE;
 }

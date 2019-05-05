@@ -235,9 +235,9 @@ static int build_simple_graph_instance(char *input_file) {
 		qsort(node_neibors[node], static_degree[node], sizeof(int),
 				static_degree_dec);
 	}
-	printf("c Instance Information: #node=%d, #edge=%d density= %5.4f \n",
-			NB_NODE, NB_EDGE,
-			((float) NB_EDGE * 2) / (NB_NODE * (NB_NODE - 1)));
+	/*printf("c Instance Information: #node=%d, #edge=%d density= %5.4f \n",*/
+			/*NB_NODE, NB_EDGE,*/
+			/*((float) NB_EDGE * 2) / (NB_NODE * (NB_NODE - 1)));*/
 
 	return TRUE;
 }
@@ -274,7 +274,7 @@ static void search_initial_maximum_clique() {
 		ptr(Candidate_Stack) = j;
 		node = choose_candidate_node();
 	}
-	printf("c Initial clique size: %d\n", ptr(INIT_Stack));
+	/*printf("c Initial clique size: %d\n", ptr(INIT_Stack));*/
 }
 
 static void complement_graph() {
@@ -433,25 +433,25 @@ static void sort_isets_and_push_nodes() {
 }
 
 static void print_isets(int i_set) {
-	int *color_set, node;
-//printf("\niset: \n");
-//	printf("SET %d active=%d: c_size=%d  ", i_set + 1, iSET_State[i_set],
-//			iSET_Size[i_set]);
-	color_set = iSET[i_set];
-	printf("{ ");
-	for (node = *color_set; node != NONE; node = *(++color_set)) {
-		if (node_state[node] == ACTIVE)
-			printf("%d ", node);
-		else if (node_state[node] == PASSIVE) {
-			if (node_state[node] == P_TRUE)
-				printf("%d ", node);
-			else if (node_state[node] == P_FALSE)
-				printf("%d ", node);
-		} else {
-			printf("%d ", node);
-		}
-	}
-	printf("} ");
+	/*int *color_set, node;*/
+/*//printf("\niset: \n");*/
+/*//	printf("SET %d active=%d: c_size=%d  ", i_set + 1, iSET_State[i_set],*/
+/*//			iSET_Size[i_set]);*/
+	/*color_set = iSET[i_set];*/
+	/*printf("{ ");*/
+	/*for (node = *color_set; node != NONE; node = *(++color_set)) {*/
+		/*if (node_state[node] == ACTIVE)*/
+			/*printf("%d ", node);*/
+		/*else if (node_state[node] == PASSIVE) {*/
+			/*if (node_state[node] == P_TRUE)*/
+				/*printf("%d ", node);*/
+			/*else if (node_state[node] == P_FALSE)*/
+				/*printf("%d ", node);*/
+		/*} else {*/
+			/*printf("%d ", node);*/
+		/*}*/
+	/*}*/
+	/*printf("} ");*/
 //printf("\n");
 }
 static void print_all_iset() {
@@ -806,12 +806,11 @@ static int fix_node_iset(int fix_iset) {
 		}
 	}
 	nodes = iSET[fix_iset];
-	for (fix_node = *(nodes); fix_node != NONE; fix_node = *(++nodes)) {
-		printf("iset=%d,node=%d,active=%d\n", fix_iset, fix_node,
-				node_state[fix_node]);
-	}
-	printf("error in fix_node_iset\n");
-	printf("iSET COUNT=%d\n", iSET_COUNT);
+	/*for (fix_node = *(nodes); fix_node != NONE; fix_node = *(++nodes)) {*/
+		/*printf("iset=%d,node=%d,active=%d\n", fix_iset, fix_node, node_state[fix_node]);*/
+	/*}*/
+	/*printf("error in fix_node_iset\n");*/
+	/*printf("iSET COUNT=%d\n", iSET_COUNT);*/
 	print_all_iset();
 	exit(0);
 }
@@ -1466,10 +1465,10 @@ static void store_maximum_clique(int node, int print_info) {
 		Vertex_UB[CURSOR]=MAX_CLQ_SIZE;
 	}
 
-	if (print_info == TRUE)
-		printf("c %4d |%5d |%8d %10d %10d %10d|%10d \n", MAX_CLQ_SIZE,
-				Cursor_Stack[0], cut_ver, cut_inc, cut_iset, cut_satz,
-				BRANCHING_COUNT);
+	/*if (print_info == TRUE)*/
+		/*printf("c %4d |%5d |%8d %10d %10d %10d|%10d \n", MAX_CLQ_SIZE,*/
+				/*Cursor_Stack[0], cut_ver, cut_inc, cut_iset, cut_satz,*/
+				/*BRANCHING_COUNT);*/
 	total_cut_ver += cut_ver;
 	cut_ver = 0;
 	total_cut_inc += cut_inc;
@@ -1482,28 +1481,28 @@ static void store_maximum_clique(int node, int print_info) {
 	LAST_BRANCHING_COUNT = BRANCHING_COUNT;
 }
 static void printallMaxClique() {
-	int i, count = 0, len = 0;
-	printf("M ");
-	for (i = 0; i < MAX_CLQ_SIZE; i++)
-		printf("%d ", NEW_OLD[MaxCLQ_Stack[i]]);
-	printf("\n");
-	len = 1;
-	if (APPEND_STACK_USED > 0) {
-		printf("M ");
-		for (i = 0; i < APPEND_STACK_USED; i++) {
-			if (APPEND_STACK[i] != NONE) {
-				printf("%d ", NEW_OLD[APPEND_STACK[i]]);
-				count++;
-			} else {
-				len++;
-				assert(count == MAX_CLQ_SIZE);
-				count = 0;
-				if (i + 1 < APPEND_STACK_USED)
-					printf("\nM ");
-			}
-		}
-		printf("\n");
-	}
+	/*int i, count = 0, len = 0;*/
+	/*[>printf("M ");<]*/
+	/*for (i = 0; i < MAX_CLQ_SIZE; i++)*/
+		/*printf("%d ", NEW_OLD[MaxCLQ_Stack[i]]);*/
+	/*printf("\n");*/
+	/*len = 1;*/
+	/*if (APPEND_STACK_USED > 0) {*/
+		/*printf("M ");*/
+		/*for (i = 0; i < APPEND_STACK_USED; i++) {*/
+			/*if (APPEND_STACK[i] != NONE) {*/
+				/*printf("%d ", NEW_OLD[APPEND_STACK[i]]);*/
+				/*count++;*/
+			/*} else {*/
+				/*len++;*/
+				/*assert(count == MAX_CLQ_SIZE);*/
+				/*count = 0;*/
+				/*if (i + 1 < APPEND_STACK_USED)*/
+					/*printf("\nM ");*/
+			/*}*/
+		/*}*/
+		/*printf("\n");*/
+	/*}*/
 }
 static int cut_by_inc_ub(int print_info) {
 	int i = CURSOR, neibor, max = 0;
@@ -1682,17 +1681,17 @@ static bool search_maxclique(int cutoff, int print_info, int limit=1000000000, b
 			}
 		}
 	}
-	if (print_info == TRUE) {
-		printf("p %4d |%5d |%8d %10d %10d %10d|%10d \n", MAX_CLQ_SIZE,
-				Last_Idx - CURSOR,cut_ver,cut_inc, cut_iset, cut_satz,BRANCHING_COUNT);
-		total_cut_ver += cut_ver;
-		total_cut_inc += cut_inc;
-		total_cut_iset += cut_iset;
-		total_cut_satz += cut_satz;
-		printf(
-				"c  ----------------------------------------------------------------\n");
-		printf("c %4d |%5d |%8d %10d %10d %10d|%10d \n", MAX_CLQ_SIZE, CURSOR+1,total_cut_ver,total_cut_inc, total_cut_iset, total_cut_satz,BRANCHING_COUNT);
-	}
+	/*if (print_info == TRUE) {*/
+		/*printf("p %4d |%5d |%8d %10d %10d %10d|%10d \n", MAX_CLQ_SIZE,*/
+				/*Last_Idx - CURSOR,cut_ver,cut_inc, cut_iset, cut_satz,BRANCHING_COUNT);*/
+		/*total_cut_ver += cut_ver;*/
+		/*total_cut_inc += cut_inc;*/
+		/*total_cut_iset += cut_iset;*/
+		/*total_cut_satz += cut_satz;*/
+		/*printf(*/
+				/*"c  ----------------------------------------------------------------\n");*/
+		/*printf("c %4d |%5d |%8d %10d %10d %10d|%10d \n", MAX_CLQ_SIZE, CURSOR+1,total_cut_ver,total_cut_inc, total_cut_iset, total_cut_satz,BRANCHING_COUNT);*/
+	/*}*/
   return finished;
 }
 
@@ -1736,7 +1735,7 @@ static int sort_by_maxiset(int mandatory) {
 		}
 	}
 	complement_graph();
-	printf("c Iset size is %d\n", nb_isets);
+	/*printf("c Iset size is %d\n", nb_isets);*/
 	if (mandatory == FALSE && ans > 3
 			&& ((double) nb_isets / (double) ptr(INIT_Stack)) > 1.1) {
 		return FALSE;
@@ -1766,15 +1765,15 @@ static void init_for_maxclique(int ordering, int list_all) {
 		mandatory = TRUE;
 
 	if (ordering == 1) {
-		printf("c Using the degeneracy ordering...\n");
-	} else if (ordering == 2)
-		printf("c Using the MaxIndSet ordering...\n");
+		/*printf("c Using the degeneracy ordering...\n");*/
+	} else if (ordering == 2) {}
+		/*printf("c Using the MaxIndSet ordering...\n");*/
 	else if (ordering == -1) {
 		if (DENSITY <= 60) {
-			printf("c Using the degeneracy ordering...\n");
+			/*printf("c Using the degeneracy ordering...\n");*/
 			ordering = 1;
 		} else {
-			printf("c Investigating the MaxIndSet ordering...\n");
+			/*printf("c Investigating the MaxIndSet ordering...\n");*/
 			ordering = 2;
 		}
 	}
@@ -1783,8 +1782,7 @@ static void init_for_maxclique(int ordering, int list_all) {
 		sort_by_active_degree();
 		Dynamic_Radio = 0.6;
 	} else if (sort_by_maxiset(mandatory) == FALSE) {
-		printf(
-				"c the MaxIndSet ordering disable, using the degeneracy ordering...\n");
+		/*printf( "c the MaxIndSet ordering disable, using the degeneracy ordering...\n");*/
 		sort_by_active_degree();
 		Dynamic_Radio = 0.6;
 	} else {
@@ -1800,7 +1798,7 @@ static void init_for_maxclique(int ordering, int list_all) {
 	} else {
 		MAX_CLQ_SIZE = 0;
 	}
-	printf("c the current maximal clique is %d\n", MAX_CLQ_SIZE);
+	/*printf("c the current maximal clique is %d\n", MAX_CLQ_SIZE);*/
 
 	Mean_Dynamic_Radio = 0;
 	Dynamic_Count = 0;
@@ -1865,38 +1863,38 @@ static void re_code() {
 }
 
 void print_branches() {
-	int i = 0;
-	for (i = 0; i <= NB_NODE; i++) {
-		printf("%d ", Branches[i]);
-	}
-	printf("\n");
+	/*int i = 0;*/
+	/*for (i = 0; i <= NB_NODE; i++) {*/
+		/*printf("%d ", Branches[i]);*/
+	/*}*/
+	/*printf("\n");*/
 }
 
 void print_help() {
-	printf("1. For finding a maximum clique:\n");
-	printf(
-			"  ./Solver instance         where Solver can be MoMC, DoMC or SoMC.\n");
-	printf("2. For Listing all maximum cliques:\n");
-	printf(
-			"  ./Solver instance -a n    where n is the max number of cliques to be printed, n=0 for listing ALL.\n");
+	/*printf("1. For finding a maximum clique:\n");*/
+	/*printf(*/
+			/*"  ./Solver instance         where Solver can be MoMC, DoMC or SoMC.\n");*/
+	/*printf("2. For Listing all maximum cliques:\n");*/
+	/*printf(*/
+			/*"  ./Solver instance -a n    where n is the max number of cliques to be printed, n=0 for listing ALL.\n");*/
 }
 
 void print_version() {
-#ifdef SOMC
-	printf("c Hello! I am SoMC build at %s %s.\n",__TIME__,__DATE__);
-	return;
-#endif
-#ifdef DOMC
-	printf("c Hello! I am DoMC build at %s %s.\n", __TIME__, __DATE__);
-	return;
-#endif
-#ifdef MOMC
-	printf("c Hello! I am MoMC build at %s %s.\n",__TIME__,__DATE__);
-	return;
-#endif
-	printf(
-			"c Hello! Please use the option of -DSOMC or -DDOMC or -DMOMC to compile me!\n");
-	exit(0);
+/*#ifdef SOMC*/
+	/*printf("c Hello! I am SoMC build at %s %s.\n",__TIME__,__DATE__);*/
+	/*return;*/
+/*#endif*/
+/*#ifdef DOMC*/
+	/*printf("c Hello! I am DoMC build at %s %s.\n", __TIME__, __DATE__);*/
+	/*return;*/
+/*#endif*/
+/*#ifdef MOMC*/
+	/*printf("c Hello! I am MoMC build at %s %s.\n",__TIME__,__DATE__);*/
+	/*return;*/
+/*#endif*/
+	/*printf(*/
+			/*"c Hello! Please use the option of -DSOMC or -DDOMC or -DMOMC to compile me!\n");*/
+	/*exit(0);*/
 }
 
 int mainOld(int argc, char *argv[]) {
@@ -1915,21 +1913,21 @@ bool finished = false;
 		for (i = 2; i < argc; i++) {
 			if (strcmp(argv[i], "-o") == 0) {
 				sscanf(argv[++i], "%d", &ordering);
-				printf("c the specified vertex ordering is %d\n", ordering);
+				/*printf("c the specified vertex ordering is %d\n", ordering);*/
 			} else if (strcmp(argv[i], "-d") == 0) {
 				sscanf(argv[++i], "%f", &Dynamic_Radio);
-				printf("c the specified dynamic radio is %f\n", Dynamic_Radio);
+				/*printf("c the specified dynamic radio is %f\n", Dynamic_Radio);*/
 			} else if (strcmp(argv[i], "-i") == 0) {
 				sscanf(argv[++i], "%d", &INIT_CLIQUE);
-				printf("c the specified init clique size is %d\n", INIT_CLIQUE);
+				/*printf("c the specified init clique size is %d\n", INIT_CLIQUE);*/
 			} else if (strcmp(argv[i], "-a") == 0) {
 				sscanf(argv[++i], "%d", &SHOW_COUNT);
-				printf("c listing %d maximum cliques\n", SHOW_COUNT);
+				/*printf("c listing %d maximum cliques\n", SHOW_COUNT);*/
 				_all = TRUE;
 			}
 		}
 	}
-	printf("c reading %s ...\n", argv[1]);
+	/*printf("c reading %s ...\n", argv[1]);*/
 	getrusage(RUSAGE_SELF, &starttime);
 	if (build_simple_graph_instance(argv[1])) {
 		search_initial_maximum_clique();
@@ -1943,19 +1941,18 @@ bool finished = false;
 	usec = (int) endtime.ru_utime.tv_usec;
 	sec_p = (int) lasttime.ru_utime.tv_sec;
 	usec_p = (int) lasttime.ru_utime.tv_usec;
-	if (LIST_ALL == TRUE)
-		printf(
-		        "s Instance %s Max_CLQ %d Count %d Branching %d Time %4.2lfs ProveBranching %d ProveTime %d milliseconds\n",
-				argv[1], MAX_CLQ_SIZE, MAX_COUNT, BRANCHING_COUNT,
-				(double) (sec + (double) usec / 1000000),
-				BRANCHING_COUNT - LAST_BRANCHING_COUNT,
-			(int) ((sec - sec_p + ((double) (usec - usec_p)) / 1000000)*1000));
-	else 	printf(
-			"s Instance %s Max_CLQ %d Branching %d Time %4.2lfs ProveBranching %d ProveTime %d milliseconds\n",
-			argv[1], MAX_CLQ_SIZE, BRANCHING_COUNT,
-			(double) (sec + (double) usec / 1000000),
-			BRANCHING_COUNT - LAST_BRANCHING_COUNT,
-			(int) ((sec - sec_p + ((double) (usec - usec_p)) / 1000000)*1000));
+	/*if (LIST_ALL == TRUE)*/
+		/*printf( "s Instance %s Max_CLQ %d Count %d Branching %d Time %4.2lfs ProveBranching %d ProveTime %d milliseconds\n",*/
+				/*argv[1], MAX_CLQ_SIZE, MAX_COUNT, BRANCHING_COUNT,*/
+				/*(double) (sec + (double) usec / 1000000),*/
+				/*BRANCHING_COUNT - LAST_BRANCHING_COUNT,*/
+			/*(int) ((sec - sec_p + ((double) (usec - usec_p)) / 1000000)*1000));*/
+	/*else 	printf(*/
+			/*"s Instance %s Max_CLQ %d Branching %d Time %4.2lfs ProveBranching %d ProveTime %d milliseconds\n",*/
+			/*argv[1], MAX_CLQ_SIZE, BRANCHING_COUNT,*/
+			/*(double) (sec + (double) usec / 1000000),*/
+			/*BRANCHING_COUNT - LAST_BRANCHING_COUNT,*/
+			/*(int) ((sec - sec_p + ((double) (usec - usec_p)) / 1000000)*1000));*/
 		
 	/*
 

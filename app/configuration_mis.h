@@ -79,7 +79,7 @@ inline void configuration_mis::standard( MISConfig & mis_config ) {
     // Basic 
     mis_config.population_size                        = 50;
     mis_config.repetitions                            = 50;
-    mis_config.time_limit                             = 5.0;
+    mis_config.time_limit                             = 30.0;
     // KaHIP
     mis_config.kahip_mode                             = FAST;
     // Randomization
@@ -132,7 +132,7 @@ inline void configuration_mis::social( MISConfig & mis_config ) {
 inline void configuration_mis::full_standard( MISConfig & mis_config ) {
     standard(mis_config);
     mis_config.population_size                        = 250;
-    mis_config.time_limit                             = 36000.0;
+    mis_config.time_limit                             = 30.0;
     mis_config.number_of_separators                   = 30;
     mis_config.number_of_partitions                   = 30;
     mis_config.number_of_k_separators                 = 30;
