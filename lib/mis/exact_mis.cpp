@@ -195,13 +195,11 @@ std::vector<bool> getExactMISCombined(std::vector<std::vector<int>> &_adj, MISCo
                                                 exactSolution[i] = false;
                                         }
 
-                        std::cout <<  "a8"  << std::endl;
                                         bool foundSolution = getMISBnR(vcKernel, exactSolution, 9999999.0, config);
                                 }
                         }
                 }
         } else {
-                        std::cout <<  "a9"  << std::endl;
             bool foundSolution = getMISBnR(vcKernel, exactSolution, 9999999.0, config);
         }
     }
