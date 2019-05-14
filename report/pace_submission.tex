@@ -101,7 +101,9 @@ The algorithm is based on  the notion of $(j,k)$-swaps. A $(j,k)$-swap removes $
 
 The solution is then used as input to a branch-and-bound solver for vertex cover. Our branch-and-bound solver also applies reduction rules via a branch-and-reduce scheme -- applying rules when possible, and branching otherwise -- though this may be toggled to omit reductions if they are not effective.
 Our implementation is similar to the algorithm of Akiba and Iwata~\cite{akiba-tcs-2016}. If this is unsuccessful in a small time limit, we run the clique solver~\cite{DBLP:journals/cor/LiJM17} on the complement of the kernel also using a small time limit. Sometimes kernelization can make the problem harder in the complement graph. Hence, if the previous call was unsuccessful we also run the clique solver on the complement of the input. Afterwards, if we still did not find a solution, we run our branch-and-bound vertex solver on the kernel using a larger time limit. If unsuccessful, we run the clique solver until the end of the time given to the program by the challenge. Note the way we integrated the different solvers is such that the overall algorithm will output solutions of the ``easy'' instances \emph{quickly}, while still being able to solve hard instances.
-
+\section{Material}
+GitHub: \url{https://github.com/sebalamm/pace-2019/releases/tag/pace-2019} \\
+DOI: \url{https://doi.org/10.5281/zenodo.2816116}
 \bibliographystyle{plain}
 \bibliography{references}
 \end{document}
