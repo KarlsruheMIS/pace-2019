@@ -14,12 +14,31 @@ D.~V. Andrade, M.~G.~C. Resende, and Renato~F. Werneck.
   2008, Proceedings}, volume 5038 of {\em Lecture Notes in Computer Science},
   pages 220--234. Springer, 2008.
 
+\bibitem{batsyn-mcs-ils-2014}
+M.~Batsyn, B.~Goldengorin, E.~Maslov, and P.~Pardalos.
+\newblock Improvements to {MCS} algorithm for the maximum clique problem.
+\newblock {\em J. Comb. Optim.}, 27(2):397--416, 2014.
+
+\bibitem{butenko-2002}
+S.~Butenko, P.~Pardalos, I.~Sergienko, V.~Shylo, and P.~Stetsyuk.
+\newblock Finding maximum independent sets in graphs arising from coding
+  theory.
+\newblock In {\em Proc. 2002 ACM Symposium on Applied Computing (SAC'02)},
+  pages 542--546. ACM, 2002.
+
 \bibitem{chang2017computing}
 Lijun Chang, Wei Li, and Wenjie Zhang.
 \newblock Computing a near-maximum independent set in linear time by
   reducing-peeling.
 \newblock In {\em Proc. 2017 ACM International Conference on Management of Data
   (SIGMOD 2017)}, pages 1181--1196. ACM, 2017.
+
+\bibitem{dahlum2016accelerating}
+Jakob Dahlum, Sebastian Lamm, Peter Sanders, Christian Schulz, Darren Strash,
+  and Renato~F. Werneck.
+\newblock Accelerating local search for the maximum independent set problem.
+\newblock In {\em International Symposium on Experimental Algorithms}, pages
+  118--133. Springer, 2016.
 
 \bibitem{DBLP:conf/alenex/Hespe0S18}
 D.~Hespe, C.~Schulz, and D.~Strash.
@@ -33,5 +52,12 @@ C.{-}M. Li, H.~Jiang, and F.~Many{\`{a}}.
 \newblock On minimization of the number of branches in branch-and-bound
   algorithms for the maximum clique problem.
 \newblock {\em Computers {\&} {Operations Research}}, 84:1--15, 2017.
+
+\bibitem{strash2016power}
+Darren Strash.
+\newblock On the power of simple reductions for the maximum independent set
+  problem.
+\newblock In {\em International Computing and Combinatorics Conference}, pages
+  345--356. Springer, 2016.
 
 \end{thebibliography}
