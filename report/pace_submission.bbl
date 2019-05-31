@@ -14,6 +14,13 @@ D.~V. Andrade, M.~G.~C. Resende, and Renato~F. Werneck.
   2008, Proceedings}, volume 5038 of {\em Lecture Notes in Computer Science},
   pages 220--234. Springer, 2008.
 
+\bibitem{chang2017computing}
+Lijun Chang, Wei Li, and Wenjie Zhang.
+\newblock Computing a near-maximum independent set in linear time by
+  reducing-peeling.
+\newblock In {\em Proc. 2017 ACM International Conference on Management of Data
+  (SIGMOD 2017)}, pages 1181--1196. ACM, 2017.
+
 \bibitem{DBLP:conf/alenex/Hespe0S18}
 D.~Hespe, C.~Schulz, and D.~Strash.
 \newblock Scalable kernelization for maximum independent sets.
@@ -25,6 +32,6 @@ D.~Hespe, C.~Schulz, and D.~Strash.
 C.{-}M. Li, H.~Jiang, and F.~Many{\`{a}}.
 \newblock On minimization of the number of branches in branch-and-bound
   algorithms for the maximum clique problem.
-\newblock {\em Computers {\&} {OR}}, 84:1--15, 2017.
+\newblock {\em Computers {\&} {Operations Research}}, 84:1--15, 2017.
 
 \end{thebibliography}
