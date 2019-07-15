@@ -1,6 +1,7 @@
 # VCSolver #
 ## Description ##
-Framework for finding a maximum vertex cover.
+Framework for finding a minimum vertex cover.
+Demian Hespe, Sebastian Lamm, Christian Schulz and Darren Strash.
 
 ## Usage ##
 `vc_solver FILE [options]`.
