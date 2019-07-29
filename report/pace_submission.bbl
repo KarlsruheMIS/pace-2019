@@ -1,30 +1,34 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{abu-khzam-2007}
+Faisal~N. Abu-Khzam, Michael~R. Fellows, Michael~A. Langston, and W.~Henry
+  Suters.
+\newblock Crown structures for vertex cover kernelization.
+\newblock {\em Theor. Comput. Syst.}, 41(3):411--430, 2007.
+\newblock \href {http://dx.doi.org/10.1007/s00224-007-1328-0}
+  {\path{doi:10.1007/s00224-007-1328-0}}.
 
 \bibitem{akiba-tcs-2016}
 T.~Akiba and Y.~Iwata.
 \newblock Branch-and-reduce exponential/{FPT} algorithms in practice: A case
   study of vertex cover.
 \newblock {\em Theor. Comput. Sci.}, 609, Part 1:211--225, 2016.
+\newblock \href {http://dx.doi.org/10.1016/j.tcs.2015.09.023}
+  {\path{doi:10.1016/j.tcs.2015.09.023}}.
 
-\bibitem{DBLP:conf/wea/AndradeRW08}
-D.~V. Andrade, M.~G.~C. Resende, and Renato~F. Werneck.
+\bibitem{andrade-2012}
+D.~V. Andrade, M.~G.C. Resende, and R.~F. Werneck.
 \newblock Fast local search for the maximum independent set problem.
-\newblock In Catherine~C. McGeoch, editor, {\em Experimental Algorithms, 7th
-  International Workshop, {WEA} 2008, Provincetown, MA, USA, May 30-June 1,
-  2008, Proceedings}, volume 5038 of {\em Lecture Notes in Computer Science},
-  pages 220--234. Springer, 2008.
+\newblock {\em Journal of Heuristics}, 18(4):525--547, 2012.
+\newblock \href {http://dx.doi.org/10.1007/s10732-012-9196-4}
+  {\path{doi:10.1007/s10732-012-9196-4}}.
 
 \bibitem{batsyn-mcs-ils-2014}
 M.~Batsyn, B.~Goldengorin, E.~Maslov, and P.~Pardalos.
 \newblock Improvements to {MCS} algorithm for the maximum clique problem.
 \newblock {\em J. Comb. Optim.}, 27(2):397--416, 2014.
-
-\bibitem{butenko-2002}
-S.~Butenko, P.~Pardalos, I.~Sergienko, V.~Shylo, and P.~Stetsyuk.
-\newblock Finding maximum independent sets in graphs arising from coding
-  theory.
-\newblock In {\em Proc. 2002 ACM Symposium on Applied Computing (SAC'02)},
-  pages 542--546. ACM, 2002.
+\newblock \href {http://dx.doi.org/10.1007/s10878-012-9592-6}
+  {\path{doi:10.1007/s10878-012-9592-6}}.
 
 \bibitem{chang2017computing}
 Lijun Chang, Wei Li, and Wenjie Zhang.
@@ -32,32 +36,63 @@ Lijun Chang, Wei Li, and Wenjie Zhang.
   reducing-peeling.
 \newblock In {\em Proc. 2017 ACM International Conference on Management of Data
   (SIGMOD 2017)}, pages 1181--1196. ACM, 2017.
+\newblock \href {http://dx.doi.org/10.1145/3035918.3035939}
+  {\path{doi:10.1145/3035918.3035939}}.
+
+\bibitem{chen-1999}
+Jianer Chen, Iyad~A. Kanj, and Weijia Jia.
+\newblock Vertex cover: Further observations and further improvements.
+\newblock {\em Journal of Algorithms}, 41(2):280--301, 2001.
+\newblock \href {http://dx.doi.org/10.1006/jagm.2001.1186}
+  {\path{doi:10.1006/jagm.2001.1186}}.
 
 \bibitem{dahlum2016accelerating}
 Jakob Dahlum, Sebastian Lamm, Peter Sanders, Christian Schulz, Darren Strash,
   and Renato~F. Werneck.
 \newblock Accelerating local search for the maximum independent set problem.
-\newblock In {\em International Symposium on Experimental Algorithms}, pages
-  118--133. Springer, 2016.
+\newblock In {\em Proc. 15th International Symposium on Experimental Algorithms
+  (SEA 2016)}, volume 9685 of {\em LNCS}, pages 118--133. Springer, 2016.
+\newblock \href {http://dx.doi.org/10.1007/978-3-319-38851-9_9}
+  {\path{doi:10.1007/978-3-319-38851-9_9}}.
 
-\bibitem{DBLP:conf/alenex/Hespe0S18}
-D.~Hespe, C.~Schulz, and D.~Strash.
-\newblock Scalable kernelization for maximum independent sets.
-\newblock In {\em Proceedings of the Twentieth Workshop on Algorithm
-  Engineering and Experiments, {ALENEX} 2018, New Orleans, LA, USA, January
-  7-8, 2018.}, pages 223--237, 2018.
+\bibitem{iwata-2014}
+Y.~Iwata, K.~Oka, and Y.~Yoshida.
+\newblock {Linear-time FPT Algorithms via Network Flow}.
+\newblock In {\em Proc. 25th ACM-SIAM Symposium on Discrete Algorithms}, SODA
+  '14, pages 1749--1761. SIAM, 2014.
+\newblock URL: \url{http://dl.acm.org/citation.cfm?id=2634074.2634201}.
 
 \bibitem{DBLP:journals/cor/LiJM17}
 C.{-}M. Li, H.~Jiang, and F.~Many{\`{a}}.
 \newblock On minimization of the number of branches in branch-and-bound
   algorithms for the maximum clique problem.
 \newblock {\em Computers {\&} {Operations Research}}, 84:1--15, 2017.
+\newblock \href {http://dx.doi.org/10.1016/j.cor.2017.02.017}
+  {\path{doi:10.1016/j.cor.2017.02.017}}.
+
+\bibitem{nemhauser-1975}
+G.L. Nemhauser and L.~E. {Trotter Jr.}
+\newblock Vertex packings: Structural properties and algorithms.
+\newblock {\em Mathematical Programming}, 8(1):232--248, 1975.
+\newblock \href {http://dx.doi.org/10.1007/BF01580444}
+  {\path{doi:10.1007/BF01580444}}.
 
 \bibitem{strash2016power}
 Darren Strash.
 \newblock On the power of simple reductions for the maximum independent set
   problem.
-\newblock In {\em International Computing and Combinatorics Conference}, pages
-  345--356. Springer, 2016.
+\newblock In {\em Proc. 22nd International Computing and Combinatorics
+  Conference (COCOON 2016)}, volume 9797 of {\em LNCS}, pages 345--356.
+  Springer, 2016.
+\newblock \href {http://dx.doi.org/10.1007/978-3-319-42634-1_28}
+  {\path{doi:10.1007/978-3-319-42634-1_28}}.
+
+\bibitem{Xiao201392}
+M.~Xiao and H.~Nagamochi.
+\newblock Confining sets and avoiding bottleneck cases: A simple maximum
+  independent set algorithm in degree-3 graphs.
+\newblock {\em Theor. Comput. Sci.}, 469:92--104, 2013.
+\newblock \href {http://dx.doi.org/10.1016/j.tcs.2012.09.022}
+  {\path{doi:10.1016/j.tcs.2012.09.022}}.
 
 \end{thebibliography}

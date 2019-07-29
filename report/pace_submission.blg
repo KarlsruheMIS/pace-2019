@@ -1,50 +1,50 @@
 This is BibTeX, Version 0.99d (TeX Live 2018)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: pace_submission.aux
-The style file: plain.bst
+The style file: plainurl.bst
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=20001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: references.bib
-A bad cross reference---entry "DBLP:conf/alenex/Hespe0S18"
-refers to entry "DBLP:conf/alenex/2018", which doesn't exist
-Warning--I didn't find a database entry for "DBLP:conf/alenex/2018"
-You've used 9 entries,
-            2118 wiz_defined-function locations,
-            596 strings with 6937 characters,
-and the built_in function-call counts, 4195 in all, are:
-= -- 435
-> -- 180
-< -- 7
-+ -- 70
-- -- 61
-* -- 286
-:= -- 634
-add.period$ -- 32
-call.type$ -- 9
-change.case$ -- 57
+You've used 12 entries,
+            2849 wiz_defined-function locations,
+            744 strings with 8372 characters,
+and the built_in function-call counts, 6667 in all, are:
+= -- 734
+> -- 235
+< -- 6
++ -- 84
+- -- 72
+* -- 439
+:= -- 946
+add.period$ -- 52
+call.type$ -- 12
+change.case$ -- 72
 chr.to.int$ -- 0
-cite$ -- 9
-duplicate$ -- 174
-empty$ -- 328
-format.name$ -- 61
-if$ -- 932
+cite$ -- 12
+duplicate$ -- 190
+empty$ -- 584
+format.name$ -- 72
+if$ -- 1681
 int.to.chr$ -- 0
-int.to.str$ -- 9
-missing$ -- 9
-newline$ -- 48
-num.names$ -- 20
-pop$ -- 66
+int.to.str$ -- 12
+missing$ -- 12
+newline$ -- 75
+num.names$ -- 24
+pop$ -- 100
 preamble$ -- 1
-purify$ -- 48
+purify$ -- 60
 quote$ -- 0
-skip$ -- 137
+skip$ -- 445
 stack$ -- 0
-substring$ -- 307
-swap$ -- 73
-text.length$ -- 7
+substring$ -- 384
+swap$ -- 80
+text.length$ -- 6
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 36
+type$ -- 48
 warning$ -- 0
-while$ -- 42
-width$ -- 10
-write$ -- 107
-(There was 1 error message)
+while$ -- 50
+width$ -- 14
+write$ -- 165
