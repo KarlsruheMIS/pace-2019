@@ -31,6 +31,13 @@
 
 \newcommand{\mytitle}{WeGotYouCovered}
 
+\setlength\parfillskip{0pt plus .4\textwidth}
+\setlength\emergencystretch{.1\textwidth}
+\clubpenalty10000
+\widowpenalty10000
+\displaywidowpenalty=10000
+
+
 %\subjclass{G.2.2 Graph Theory -- Graph Algorithms, G.4 Mathematical Software -- Algorithm Design and Analysis} 
 %\keywords{kernelization, branch-and-reduce, local search}
 %\EventEditors{}
@@ -77,7 +84,7 @@ Many techniques have been proposed for solving these problems, and papers in the
 minimum vertex cover $C$ in $G$ is the complement of a maximum independent set $V\setminus C$ in $G$, which is a maximum clique $V\setminus C$ in $\overline{G}$. Thus, an algorithm that solves one of these problems can be used to~solve~the~others.
 For our approach, we use a portfolio of solvers, using techniques from the literature on all three problems. These include data reduction rules and branch-and-reduce for the minimum vertex cover problem~\cite{akiba-tcs-2016}, iterated local search for the maximum independent set problem~\cite{andrade-2012}, and a state-of-the-art branch-and-bound maximum clique solver~\cite{DBLP:journals/cor/LiJM17}.
 
-We first briefly describe releated work. Then we outline each of the techniques that we use, and finally describe how we combine all of the techniques in our final solver that scored most of the points during the PACE 2019 Implementation Challenge.
+We first briefly describe releated work. Then we outline each of the techniques that we use, and finally describe how we combine all of the techniques in our final solver that scored most of the points during the PACE 2019 Implementation Challenge. Lastly, we perform an experimental evaluation to show the impact of the components used on the final number of instances solved during the challenge.
 \section{Related Work}
 \label{sec:related_work}
 We now present important related work.
@@ -111,9 +118,6 @@ If an improvement is found, their algorithm then tries to apply reductions and r
 To be more specific, they use two reduction rules that are able to remove a vertex $v$ by computing upper bounds related to the weight of different neighborhoods of $v$. 
 We briefly note that their algorithm and reductions are targeted at sparse graphs, and therefore their reductions would likely work well for the maximum weighted independent set problem on \emph{dense} graphs.
 
-\begin{itemize}
-        \item TODO add more exact stuff, heuristics?
-\end{itemize}
 
 \section{Solver Techniques}
 We now describe the main techniques that we use within our solver.
@@ -165,8 +169,17 @@ If all previous phases were unsuccessful, we run MoMC on the original (unkerneli
 \end{description}
 
 The ordering and time limits were carefully chosen so that the overall algorithm outputs solutions of the ``easy'' instances \emph{quickly}, while still being able to solve hard instances.
+\vfill\pagebreak
+\section{Experimental Results}
+We now look at the impact of the algorithmic components on the number of instances solved.
+Here, we use the public instances -- obtained from \url{https://pacechallenge.org/files/pace2019-vc-exact-public-v2.tar.bz2} -- of the PACE 2019 Track A implementation challenge. This set contains 100 instances overall. Afterwards, we present the results comaring against the second and third best competing algorithms during the challenge. 
 
-\section{Exerimental Results}
+\subsection{Methodology and Setup.}
+All of our experiments were run on a machine with  four Sixteen-Core Intel Xeon Haswell-EX E7-8867 processors running at $2.5$ GHz, $1$ TB of main memory, and $32768$ KB L2-Cache.
+The machine runs Debian GNU/Linux 9 and Linux kernel version 4.9.0-9.
+All algorithms were implemented in C++11 and compiled with gcc~version 6.3.0 with optimization flag \texttt{-O3}.
+Each algorithm was run sequentially with a time limit of 30 minutes. Our evaluations focus on the total number of instances solved.
+\subsection{Algorithm Configurations.}
 Variants:
 \begin{itemize}
         \item not using local search
@@ -180,6 +193,11 @@ Variants:
 %\item[GitHub:] \url{https://github.com/sebalamm/pace-2019/releases/tag/pace-2019}
 %\item[DOI:] \url{https://doi.org/10.5281/zenodo.2816116}
 %\end{description}
+\section{TODOs}
+\begin{itemize}
+        \item TODO add more exact stuff, heuristics?
+\item TODO insert final three solvers of pace challenge
+\end{itemize}
 
 \bibliographystyle{plainurl}
 \bibliography{references}
