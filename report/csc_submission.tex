@@ -1,0 +1,140 @@
+\documentclass[twoside,leqno,twocolumn]{article}
+
+% Comment out the line below if using A4 paper size
+\usepackage[letterpaper]{geometry}
+
+\usepackage{ltexpprt}
+\usepackage{t1enc}
+\usepackage[utf8]{inputenc}
+\usepackage{numprint}
+\npdecimalsign{.} % we want . not , in numbers
+\usepackage{hyperref}
+\usepackage{xspace}
+\usepackage{doi}
+\usepackage{enumerate}
+
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+\def\MdR{\ensuremath{\mathbb{R}}}
+\def\MdN{\ensuremath{\mathbb{N}}}
+%\DeclareMathOperator{\sgn}{sgn}
+\newcommand{\Id}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\Is}       {:=}
+\newcommand{\setGilt}[2]{\left\{ #1\sodass #2\right\}}
+\newcommand{\sodass}{\,:\,}
+\newcommand{\set}[1]{\left\{ #1\right\}}
+\newcommand{\gilt}{:}
+\newcommand{\ie}{i.\,e.,\xspace}
+\newcommand{\eg}{e.\,g.,\xspace}
+\newcommand{\etal}{et~al.\xspace}
+\newcommand{\Wlog}{w.\,l.\,o.\,g.\ }
+\newcommand{\wrt}{w.\,r.\,t.\xspace}
+
+\newcommand{\mytitle}{WeGotYouCovered}
+
+%\subjclass{G.2.2 Graph Theory -- Graph Algorithms, G.4 Mathematical Software -- Algorithm Design and Analysis} 
+%\keywords{kernelization, branch-and-reduce, local search}
+%\EventEditors{}
+%\EventNoEds{0}
+%\EventLongTitle{}
+%\EventShortTitle{PACE 2019}
+%\EventAcronym{PACE}
+%\EventYear{2019}
+%\EventDate{}
+%\EventLocation{}
+%\EventLogo{}
+%\SeriesVolume{}
+%\ArticleNo{}
+
+\begin{document}
+\title{\mytitle}
+\author{Demian Hespe\thanks{Karlsruhe Institute of Technology, Karlsruhe, Germany} \and Sebastian Lamm\thanks{Karlsruhe Institute of Technology, Karlsruhe, Germany} \and Christian Schulz\thanks{University of Vienna, Faculty of Computer Science, Austria} \and Darren Strash\thanks{Hamilton College, New York, USA}}
+
+%\affil[1]{Karlsruhe Institute of Technology, Karlsruhe, Germany \\
+  %\texttt{hespe@kit.edu}}
+%\affil[2]{Karlsruhe Institute of Technology, Karlsruhe, Germany\\
+  %\texttt{lamm@kit.edu}}
+%\affil[3]{University of Vienna, Faculty of Computer Science, Vienna, Austria\\ \texttt{christian.schulz@univie.ac.at}}
+%\affil[4]{Hamilton College, New York, USA,  \texttt{dstrash@hamilton.edu}}
+
+\date{}
+
+
+%\Copyright{}
+\maketitle
+\begin{abstract}
+The vertex cover problem is one of a handful of problems for which \emph{kernelization}---the repeated reducing of the input size via \emph{data reduction rules}---is known to be highly effective in practice. For our submission, we use a portfolio of techniques, including an aggressive kernelization strategy with all known reduction rules, local search, branch-and-reduce, and a state-of-the-art branch-and-bound solver. Of particular interest is that several of our techniques were \emph{not} from the literature on the vertex over problem: they were originally published to solve the (complementary) maximum independent set and maximum clique problems.
+\end{abstract}
+
+%apply an initial aggressive kernelization strategy, using all known reduction rules for the problem. From there we use local search to produce a high-quality solution on the (hopefully smaller) kernel, which we use as a starting solution for a branch-and-bound solver. Our branch-and-bound solver also applies reduction rules via a branch-and-reduce scheme -- applying rules when possible, and branching otherwise -- though this may be toggled to omit reductions if they are not effective.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+A \emph{vertex cover} of a graph $G=(V,E)$ is a set of vertices $S\subseteq V$ of $G$ such that every edge of $G$ has at least one of member of $S$ as an endpoint (i.e., $\forall (u,v) \in E\,\, [u\in S \textrm{ or } v \in S]$).
+A minimum vertex cover is a vertex cover of minimum cardinality. 
+Complementary to vertex covers are independent sets and cliques. An independent set is a set of vertices $I\subseteq V$, all pairs of which are not adjacent, and an clique is a set of vertices $K\subseteq V$ all pairs of which are adjacent. A maximum independent set (maximum clique) is an independent set (clique) of maximum cardinality. The goal of the maximum independent set problem (maximum clique problem) is to compute a maximum independent set (maximum clique).
+
+Many techniques have been proposed for solving these problems, and papers in the literature usually focus on one of these problems in particular. However, all of these problems are equivalent: a
+minimum vertex cover $C$ in $G$ is the complement of a maximum independent set $V\setminus C$ in $G$, which is a maximum clique $V\setminus C$ in $\overline{G}$. Thus, an algorithm that solves one of these problems can be used to~solve~the~others.
+For our approach, we use a portfolio of solvers, using techniques from the literature on all three problems. These include data reduction rules and branch-and-reduce for the minimum vertex cover problem~\cite{akiba-tcs-2016}, iterated local search for the maximum independent set problem~\cite{andrade-2012}, and a state-of-the-art branch-and-bound maximum clique solver~\cite{DBLP:journals/cor/LiJM17}.
+
+We first briefly describe each of the techniques that we use, and then describe how we combine all of the techniques in our final solver.
+\section{Techniques}
+
+\paragraph*{Kernelization}
+The most efficient algorithms for computing a minimum vertex cover in both theory and practice use \emph{data reduction rules} to obtain a much smaller problem instance. If this smaller instance has size bounded by a function of some parameter, it's called a \emph{kernel}. 
+
+We use an extensive (though not exhaustive) collection of data reduction rules whose efficacy was studied by Akiba and Iwata~\cite{akiba-tcs-2016}. To compute a kernel, Akiba and Iwata~\cite{akiba-tcs-2016} apply their
+reductions~$r_1, \dots, r_j$ by iterating over all reductions and trying to
+apply the current reduction $r_i$ to all vertices. If $r_i$ reduces at
+least one vertex, they restart with reduction~$r_1$. When reduction~$r_j$ 
+is executed, but does not reduce any vertex, all reductions have been applied
+exhaustively, and a kernel is found. Following their study we order the reductions
+as follows: degree-one vertex (i.e., pendant) removal, unconfined vertex removal~\cite{Xiao201392}, a well-known linear-programming 
+relaxation~\cite{iwata-2014,nemhauser-1975} related to crown removal~\cite{abu-khzam-2007}, vertex folding~\cite{chen-1999}, and twin, funnel, and desk reductions~\cite{Xiao201392}.
+
+%The kernel can then be solved quickly using exact or heuristic algorithms---or by repeatedly kernelizing recursively in the branch-and-reduce paradigm. 
+
+\paragraph*{Branch-and-Reduce}
+Branch-and-reduce is a paradigm that intermixes data reduction rules and branching. We use the algorithm of Akiba and Iwata, which exhaustively applies their full suite of reduction rules before branching, and includes a number of advanced branching rules. When branching, a vertex is chosen at random for inclusion into the vertex cover.
+
+\paragraph*{Branch-and-Bound} Experiments by Strash~\cite{strash2016power} show that the full power of branch-and-reduce is only needed \emph{very rarely} in real-world instances; kernelization followed by standard branch-and-bound solver is sufficient for many real-world instances. Furthermore, branch-and-reduce does not work well on many synthetic benchmark instances, where data reduction rules are ineffective~\cite{akiba-tcs-2016}, and instead add significant overhead to branch-and-bound. We use a state-of-the-art branch-and-bound maximum clique solver (MoMC) by Li et al.~\cite{DBLP:journals/cor/LiJM17}, which uses incremental MaxSAT reasoning to prune search, and a combination of static and dynamic vertex ordering to select the vertex for branching. We run the clique solver on the complement graph, giving a maximum independent set from which we derive a minimum vertex cover. In preliminary experiments, we found that a kernel can sometimes be harder for the solver than the original input; therefore, we run the algorithm on both the kernel and on the original graph.
+
+\paragraph*{Iterated Local Search}
+Batsyn et al.~\cite{batsyn-mcs-ils-2014} showed that if branch-and-bound search is primed with a high-quality solution from local search, then instances can be solved up to thousands of times faster. 
+We use iterated local search algorithm by Andrade et al.~\cite{andrade-2012} to prime the branch-and-reduce solver with a high-quality initial solution. Iterated local search was originally implemented for the maximum independent set problem, and is based on the notion of $(j,k)$-swaps. A $(j,k)$-swap removes $j$ nodes from the current solution and inserts $k$ nodes. The authors present a fast linear-time implementation that, given a maximal independent set, can find a $(1,2)$-swap or prove that none exists. Their algorithm applies $(1,2)$-swaps until reaching a local maximum, then perturbs the solution and repeats. We implemented the algorithm to find a high-quality solution on \emph{the kernel}. Calling local search on the kernel has been shown to produce a high-quality solution much faster than without kernelization~\cite{chang2017computing,dahlum2016accelerating}.
+
+\section{Putting it all Together}
+Our algorithm first runs a preprocessing phase, followed by 4 phases of solvers.
+
+%Our solver is a combination of different kernelization techniques \cite{DBLP:conf/alenex/Hespe0S18}, local search~\cite{DBLP:conf/wea/AndradeRW08}, as well as branch-and-reduce~\cite{akiba-tcs-2016,DBLP:journals/cor/LiJM17}.
+
+%
+%Our algorithm uses a portfolio of solvers, i.e., a branch-and-bound solver for vertex cover~\cite{akiba-tcs-2016} as well as a branch-and-bound solver for the maximum clique problem \cite{DBLP:journals/cor/LiJM17}.
+
+\begin{description}
+\item[Phase 1. (Preprocessing)] Our algorithm starts by computing a kernel of the graph using the reductions by Akiba and Iwata~\cite{akiba-tcs-2016}. 
+From there we use iterated local search to produce a high-quality solution $S_{\textrm{init}}$ on the (hopefully smaller) kernel. 
+\item[Phase 2. (Branch-and-Reduce, short)]
+We prime a branch-and-reduce solver with the initial solution $S_{\textrm{init}}$ and run it with a short time limit.
+\item[Phase 3. (Branch-and-Bound, short)]
+If Phase 2 is unsuccessful, we run the MoMC~\cite{DBLP:journals/cor/LiJM17} clique solver on the complement of the kernel, also using a short time limit. Sometimes kernelization can make the problem harder for MoMC. Therefore, if the first call was unsuccessful we also run MoMC on the complement of the original (unkernelized) input with the same short time limit.
+
+\item[Phase 4. (Branch-and-Reduce, long)]
+If we have still not found a solution, we run branch-and-reduce on the kernel using initial solution $S_{\textrm{init}}$ and a longer time limit. We opt for this second phase because, while most graphs amenable to reductions are solved very quickly with branch-and-reduce (less than a second),
+experiments by Akiba and Iwata~\cite{akiba-tcs-2016} showed that other slower instances either finish in at most a few minutes, or take significantly longer---more than the time limit allotted for the challenge. This second phase of branch-and-reduce is meant to catch any instances that still benefit from reductions.
+
+\item[Phase 5. (Branch-and-Bound, remaining time)]
+If all previous phases were unsuccessful, we run MoMC on the original (unkernelized) input graph until the end of the time given to the program by the challenge. This is meant to capture only the most hard-to-compute instances.
+\end{description}
+
+The ordering and time limits were carefully chosen so that the overall algorithm outputs solutions of the ``easy'' instances \emph{quickly}, while still being able to solve hard instances.
+\section{Material}
+
+\begin{description}
+\item[GitHub:] \url{https://github.com/sebalamm/pace-2019/releases/tag/pace-2019}
+\item[DOI:] \url{https://doi.org/10.5281/zenodo.2816116}
+\end{description}
+
+\bibliographystyle{plainurl}
+\bibliography{references}
+\end{document}
