@@ -7,44 +7,67 @@ Reallocated global_strs (elt_size=20001) to 20 items from 10.
 Reallocated glb_str_end (elt_size=4) to 20 items from 10.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: references.bib
-You've used 12 entries,
+Repeated entry---line 3061 of file references.bib
+ : @article{andrade-2012
+ :                      ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 3321 of file references.bib
+ : @article{akiba-tcs-2016
+ :                        ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 3333 of file references.bib
+ : @inproceedings{iwata-2014
+ :                          ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 3354 of file references.bib
+ : @article{abu-khzam-2007
+ :                        ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 3378 of file references.bib
+ : @article{nemhauser-1975
+ :                        ,
+I'm skipping whatever remains of this entry
+Warning--empty booktitle in larson-2007
+Warning--empty note in warren2006combinatorial
+You've used 19 entries,
             2849 wiz_defined-function locations,
-            744 strings with 8370 characters,
-and the built_in function-call counts, 6667 in all, are:
-= -- 734
-> -- 235
-< -- 6
-+ -- 84
-- -- 72
-* -- 439
-:= -- 946
-add.period$ -- 52
-call.type$ -- 12
-change.case$ -- 72
+            789 strings with 9502 characters,
+and the built_in function-call counts, 9683 in all, are:
+= -- 1059
+> -- 312
+< -- 9
++ -- 114
+- -- 92
+* -- 585
+:= -- 1358
+add.period$ -- 76
+call.type$ -- 19
+change.case$ -- 103
 chr.to.int$ -- 0
-cite$ -- 12
-duplicate$ -- 190
-empty$ -- 584
-format.name$ -- 72
-if$ -- 1681
+cite$ -- 21
+duplicate$ -- 291
+empty$ -- 888
+format.name$ -- 92
+if$ -- 2473
 int.to.chr$ -- 0
-int.to.str$ -- 12
-missing$ -- 12
-newline$ -- 75
-num.names$ -- 24
-pop$ -- 100
+int.to.str$ -- 19
+missing$ -- 18
+newline$ -- 112
+num.names$ -- 38
+pop$ -- 161
 preamble$ -- 1
-purify$ -- 60
+purify$ -- 84
 quote$ -- 0
-skip$ -- 445
+skip$ -- 671
 stack$ -- 0
-substring$ -- 384
-swap$ -- 80
-text.length$ -- 6
+substring$ -- 553
+swap$ -- 106
+text.length$ -- 9
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 48
-warning$ -- 0
-while$ -- 50
-width$ -- 14
-write$ -- 165
+type$ -- 76
+warning$ -- 2
+while$ -- 76
+width$ -- 21
+write$ -- 244
+(There were 5 error messages)

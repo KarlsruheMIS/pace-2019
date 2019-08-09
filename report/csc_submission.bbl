@@ -23,12 +23,36 @@ D.~V. Andrade, M.~G.C. Resende, and R.~F. Werneck.
 \newblock \href {http://dx.doi.org/10.1007/s10732-012-9196-4}
   {\path{doi:10.1007/s10732-012-9196-4}}.
 
+\bibitem{babel1994fast}
+Luitpold Babel.
+\newblock A fast algorithm for the maximum weight clique problem.
+\newblock {\em Computing}, 52(1):31--38, 1994.
+
+\bibitem{balas1986finding}
+Egon Balas and Chang~Sung Yu.
+\newblock Finding a maximum clique in an arbitrary graph.
+\newblock {\em SIAM Journal on Computing}, 15(4):1054--1068, 1986.
+
 \bibitem{batsyn-mcs-ils-2014}
 M.~Batsyn, B.~Goldengorin, E.~Maslov, and P.~Pardalos.
 \newblock Improvements to {MCS} algorithm for the maximum clique problem.
 \newblock {\em J. Comb. Optim.}, 27(2):397--416, 2014.
 \newblock \href {http://dx.doi.org/10.1007/s10878-012-9592-6}
   {\path{doi:10.1007/s10878-012-9592-6}}.
+
+\bibitem{cai2015balance}
+Shaowei Cai.
+\newblock Balance between complexity and quality: Local search for minimum
+  vertex cover in massive graphs.
+\newblock In {\em Twenty-Fourth International Joint Conference on Artificial
+  Intelligence}, 2015.
+
+\bibitem{cai2016fast}
+Shaowei Cai and Jinkun Lin.
+\newblock Fast solving maximum weight clique problem in massive graphs.
+\newblock In {\em Proceedings of the Twenty-Fifth International Joint
+  Conference on Artificial Intelligence}, pages 568--574. AAAI Press, 2016.
+\newblock URL: \url{http://www.ijcai.org/Proceedings/16/Papers/087.pdf}.
 
 \bibitem{chang2017computing}
 Lijun Chang, Wei Li, and Wenjie Zhang.
@@ -62,6 +86,12 @@ Y.~Iwata, K.~Oka, and Y.~Yoshida.
   '14, pages 1749--1761. SIAM, 2014.
 \newblock URL: \url{http://dl.acm.org/citation.cfm?id=2634074.2634201}.
 
+\bibitem{larson-2007}
+C.E. Larson.
+\newblock A note on critical independence reductions.
+\newblock volume~51 of {\em Bulletin of the Institute of Combinatorics and its
+  Applications}, pages 34--46, 2007.
+
 \bibitem{DBLP:journals/cor/LiJM17}
 C.{-}M. Li, H.~Jiang, and F.~Many{\`{a}}.
 \newblock On minimization of the number of branches in branch-and-bound
@@ -77,6 +107,11 @@ G.L. Nemhauser and L.~E. {Trotter Jr.}
 \newblock \href {http://dx.doi.org/10.1007/BF01580444}
   {\path{doi:10.1007/BF01580444}}.
 
+\bibitem{ostergaard2002fast}
+Patric~RJ {\"O}sterg{\aa}rd.
+\newblock A fast algorithm for the maximum clique problem.
+\newblock {\em Discrete Applied Mathematics}, 120(1-3):197--207, 2002.
+
 \bibitem{strash2016power}
 Darren Strash.
 \newblock On the power of simple reductions for the maximum independent set
@@ -86,6 +121,13 @@ Darren Strash.
   Springer, 2016.
 \newblock \href {http://dx.doi.org/10.1007/978-3-319-42634-1_28}
   {\path{doi:10.1007/978-3-319-42634-1_28}}.
+
+\bibitem{warren2006combinatorial}
+Jeffrey~S Warren and Illya~V Hicks.
+\newblock Combinatorial branch-and-bound for the maximum weight independent set
+  problem.
+\newblock 2006.
+\newblock URL: \url{https://www.caam.rice.edu/~ivhicks/jeff.rev.pdf}.
 
 \bibitem{Xiao201392}
 M.~Xiao and H.~Nagamochi.

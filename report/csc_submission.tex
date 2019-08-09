@@ -62,7 +62,7 @@
 %\Copyright{}
 \maketitle
 \begin{abstract}
-The vertex cover problem is one of a handful of problems for which \emph{kernelization}---the repeated reducing of the input size via \emph{data reduction rules}---is known to be highly effective in practice. For our submission, we use a portfolio of techniques, including an aggressive kernelization strategy with all known reduction rules, local search, branch-and-reduce, and a state-of-the-art branch-and-bound solver. Of particular interest is that several of our techniques were \emph{not} from the literature on the vertex over problem: they were originally published to solve the (complementary) maximum independent set and maximum clique problems.
+We present the winning solver of the PACE 2019 Implementation Challenge Vertex Cover Track. The vertex cover problem is one of a handful of problems for which \emph{kernelization}---the repeated reducing of the input size via \emph{data reduction rules}---is known to be highly effective in practice. Our algorithm uses a portfolio of techniques, including an aggressive kernelization strategy with all known reduction rules, local search, branch-and-reduce, and a state-of-the-art branch-and-bound solver. Of particular interest is that several of our techniques were \emph{not} from the literature on the vertex over problem: they were originally published to solve the (complementary) maximum independent set and maximum clique problems. Lastly, we perform extensive experiments to show the impact of the different solver techniques on the number of instances solved during the challenge.
 \end{abstract}
 
 %apply an initial aggressive kernelization strategy, using all known reduction rules for the problem. From there we use local search to produce a high-quality solution on the (hopefully smaller) kernel, which we use as a starting solution for a branch-and-bound solver. Our branch-and-bound solver also applies reduction rules via a branch-and-reduce scheme -- applying rules when possible, and branching otherwise -- though this may be toggled to omit reductions if they are not effective.
@@ -77,10 +77,47 @@ Many techniques have been proposed for solving these problems, and papers in the
 minimum vertex cover $C$ in $G$ is the complement of a maximum independent set $V\setminus C$ in $G$, which is a maximum clique $V\setminus C$ in $\overline{G}$. Thus, an algorithm that solves one of these problems can be used to~solve~the~others.
 For our approach, we use a portfolio of solvers, using techniques from the literature on all three problems. These include data reduction rules and branch-and-reduce for the minimum vertex cover problem~\cite{akiba-tcs-2016}, iterated local search for the maximum independent set problem~\cite{andrade-2012}, and a state-of-the-art branch-and-bound maximum clique solver~\cite{DBLP:journals/cor/LiJM17}.
 
-We first briefly describe each of the techniques that we use, and then describe how we combine all of the techniques in our final solver.
-\section{Techniques}
+We first briefly describe releated work. Then we outline each of the techniques that we use, and finally describe how we combine all of the techniques in our final solver that scored most of the points during the PACE 2019 Implementation Challenge.
+\section{Related Work}
+\label{sec:related_work}
+We now present important related work.
+This includes exact branch-and-bound algorithms as well as reduction based approaches. Much research has been devoted to improve exact branch-and-bound algorithms for the independent set and its complementary problems.
+These improvements include different pruning methods and sophisticated branching schemes~\cite{ostergaard2002fast,balas1986finding,babel1994fast,warren2006combinatorial}.
+Warren and Hicks~\cite{warren2006combinatorial} proposed three combinatorial branch-and-bound algorithms that are able to quickly solve DIMACS and weighted random graphs.
+These algorithms use weighted clique covers to generate upper bounds that reduce the search space via pruning.
+Furthermore, they all use a branching scheme proposed by Balas and Yu~\cite{balas1986finding}.
+In particular, their first algorithm is an extension and improvement of a method by Babel~\cite{babel1994fast}.
+Their second one uses a modified version of the algorithm by Balas and Yu that uses clique covers that borrow structural features from the ones by Babel~\cite{babel1994fast}.
+Finally, their third approach is a hybrid of both previous algorithms.
+Overall, their algorithms are able to quickly solve instances with hundreds of vertices.
 
-\paragraph*{Kernelization}
+An important technique to reduce the base of the exponent for exact branch-and-bound algorithms are so-called \emph{reduction rules}.
+Reduction rules are able to reduce the input graph to an irreducible \emph{kernel} by removing well-defined subgraphs.
+This is done by selecting certain vertices that are provably part of some maximum independent set, thus maintaining optimality.
+We can then extend a solution on the kernel to a solution on the input graph by undoing the previously applied reductions.
+There exist several well-known reduction rules for the unweighted vertex cover problem (and in turn for the unweighted MIS problem)~\cite{akiba-tcs-2016}.
+
+As noted by Larson~\cite{larson-2007}, it is possible that in the unweighted case the initial critical set found by Butenko and Trukhanov might be empty.
+To prevent this case, Larson~\cite{larson-2007} proposed an algorithm that finds a \emph{maximum} (unweighted) critical independent set.
+His algorithm accumulates vertices that are in some critical set and removes their neighborhood.
+Additionally, he provides a method to quickly check if a given vertex is part of some critical set.
+Later Iwata~\cite{iwata-2014} has shown how to remove a large collection of vertices from a maximum matching all at once; however, it is not known if these reductions are equivalent.
+
+For the maximum weight clique problem, Cai and Lin~\cite{cai2016fast} give an exact branch-and-bound algorithm that interleaves between clique construction and reductions.
+In particular, their algorithm picks different starting vertices to form a clique and then maintains a candidate set to iteratively extend this clique.
+In each iteration, the vertex to be added is selected using a benefit estimation function and a dynamic best from multiple selection heuristic~\cite{cai2015balance}.
+Once the candidate set is empty, the new solution is compared to the best solution found so far.
+If an improvement is found, their algorithm then tries to apply reductions and reduce the graph size.
+To be more specific, they use two reduction rules that are able to remove a vertex $v$ by computing upper bounds related to the weight of different neighborhoods of $v$. 
+We briefly note that their algorithm and reductions are targeted at sparse graphs, and therefore their reductions would likely work well for the maximum weighted independent set problem on \emph{dense} graphs.
+
+\begin{itemize}
+        \item TODO add more exact stuff, heuristics?
+\end{itemize}
+
+\section{Solver Techniques}
+We now describe the main techniques that we use within our solver.
+\paragraph*{Kernelization.}
 The most efficient algorithms for computing a minimum vertex cover in both theory and practice use \emph{data reduction rules} to obtain a much smaller problem instance. If this smaller instance has size bounded by a function of some parameter, it's called a \emph{kernel}. 
 
 We use an extensive (though not exhaustive) collection of data reduction rules whose efficacy was studied by Akiba and Iwata~\cite{akiba-tcs-2016}. To compute a kernel, Akiba and Iwata~\cite{akiba-tcs-2016} apply their
@@ -94,12 +131,12 @@ relaxation~\cite{iwata-2014,nemhauser-1975} related to crown removal~\cite{abu-k
 
 %The kernel can then be solved quickly using exact or heuristic algorithms---or by repeatedly kernelizing recursively in the branch-and-reduce paradigm. 
 
-\paragraph*{Branch-and-Reduce}
+\paragraph*{Branch-and-Reduce.}
 Branch-and-reduce is a paradigm that intermixes data reduction rules and branching. We use the algorithm of Akiba and Iwata, which exhaustively applies their full suite of reduction rules before branching, and includes a number of advanced branching rules. When branching, a vertex is chosen at random for inclusion into the vertex cover.
 
-\paragraph*{Branch-and-Bound} Experiments by Strash~\cite{strash2016power} show that the full power of branch-and-reduce is only needed \emph{very rarely} in real-world instances; kernelization followed by standard branch-and-bound solver is sufficient for many real-world instances. Furthermore, branch-and-reduce does not work well on many synthetic benchmark instances, where data reduction rules are ineffective~\cite{akiba-tcs-2016}, and instead add significant overhead to branch-and-bound. We use a state-of-the-art branch-and-bound maximum clique solver (MoMC) by Li et al.~\cite{DBLP:journals/cor/LiJM17}, which uses incremental MaxSAT reasoning to prune search, and a combination of static and dynamic vertex ordering to select the vertex for branching. We run the clique solver on the complement graph, giving a maximum independent set from which we derive a minimum vertex cover. In preliminary experiments, we found that a kernel can sometimes be harder for the solver than the original input; therefore, we run the algorithm on both the kernel and on the original graph.
+\paragraph*{Branch-and-Bound.} Experiments by Strash~\cite{strash2016power} show that the full power of branch-and-reduce is only needed \emph{very rarely} in real-world instances; kernelization followed by standard branch-and-bound solver is sufficient for many real-world instances. Furthermore, branch-and-reduce does not work well on many synthetic benchmark instances, where data reduction rules are ineffective~\cite{akiba-tcs-2016}, and instead add significant overhead to branch-and-bound. We use a state-of-the-art branch-and-bound maximum clique solver (MoMC) by Li et al.~\cite{DBLP:journals/cor/LiJM17}, which uses incremental MaxSAT reasoning to prune search, and a combination of static and dynamic vertex ordering to select the vertex for branching. We run the clique solver on the complement graph, giving a maximum independent set from which we derive a minimum vertex cover. In preliminary experiments, we found that a kernel can sometimes be harder for the solver than the original input; therefore, we run the algorithm on both the kernel and on the original graph.
 
-\paragraph*{Iterated Local Search}
+\paragraph*{Iterated Local Search.}
 Batsyn et al.~\cite{batsyn-mcs-ils-2014} showed that if branch-and-bound search is primed with a high-quality solution from local search, then instances can be solved up to thousands of times faster. 
 We use iterated local search algorithm by Andrade et al.~\cite{andrade-2012} to prime the branch-and-reduce solver with a high-quality initial solution. Iterated local search was originally implemented for the maximum independent set problem, and is based on the notion of $(j,k)$-swaps. A $(j,k)$-swap removes $j$ nodes from the current solution and inserts $k$ nodes. The authors present a fast linear-time implementation that, given a maximal independent set, can find a $(1,2)$-swap or prove that none exists. Their algorithm applies $(1,2)$-swaps until reaching a local maximum, then perturbs the solution and repeats. We implemented the algorithm to find a high-quality solution on \emph{the kernel}. Calling local search on the kernel has been shown to produce a high-quality solution much faster than without kernelization~\cite{chang2017computing,dahlum2016accelerating}.
 
@@ -128,12 +165,21 @@ If all previous phases were unsuccessful, we run MoMC on the original (unkerneli
 \end{description}
 
 The ordering and time limits were carefully chosen so that the overall algorithm outputs solutions of the ``easy'' instances \emph{quickly}, while still being able to solve hard instances.
-\section{Material}
 
-\begin{description}
-\item[GitHub:] \url{https://github.com/sebalamm/pace-2019/releases/tag/pace-2019}
-\item[DOI:] \url{https://doi.org/10.5281/zenodo.2816116}
-\end{description}
+\section{Exerimental Results}
+Variants:
+\begin{itemize}
+        \item not using local search
+        \item not using clique solver on kernel
+        \item not using clique solver on input 
+        \item not using is solver?
+\end{itemize}
+%\section{Material}
+
+%\begin{description}
+%\item[GitHub:] \url{https://github.com/sebalamm/pace-2019/releases/tag/pace-2019}
+%\item[DOI:] \url{https://doi.org/10.5281/zenodo.2816116}
+%\end{description}
 
 \bibliographystyle{plainurl}
 \bibliography{references}
