@@ -181,13 +181,14 @@ All algorithms were implemented in C++11 and compiled with gcc~version 6.3.0 wit
 Each algorithm was run sequentially with a time limit of 30 minutes. Our evaluations focus on the total number of instances solved.
 \subsection{Algorithm Configurations.}
 Variants:
-\begin{itemize}
-        \item not using local search
-        \item not using clique solver on kernel
-        \item not using clique solver on input 
-        \item not using is solver?
-\end{itemize}
 %\section{Material}
+\begin{itemize}
+        \item MoMC solves 30 / 100 instances 
+        \item Kernel + MoMC solves 68 / 100 instances 
+        \item Kernel + BnR solves 55 / 100 instances 
+        \item Kernel + BnR - Local Search solves 42 / 100 instances 
+        \item Full solver solves 82 / 100 instances 
+\end{itemize}
 
 %\begin{description}
 %\item[GitHub:] \url{https://github.com/sebalamm/pace-2019/releases/tag/pace-2019}
@@ -197,8 +198,121 @@ Variants:
 \begin{itemize}
         \item TODO add more exact stuff, heuristics?
 \item TODO insert final three solvers of pace challenge
+\item create a table with instances solved
 \end{itemize}
+\begin{table*}
+\centering
+\begin{tabular}{lllcccccc}
+inst\# & $n$ &$m$ & MoMC & RMoMC & BnR & BnR-LS & FullA \\
+001 &\numprint{6160}&\numprint{40207}&-&X&X&X&X&\\ 
+003 &\numprint{60541}&\numprint{74220}&-&X&X&X&X&\\ 
+005 &\numprint{200}&\numprint{819}&X&X&X&X&X&\\ 
+007 &\numprint{8794}&\numprint{10130}&-&X&X&X&X&\\ 
+009 &\numprint{38452}&\numprint{174645}&-&X&X&X&X&\\ 
+011 &\numprint{9877}&\numprint{25973}&-&X&X&X&X&\\ 
+013 &\numprint{45307}&\numprint{55440}&-&X&X&X&X&\\ 
+015 &\numprint{53610}&\numprint{65952}&-&X&X&X&X&\\ 
+017 &\numprint{23541}&\numprint{51747}&-&X&X&X&X&\\ 
+019 &\numprint{200}&\numprint{884}&X&X&X&X&X&\\ 
+021 &\numprint{24765}&\numprint{30242}&-&X&X&X&X&\\ 
+023 &\numprint{27717}&\numprint{133665}&-&X&X&X&X&\\ 
+025 &\numprint{23194}&\numprint{28221}&-&X&X&X&X&\\ 
+027 &\numprint{65866}&\numprint{81245}&-&X&X&X&X&\\ 
+029 &\numprint{13431}&\numprint{21999}&-&X&X&X&X&\\ 
+031 &\numprint{200}&\numprint{813}&X&X&X&X&X&\\ 
+033 &\numprint{4410}&\numprint{6885}&-&X&X&X&X&\\ 
+035 &\numprint{200}&\numprint{884}&X&X&X&X&X&\\ 
+037 &\numprint{198}&\numprint{824}&X&X&X&X&X&\\ 
+039 &\numprint{6795}&\numprint{10620}&-&X&X&X&X&\\ 
+041 &\numprint{200}&\numprint{1040}&X&X&X&X&X&\\ 
+043 &\numprint{200}&\numprint{841}&X&X&X&X&X&\\ 
+045 &\numprint{200}&\numprint{1044}&X&X&X&X&X&\\ 
+047 &\numprint{200}&\numprint{1120}&X&X&X&X&X&\\ 
+049 &\numprint{200}&\numprint{957}&X&X&X&X&X&\\ 
+051 &\numprint{200}&\numprint{1135}&X&X&X&X&X&\\ 
+053 &\numprint{200}&\numprint{1062}&X&X&X&X&X&\\ 
+055 &\numprint{200}&\numprint{958}&X&X&X&X&X&\\ 
+057 &\numprint{200}&\numprint{1200}&X&X&X&X&X&\\ 
+059 &\numprint{200}&\numprint{988}&X&X&X&X&X&\\ 
+061 &\numprint{200}&\numprint{952}&X&X&X&X&X&\\ 
+063 &\numprint{200}&\numprint{1040}&X&X&X&X&X&\\ 
+065 &\numprint{200}&\numprint{1037}&X&X&X&X&X&\\ 
+067 &\numprint{200}&\numprint{1201}&X&X&X&X&X&\\ 
+069 &\numprint{200}&\numprint{1120}&X&X&X&X&X&\\ 
+071 &\numprint{200}&\numprint{984}&X&X&X&X&X&\\ 
+073 &\numprint{200}&\numprint{1107}&X&X&X&X&X&\\ 
+075 &\numprint{26300}&\numprint{41500}&-&-&X&-&X&\\ 
+077 &\numprint{200}&\numprint{988}&X&X&X&X&X&\\ 
+079 &\numprint{26300}&\numprint{41500}&-&-&X&-&X&\\ 
+081 &\numprint{199}&\numprint{1124}&X&X&X&X&X&\\ 
+083 &\numprint{200}&\numprint{1215}&X&X&X&X&X&\\ 
+085 &\numprint{11470}&\numprint{17408}&-&-&-&-&-&\\ 
+087 &\numprint{13590}&\numprint{21240}&-&X&-&-&X&\\ 
+089 &\numprint{57316}&\numprint{77978}&-&-&-&-&-&\\ 
+091 &\numprint{200}&\numprint{1196}&X&X&X&X&X&\\ 
+093 &\numprint{200}&\numprint{1207}&X&X&X&X&X&\\ 
+095 &\numprint{15783}&\numprint{24663}&-&X&-&-&X&\\ 
+097 &\numprint{18096}&\numprint{28281}&-&X&-&-&X&\\ 
+099 &\numprint{26300}&\numprint{41500}&-&-&X&-&X&\\ 
+\end{tabular}
+\end{table*}
 
+\begin{table*}
+\centering
+\begin{tabular}{lllcccccc}
+inst\# & $n$ &$m$ & MoMC & RMoMC & BnR & BnR-LS & FullA \\
+101 &\numprint{26300}&\numprint{41500}&-&-&X&-&X&\\ 
+103 &\numprint{15783}&\numprint{24663}&-&X&-&-&X&\\ 
+105 &\numprint{26300}&\numprint{41500}&-&-&X&-&X&\\ 
+107 &\numprint{13590}&\numprint{21240}&-&X&-&-&X&\\ 
+109 &\numprint{66992}&\numprint{90970}&-&-&-&-&-&\\ 
+111 &\numprint{450}&\numprint{17831}&X&X&-&-&X&\\ 
+113 &\numprint{26300}&\numprint{41500}&-&-&X&-&X&\\ 
+115 &\numprint{18096}&\numprint{28281}&-&X&-&-&X&\\ 
+117 &\numprint{18096}&\numprint{28281}&-&X&-&-&X&\\ 
+119 &\numprint{18096}&\numprint{28281}&-&X&-&-&X&\\ 
+121 &\numprint{18096}&\numprint{28281}&-&X&-&-&X&\\ 
+123 &\numprint{26300}&\numprint{41500}&-&-&X&-&X&\\ 
+125 &\numprint{26300}&\numprint{41500}&-&-&X&-&X&\\ 
+127 &\numprint{18096}&\numprint{28281}&-&X&-&-&X&\\ 
+129 &\numprint{15783}&\numprint{24663}&-&X&-&-&X&\\ 
+131 &\numprint{2980}&\numprint{5360}&X&-&-&-&X&\\ 
+133 &\numprint{15783}&\numprint{24663}&-&X&-&-&X&\\ 
+135 &\numprint{26300}&\numprint{41500}&-&-&X&-&X&\\ 
+137 &\numprint{26300}&\numprint{41500}&-&-&X&-&X&\\ 
+139 &\numprint{18096}&\numprint{28281}&-&X&-&-&X&\\ 
+141 &\numprint{18096}&\numprint{28281}&-&X&-&-&X&\\ 
+143 &\numprint{18096}&\numprint{28281}&-&X&-&-&X&\\ 
+145 &\numprint{18096}&\numprint{28281}&-&X&-&-&X&\\ 
+147 &\numprint{18096}&\numprint{28281}&-&X&-&-&X&\\ 
+149 &\numprint{26300}&\numprint{41500}&-&-&X&-&X&\\ 
+151 &\numprint{15783}&\numprint{24663}&-&X&-&-&X&\\ 
+153 &\numprint{29076}&\numprint{45570}&-&-&-&-&-&\\ 
+155 &\numprint{26300}&\numprint{41500}&-&-&X&-&X&\\ 
+157 &\numprint{2980}&\numprint{5360}&X&-&-&-&X&\\ 
+159 &\numprint{18096}&\numprint{28281}&-&X&-&-&X&\\ 
+161 &\numprint{138141}&\numprint{227241}&-&-&-&-&-&\\ 
+163 &\numprint{18096}&\numprint{28281}&-&X&-&-&X&\\ 
+165 &\numprint{18096}&\numprint{28281}&-&X&-&-&X&\\ 
+167 &\numprint{15783}&\numprint{24663}&-&X&-&-&X&\\ 
+169 &\numprint{4768}&\numprint{8576}&-&-&-&-&-&\\ 
+171 &\numprint{18096}&\numprint{28281}&-&X&-&-&X&\\ 
+173 &\numprint{56860}&\numprint{77264}&-&-&-&-&-&\\ 
+175 &\numprint{3523}&\numprint{6446}&-&-&-&-&-&\\ 
+177 &\numprint{5066}&\numprint{9112}&-&-&-&-&-&\\ 
+179 &\numprint{15783}&\numprint{24663}&-&X&-&-&X&\\ 
+181 &\numprint{18096}&\numprint{28281}&-&X&X&-&X&\\ 
+183 &\numprint{72420}&\numprint{118362}&-&-&-&-&-&\\ 
+185 &\numprint{3523}&\numprint{6446}&-&-&-&-&-&\\ 
+187 &\numprint{4227}&\numprint{7734}&-&-&-&-&-&\\ 
+189 &\numprint{7400}&\numprint{13600}&-&-&-&-&-&\\ 
+191 &\numprint{4579}&\numprint{8378}&-&-&-&-&-&\\ 
+193 &\numprint{7030}&\numprint{12920}&-&-&-&-&-&\\ 
+195 &\numprint{1150}&\numprint{81068}&-&-&-&-&-&\\ 
+197 &\numprint{1534}&\numprint{127011}&-&-&-&-&-&\\ 
+199 &\numprint{1534}&\numprint{126163}&-&-&-&-&-&\\
+\end{tabular}
+\end{table*}
 \bibliographystyle{plainurl}
 \bibliography{references}
 \end{document}
