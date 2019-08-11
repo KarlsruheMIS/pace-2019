@@ -12,6 +12,7 @@
 \usepackage{xspace}
 \usepackage{doi}
 \usepackage{enumerate}
+\usepackage{booktabs}
 
 \newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
 \def\MdR{\ensuremath{\mathbb{R}}}
@@ -202,8 +203,10 @@ Variants:
 \end{itemize}
 \begin{table*}
 \centering
-\begin{tabular}{lllllccccclc}
+\begin{tabular}{l@{\hskip 25pt} llll|ccccc|lc}
+\toprule
 inst\# & $n$ &$m$& $n'$& $m'$ & MoMC & RMoMC & BnR & BnR-LS & FullA & $|VC|$ \\
+                \midrule
 
 001 &\numprint{6160}&\numprint{40207}&\numprint{0}&\numprint{0}&-&X&X&X&X&  \numprint{2586}&\\ 
 003 &\numprint{60541}&\numprint{74220}&\numprint{0}&\numprint{0}&-&X&X&X&X&  \numprint{12190}&\\ 
@@ -255,14 +258,17 @@ inst\# & $n$ &$m$& $n'$& $m'$ & MoMC & RMoMC & BnR & BnR-LS & FullA & $|VC|$ \\
 095 &\numprint{15783}&\numprint{24663}&\numprint{510}&\numprint{1746}&-&X&-&-&X&  \numprint{9755}&\\ 
 097 &\numprint{18096}&\numprint{28281}&\numprint{579}&\numprint{1995}&-&X&-&-&X&  \numprint{11185}&\\ 
 099 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&X&-&X&  \numprint{16300}&\\ 
+\bottomrule
 \end{tabular}
 \end{table*}
 
 \begin{table*}
 \centering
 
-\begin{tabular}{lllllccccclc}
+\begin{tabular}{l@{\hskip 25pt} llll|ccccc|lc}
+\toprule
 inst\# & $n$ &$m$& $n'$& $m'$ & MoMC & RMoMC & BnR & BnR-LS & FullA & $|VC|$ \\
+                \midrule
 
 101 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&X&-&X&  \numprint{16300}&\\ 
 103 &\numprint{15783}&\numprint{24663}&\numprint{513}&\numprint{1752}&-&X&-&-&X&  \numprint{9755}&\\ 
@@ -313,7 +319,10 @@ inst\# & $n$ &$m$& $n'$& $m'$ & MoMC & RMoMC & BnR & BnR-LS & FullA & $|VC|$ \\
 193 &\numprint{7030}&\numprint{12920}&\numprint{5510}&\numprint{17294}&-&-&-&-&-&  &\\ 
 195 &\numprint{1150}&\numprint{81068}&\numprint{1150}&\numprint{81068}&-&-&-&-&-&  &\\ 
 197 &\numprint{1534}&\numprint{127011}&\numprint{1534}&\numprint{127011}&-&-&-&-&-&  &\\ 
-199 &\numprint{1534}&\numprint{126163}&\numprint{1534}&\numprint{126163}&-&-&-&-&-&  &\\  \end{tabular}
+199 &\numprint{1534}&\numprint{126163}&\numprint{1534}&\numprint{126163}&-&-&-&-&-&  &\\ 
+
+\bottomrule
+\end{tabular}
 \end{table*}
 \bibliographystyle{plainurl}
 \bibliography{references}
