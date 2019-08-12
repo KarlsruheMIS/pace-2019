@@ -187,7 +187,7 @@ In the following \texttt{MoMC} runs the clique solver~\cite{DBLP:journals/cor/Li
 Tables~\ref{tab:detailedresults1} and \ref{tab:detailedresults2} give an overview over the instances that each of the solver solved, about the kernel sizes as well as the optimal vertex cover size, if our full algorithm could solve the instance.
 Overall, \texttt{MoMC} can solve 30 out of the 100 instances. 
 Using reductions first, enables \texttt{RMoMC} to solve 68 instances. However, there are also instances that \texttt{MoMC} could solve, but \texttt{RMoMC} could not solve. 
-In these case, the number of nodes has been reduced, but the number of edges actually increase. This is due to the \emph{Alternative} reduction, which in some cases can create more edges than initially present. This is why our full algorithm also runs MoMC on the input graph (in order to be able to solve those instances as well).
+In these case, the number of nodes has been reduced, but the number of edges actually increased. This is due to the \emph{Alternative} reduction, which in some cases can create more edges than initially present. This is why our full algorithm also runs MoMC on the input graph (in order to be able to solve those instances as well).
 \texttt{BnR} can solve 55 out of the 100 instances. Here, priming the branch-and-reduce algorithm with an initial solution computed by local search has an important impact. Running the branch-and-reduce algorithm on the kernel without using local search can only solve 42 instances. In particular, using local search to find an initial bound helps to solve large instances in which the initial kernelization step does not reduce the graph fully. Our full algorithm \texttt{FullA} can solve 82 out of the 100 instances, and in particular, as expeced, dominates each of the other configurations.
 
 On the private instances, our full algorithm solved 87, the second place (peaty~\cite{}) solved 77, the third place (bogdan~\cite{}) solved 76 instances (of 100 instances). The peaty solver focused on using ..., whereas bogdan focussed on ...
@@ -216,7 +216,7 @@ On the private instances, our full algorithm solved 87, the second place (peaty~
 \label{tab:detailedresults1}
 \begin{tabular}{l@{\hskip 25pt} rrrr|ccccc|rc}
 \toprule
-inst\# & $n$ &$m$& $n'$& $m'$ & MoMC & RMoMC & BnR & BnR-LS & FullA & $|VC|$ \\
+inst\# & $n$ &$m$& $n'$& $m'$ & \texttt{MoMC} & \texttt{RMoMC} & \texttt{BnR} & \texttt{BnR-LS} & \texttt{FullA} & $|VC|$ \\
                 \midrule
 
 001 &\numprint{6160}&\numprint{40207}&\numprint{0}&\numprint{0}&-&X&X&X&X&  \numprint{2586}&\\ 
@@ -280,7 +280,7 @@ inst\# & $n$ &$m$& $n'$& $m'$ & MoMC & RMoMC & BnR & BnR-LS & FullA & $|VC|$ \\
 \label{tab:detailedresults2}
 \begin{tabular}{l@{\hskip 25pt} rrrr|ccccc|rc}
 \toprule
-inst\# & $n$ &$m$& $n'$& $m'$ & MoMC & RMoMC & BnR & BnR-LS & FullA & $|VC|$ \\
+inst\# & $n$ &$m$& $n'$& $m'$ & \texttt{MoMC} & \texttt{RMoMC} & \texttt{BnR} & \texttt{BnR-LS} & \texttt{FullA} & $|VC|$ \\
                 \midrule
 
 101 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&X&-&X&  \numprint{16300}&\\ 
@@ -298,7 +298,7 @@ inst\# & $n$ &$m$& $n'$& $m'$ & MoMC & RMoMC & BnR & BnR-LS & FullA & $|VC|$ \\
 125 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&X&-&X&  \numprint{16300}&\\ 
 127 &\numprint{18096}&\numprint{28281}&\numprint{582}&\numprint{2001}&-&X&-&-&X&  \numprint{11185}&\\ 
 129 &\numprint{15783}&\numprint{24663}&\numprint{507}&\numprint{1752}&-&X&-&-&X&  \numprint{9755}&\\ 
-131 &\numprint{2980}&\numprint{5360}&\numprint{2179}&\numprint{6951}&X&-&-&-&-&  &\\ 
+131 &\numprint{2980}&\numprint{5360}&\numprint{2179}&\numprint{6951}&X&-&-&-&X&  \numprint{1920}&\\ 
 133 &\numprint{15783}&\numprint{24663}&\numprint{507}&\numprint{1746}&-&X&-&-&X&  \numprint{9755}&\\ 
 135 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&X&-&X&  \numprint{16300}&\\ 
 137 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&X&-&X&  \numprint{16300}&\\ 
@@ -311,7 +311,7 @@ inst\# & $n$ &$m$& $n'$& $m'$ & MoMC & RMoMC & BnR & BnR-LS & FullA & $|VC|$ \\
 151 &\numprint{15783}&\numprint{24663}&\numprint{501}&\numprint{1728}&-&X&-&-&X&  \numprint{9755}&\\ 
 153 &\numprint{29076}&\numprint{45570}&\numprint{2124}&\numprint{16266}&-&-&-&-&-&  &\\ 
 155 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&X&-&X&  \numprint{16300}&\\ 
-157 &\numprint{2980}&\numprint{5360}&\numprint{2169}&\numprint{6898}&X&-&-&-&-&  &\\ 
+157 &\numprint{2980}&\numprint{5360}&\numprint{2169}&\numprint{6898}&X&-&-&-&X&  \numprint{1920}&\\ 
 159 &\numprint{18096}&\numprint{28281}&\numprint{582}&\numprint{2004}&-&X&-&-&X&  \numprint{11185}&\\ 
 161 &\numprint{138141}&\numprint{227241}&\numprint{41926}&\numprint{202869}&-&-&-&-&-&  &\\ 
 163 &\numprint{18096}&\numprint{28281}&\numprint{582}&\numprint{2004}&-&X&-&-&X&  \numprint{11185}&\\ 
