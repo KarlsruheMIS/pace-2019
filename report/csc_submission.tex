@@ -180,16 +180,23 @@ All of our experiments were run on a machine with  four Sixteen-Core Intel Xeon 
 The machine runs Debian GNU/Linux 9 and Linux kernel version 4.9.0-9.
 All algorithms were implemented in C++11 and compiled with gcc~version 6.3.0 with optimization flag \texttt{-O3}.
 Each algorithm was run sequentially with a time limit of 30 minutes. Our evaluations focus on the total number of instances solved.
-\subsection{Algorithm Configurations.}
-Variants:
+\subsection{Evaluation.}
+We now explain our main configuration that we use in our experimental setup.
+In the following \texttt{MoMC} runs the clique solver~\cite{DBLP:journals/cor/LiJM17} on the complement of the input graph, \texttt{RMoMC} applies reductions to the input graph exhaustively and then runs MoMC on the complement of the kernel graph, \texttt{BnR} applies reductions exhaustively, then runs local search to obtain a high-quality solution on the kernel which is used as a initial bound in the branch-and-reduce algorithm that is run on the kernel, \texttt{BnR-LS} applies reductions and then runs the branch-and-reduce algorithm on the kernel (no local search is used to improve an initial bound), \texttt{FullA} is the full algorithm as described above.
+
+Tables~\ref{tab:detailedresults1} and \ref{tab:detailedresults2} give an overview over the instances that each of the solver solved, about the kernel sizes as well as the optimal vertex cover size, if our full algorithm could solve the instance.
+Overall, \texttt{MoMC} can solve 30 out of the 100 instances. 
+Using reductions first, enables \texttt{RMoMC} to solve 68 instances. However, there are also instances that \texttt{MoMC} could solve, but \texttt{RMoMC} could not solve. 
+In these case, the number of nodes has been reduced, but the number of edges actually increase. This is due to the \emph{Alternative} reduction, which in some cases can create more edges than initially present. This is why our full algorithm also runs MoMC on the input graph (in order to be able to solve those instances as well).
+\texttt{BnR} can solve 55 out of the 100 instances. Here, priming the branch-and-reduce algorithm with an initial solution computed by local search has an important impact. Running the branch-and-reduce algorithm on the kernel without using local search can only solve 42 instances. In particular, using local search to find an initial bound helps to solve large instances in which the initial kernelization step does not reduce the graph fully. Our full algorithm \texttt{FullA} can solve 82 out of the 100 instances, and in particular, as expeced, dominates each of the other configurations.
 %\section{Material}
-\begin{itemize}
-        \item MoMC solves 30 / 100 instances 
-        \item Kernel + MoMC solves 68 / 100 instances 
-        \item Kernel + BnR solves 55 / 100 instances 
-        \item Kernel + BnR - Local Search solves 42 / 100 instances 
-        \item Full solver solves 82 / 100 instances 
-\end{itemize}
+%\begin{itemize}
+        %\item MoMC solves 30 / 100 instances 
+        %\item Kernel + MoMC solves 68 / 100 instances 
+        %\item Kernel + BnR solves 55 / 100 instances 
+        %\item Kernel + BnR - Local Search solves 42 / 100 instances 
+        %\item Full solver solves 82 / 100 instances 
+%\end{itemize}
 
 %\begin{description}
 %\item[GitHub:] \url{https://github.com/sebalamm/pace-2019/releases/tag/pace-2019}
@@ -203,6 +210,8 @@ Variants:
 \end{itemize}
 \begin{table*}
 \centering
+\caption{Detailed per instance results.}
+\label{tab:detailedresults1}
 \begin{tabular}{l@{\hskip 25pt} rrrr|ccccc|rc}
 \toprule
 inst\# & $n$ &$m$& $n'$& $m'$ & MoMC & RMoMC & BnR & BnR-LS & FullA & $|VC|$ \\
@@ -265,6 +274,8 @@ inst\# & $n$ &$m$& $n'$& $m'$ & MoMC & RMoMC & BnR & BnR-LS & FullA & $|VC|$ \\
 \begin{table*}
 \centering
 
+\caption{Detailed per instance results.}
+\label{tab:detailedresults2}
 \begin{tabular}{l@{\hskip 25pt} rrrr|ccccc|rc}
 \toprule
 inst\# & $n$ &$m$& $n'$& $m'$ & MoMC & RMoMC & BnR & BnR-LS & FullA & $|VC|$ \\
@@ -324,6 +335,9 @@ inst\# & $n$ &$m$& $n'$& $m'$ & MoMC & RMoMC & BnR & BnR-LS & FullA & $|VC|$ \\
 \bottomrule
 \end{tabular}
 \end{table*}
+\vfill 
+\pagebreak
+\
 \vfill
 \pagebreak
 \bibliographystyle{plainurl}
