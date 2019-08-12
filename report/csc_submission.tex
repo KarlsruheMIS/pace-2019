@@ -189,6 +189,8 @@ Overall, \texttt{MoMC} can solve 30 out of the 100 instances.
 Using reductions first, enables \texttt{RMoMC} to solve 68 instances. However, there are also instances that \texttt{MoMC} could solve, but \texttt{RMoMC} could not solve. 
 In these case, the number of nodes has been reduced, but the number of edges actually increase. This is due to the \emph{Alternative} reduction, which in some cases can create more edges than initially present. This is why our full algorithm also runs MoMC on the input graph (in order to be able to solve those instances as well).
 \texttt{BnR} can solve 55 out of the 100 instances. Here, priming the branch-and-reduce algorithm with an initial solution computed by local search has an important impact. Running the branch-and-reduce algorithm on the kernel without using local search can only solve 42 instances. In particular, using local search to find an initial bound helps to solve large instances in which the initial kernelization step does not reduce the graph fully. Our full algorithm \texttt{FullA} can solve 82 out of the 100 instances, and in particular, as expeced, dominates each of the other configurations.
+
+On the private instances, our full algorithm solved 87, the second place (peaty~\cite{}) solved 77, the third place (bogdan~\cite{}) solved 76 instances (of 100 instances). The peaty solver focused on using ..., whereas bogdan focussed on ...
 %\section{Material}
 %\begin{itemize}
         %\item MoMC solves 30 / 100 instances 
@@ -202,12 +204,12 @@ In these case, the number of nodes has been reduced, but the number of edges act
 %\item[GitHub:] \url{https://github.com/sebalamm/pace-2019/releases/tag/pace-2019}
 %\item[DOI:] \url{https://doi.org/10.5281/zenodo.2816116}
 %\end{description}
-\section{TODOs}
-\begin{itemize}
-        \item TODO add more exact stuff, heuristics?
-\item TODO insert final three solvers of pace challenge
-\item create a table with instances solved
-\end{itemize}
+%\section{TODOs}
+%\begin{itemize}
+        %\item TODO add more exact stuff, heuristics?
+%\item TODO insert final three solvers of pace challenge
+%\item create a table with instances solved
+%\end{itemize}
 \begin{table*}
 \centering
 \caption{Detailed per instance results.}
