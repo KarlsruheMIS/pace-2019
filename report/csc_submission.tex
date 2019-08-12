@@ -1,5 +1,9 @@
 \documentclass[twoside,leqno,twocolumn]{article}
 
+\newif\ifFull
+%\Fullfalse
+\Fulltrue
+
 % Comment out the line below if using A4 paper size
 \usepackage[letterpaper]{geometry}
 
@@ -121,10 +125,10 @@ To be more specific, they use two reduction rules that are able to remove a vert
 We briefly note that their algorithm and reductions are targeted at sparse graphs, and therefore their reductions would likely work well for the maximum weighted independent set problem on \emph{dense} graphs.
 
 
-\section{Solver Techniques}
-We now describe the main techniques that we use within our solver.
-\paragraph*{Kernelization.}
-The most efficient algorithms for computing a minimum vertex cover in both theory and practice use \emph{data reduction rules} to obtain a much smaller problem instance. If this smaller instance has size bounded by a function of some parameter, it's called a \emph{kernel}. 
+\section{Techniques}
+We now describe techniques that we use in~our~solver.
+\subsection{Kernelization.}
+The most efficient algorithms for computing a minimum vertex cover in both theory and practice use \emph{data reduction rules} to obtain a much smaller problem instance. If this smaller instance has size bounded by a function of some parameter, it's~called~a~\emph{kernel}. 
 
 We use an extensive (though not exhaustive) collection of data reduction rules whose efficacy was studied by Akiba and Iwata~\cite{akiba-tcs-2016}. To compute a kernel, Akiba and Iwata~\cite{akiba-tcs-2016} apply their
 reductions~$r_1, \dots, r_j$ by iterating over all reductions and trying to
@@ -132,17 +136,54 @@ apply the current reduction $r_i$ to all vertices. If $r_i$ reduces at
 least one vertex, they restart with reduction~$r_1$. When reduction~$r_j$ 
 is executed, but does not reduce any vertex, all reductions have been applied
 exhaustively, and a kernel is found. Following their study we order the reductions
-as follows: degree-one vertex (i.e., pendant) removal, unconfined vertex removal~\cite{Xiao201392}, a well-known linear-programming 
-relaxation~\cite{iwata-2014,nemhauser-1975} related to crown removal~\cite{abu-khzam-2007}, vertex folding~\cite{chen-1999}, and twin, funnel, and desk reductions~\cite{Xiao201392}.
+as follows: degree-one vertex (i.e., pendant) removal, vertex folding~\cite{chen-1999}, a well-known linear-programming 
+relaxation~\cite{iwata-2014,nemhauser-1975} related to crown removal~\cite{abu-khzam-2007}, unconfined vertex removal~\cite{Xiao201392}, and twin, funnel, and desk reductions~\cite{Xiao201392}.
+To be self-contained, we now give a brief description of those reductions, in order of increasing complexity. Each reduction allows us to choose vertices that are in some MIS by following simple rules. If an MIS is found on the kernel graph $\mathcal{K}$, then each reduction may be undone, producing an MIS in the original graph. Refer to Akiba and Iwata~\cite{akiba-tcs-2016} for a more thorough discussion, including implementation details. We use our own implementation of the reduction algorithms in our method. \\
+
+\noindent\textbf{Pendant vertices:} Any vertex $v$ of degree one, called a \emph{pendant}, is in some MIS; therefore $v$ and its neighbor $u$ can be removed from $G$. \\
+%We can see this as follows: Either $v$'s neighbor is in a MIS $I$, or not. Suppose it is not in $I$, then $v$ must be in $I$. Suppose it is, then it can be removed from the MIS, and add $v$.
+
+%\noindent\textbf{Dominance:} If there exist two vertices $u$ and $v$, such that $N(u) = N(v) \cup \{v\}$ then in any independent set $\mathcal{I}$ either both $v$ and $u$ will be excluded from $\mathcal{I}$, or exactly one of $u$ or $v$ will be in $\mathcal{I}$. Therefore, we may remove either $v$ or $u$ from the graph.
+
+\noindent\textbf{Vertex folding:} For a vertex $v$ with degree 2 whose neighbors $u$ and $w$ are not adjacent, either $v$ is in some MIS, or both $u$ and $w$ are in some MIS. Therefore, we can contract $u$, $v$, and $w$ to a single vertex $v'$ and decide which vertices are in the MIS later. \\
+%If $v'$ is in the computed MIS, then $u$ and $w$ are added to the independent set, otherwise $v$ is added. Thus, a vertex fold contributes an additional vertex to an independent set.
+
+\ifFull
+\noindent\textbf{Linear Programming:}
+First introduced by Nemhauser and Trotter~\cite{nemhauser-1975} for the vertex packing problem, they present a linear programming relaxation with a half-integral solution (i.e., using only values 0, 1/2, and 1) which can be solved using bipartite matching. Their relaxation may be formulated for the independent set problem as follows: maximize $\sum_{v\in V}{x_v}$, such at for each edge $(u, v) \in E$, $x_u + x_v \leq 1$ and for each vertex $v \in V$, $x_v \geq 0$. Vertices with value 1 must be in the MIS, and therefore are added to the solution. We use the further improvement from Iwata, Oka, and Yoshida~\cite{iwata-2014}, which computes a solution whose half-integral part is minimal. \\
+\else
+\noindent\textbf{Linear Programming:}
+A well-known~\cite{nemhauser-1975} linear programming relaxation for the MIS problem with a half-integral solution (i.e., using only values 0, 1/2, and 1) can be solved using bipartite matching: maximize $\sum_{v\in V}{x_v}$ such that $\forall (u, v) \in E$, $x_u + x_v \leq 1$ and $\forall v \in V$, $x_v \geq 0$. Vertices with value 1 must be in the MIS and can thus be removed from $G$ along with their neighbors. We use an improved version~\cite{iwata-2014} that computes a solution whose half-integral part is minimal.\\ % the further improvement from Iwata, Oka, and Yoshida
+\fi
+
+\ifFull
+\noindent\textbf{Unconfined:} Developed by Xiao and Nagamochi~\cite{Xiao201392}, the unconfined reduction is a generalization of domination and \emph{satellite} reduction rules. A vertex $v$ is said to be unconfined if there exists a set $S$, such that $v\in S$ and $\exists u\in S$ such that $|N(u)\cap S| = 1$ and $N(u) \setminus N[S]$ is empty. Such a vertex is never in a MIS, so it can be removed from the graph.  \\
+\else
+%\noindent\textbf{Unconfined~\cite{Xiao201392}:} A vertex $v$ is \emph{unconfined} if there exists a set $S\subseteq V$, such that $v\in S$ and $\exists u\in S$ such that $|N(u)\cap S| = 1$ and $N(u) \setminus N[S]$ is empty. Such a vertex is never in any MIS, so it can be removed from $G$. \strash{Double check logic.}
+\noindent\textbf{Unconfined~\cite{Xiao201392}:} Though there are several definitions of \emph{unconfined} vertex in the literature, we use the simple one from Akiba and Iwata~\cite{akiba-2015}. A vertex $v$ is \emph{unconfined} when determined by the following simple algorithm. First, initialize $S = \{v\}$. Then find a $u \in N(S)$ such that $|N(u) \cap S| = 1$ and $|N(u) \setminus N[S]|$ is minimized. If there is no such vertex, then $v$ is confined. If $N(u) \setminus N[S] = \emptyset$, then $v$ is unconfined.  If $N(u)\setminus N[S]$ is a single vertex $w$, then add $w$ to $S$ and repeat the algorithm. Otherwise, $v$ is confined. Unconfined vertices can be removed from the graph, since there always exists an MIS $\mathcal{I}$ that contains no unconfined vertices. \\
+\fi
+
+\ifFull
+\noindent\textbf{Twin:} This is a generalization of the vertex folding rule. Suppose there are two vertices $u$ and $v$ that have degree 3 and share the same neighborhood. If $u$'s neighborhood $N(u)$ induces a graph with edges, then $u$ and $v$ are added to the independent set and $u$, $v$, and their neighborhoods are removed from the graph. Otherwise, vertices in $N(u)$ may belong in the independent set. We still remove $u$, $v$, and their neighborhoods, and add a new gadget vertex $w$ to the graph with edges to $u$'s two-neighborhood (vertices at a distance 2 from $u$). If $w$ is in some MIS, none of $u$'s two-neighbors are in the independent set, and therefore $N(u)$ is part of the independent set. Otherwise, if $w$ is not in the MIS, then some of $u$'s two-neighbors are in the independent set, and therefore $u$ and $v$ are added to the independent set. Thus, the twin reduction adds an additional two vertices to the computed~independent~set. \\
+\else
+\noindent\textbf{Twin~\cite{Xiao201392}:} Let $u$ and $v$ be vertices of degree 3 with $N(u) = N(v)$. If $G[N(u)]$ has edges, then add $u$ and $v$ to $\mathcal{I}$ and remove $u$, $v$, $N(u)$, $N(v)$ from $G$. Otherwise, some vertices in $N(u)$ may belong to some MIS $\mathcal{I}$. We still remove $u$, $v$, $N(u)$ and $N(v)$ from $G$, and add a new gadget vertex $w$ to $G$ with edges to $u$'s two-neighborhood (vertices at a distance 2 from $u$). If $w$ is in the computed MIS, then none of $u$'s two-neighbors are $\mathcal{I}$, and therefore $N(u) \subseteq \mathcal{I}$. Otherwise, if $w$ is not in the computed MIS, then some of $u$'s two-neighbors are in $\mathcal{I}$, and therefore $u$ and $v$ are added to $\mathcal{I}$.\\
+\fi
+
+\noindent\textbf{Alternative:} Two sets of vertices $A$ and $B$ are set to be \emph{alternatives} if $|A| = |B| \geq 1$ and there exists an MIS $\mathcal{I}$ such that $\mathcal{I}\cap(A\cup B)$ is either $A$ or $B$. Then we remove $A$ and $B$ and $C = N(A)\cap N(B)$ from $G$ and add edges from each $a \in N(A)\setminus C$ to each $b\in N(B)\setminus C$.
+Then we add either $A$ or $B$ to $\mathcal{I}$, depending on which neighborhood has vertices in $\mathcal{I}$. Two structures are detected as alternatives. First, if $N(v)\setminus \{u\}$ induces a complete graph, then $\{u\}$ and $\{v\}$ are alternatives (a \emph{funnel}). Next, if there is a cordless 4-cycle $a_1b_1a_2b_2$ where each vertex has at least degree 3. Then sets $A=\{a_1, a_2\}$ and $B=\{b_1, b_2\}$ are alternatives when $|N(A) \setminus B| \leq 2$, $|N(A) \setminus B| \leq 2$, and $N(A) \cap N(B) = \emptyset$. \\
+
+\noindent\textbf{Packing~\cite{akiba-tcs-2016}:} %A full description of the packing reduction is beyond the scope of this article. However, we briefly describe the intuition behind the reduction. 
+Given a non-empty set of vertices $S$, we may specify a \emph{packing constraint} $\sum_{v\in S}x_v \leq k$, where $x_v$ is 0 when $v$ is in some MIS $\mathcal{I}$ and 1 otherwise. Whenever a vertex $v$ is excluded from $\mathcal{I}$ (i.e., in the unconfined reduction), we remove $x_v$ from the packing constraint and decrease the upper bound of the constraint by one. Initially, packing constraints are created whenever a vertex $v$ is excluded or included into the MIS. The simplest case for the packing reduction is when $k$ is zero: all vertices must be in $\mathcal{I}$ to satisfy the constraint. Thus, if there is no edge in $G[S]$, $S$ may be added to $\mathcal{I}$, and $S$ and $N(S)$ are removed from $G$. Other cases are much more complex. Whenever packing reductions are applied, existing packing constraints are updated and new ones are added.
+
 
 %The kernel can then be solved quickly using exact or heuristic algorithms---or by repeatedly kernelizing recursively in the branch-and-reduce paradigm. 
 
-\paragraph*{Branch-and-Reduce.}
+\subsection{Branch-and-Reduce.}
 Branch-and-reduce is a paradigm that intermixes data reduction rules and branching. We use the algorithm of Akiba and Iwata, which exhaustively applies their full suite of reduction rules before branching, and includes a number of advanced branching rules. When branching, a vertex is chosen at random for inclusion into the vertex cover.
 
-\paragraph*{Branch-and-Bound.} Experiments by Strash~\cite{strash2016power} show that the full power of branch-and-reduce is only needed \emph{very rarely} in real-world instances; kernelization followed by standard branch-and-bound solver is sufficient for many real-world instances. Furthermore, branch-and-reduce does not work well on many synthetic benchmark instances, where data reduction rules are ineffective~\cite{akiba-tcs-2016}, and instead add significant overhead to branch-and-bound. We use a state-of-the-art branch-and-bound maximum clique solver (MoMC) by Li et al.~\cite{DBLP:journals/cor/LiJM17}, which uses incremental MaxSAT reasoning to prune search, and a combination of static and dynamic vertex ordering to select the vertex for branching. We run the clique solver on the complement graph, giving a maximum independent set from which we derive a minimum vertex cover. In preliminary experiments, we found that a kernel can sometimes be harder for the solver than the original input; therefore, we run the algorithm on both the kernel and on the original graph.
+\subsection{Branch-and-Bound.} Experiments by Strash \cite{strash2016power} show that the full power of branch-and-reduce is only needed \emph{very rarely} in real-world instances; kernelization followed by standard branch-and-bound solver is sufficient for many real-world instances. Furthermore, branch-and-reduce does not work well on many synthetic benchmark instances, where data reduction rules are ineffective~\cite{akiba-tcs-2016}, and instead add significant overhead to branch-and-bound. We use a state-of-the-art branch-and-bound maximum clique solver (MoMC) by Li et al.~\cite{DBLP:journals/cor/LiJM17}, which uses incremental MaxSAT reasoning to prune search, and a combination of static and dynamic vertex ordering to select the vertex for branching. We run the clique solver on the complement graph, giving a maximum independent set from which we derive a minimum vertex cover. In preliminary experiments, we found that a kernel can sometimes be harder for the solver than the original input; therefore, we run the algorithm on both the kernel and on the original graph.
 
-\paragraph*{Iterated Local Search.}
+\subsection{Iterated Local Search.}
 Batsyn et al.~\cite{batsyn-mcs-ils-2014} showed that if branch-and-bound search is primed with a high-quality solution from local search, then instances can be solved up to thousands of times faster. 
 We use iterated local search algorithm by Andrade et al.~\cite{andrade-2012} to prime the branch-and-reduce solver with a high-quality initial solution. Iterated local search was originally implemented for the maximum independent set problem, and is based on the notion of $(j,k)$-swaps. A $(j,k)$-swap removes $j$ nodes from the current solution and inserts $k$ nodes. The authors present a fast linear-time implementation that, given a maximal independent set, can find a $(1,2)$-swap or prove that none exists. Their algorithm applies $(1,2)$-swaps until reaching a local maximum, then perturbs the solution and repeats. We implemented the algorithm to find a high-quality solution on \emph{the kernel}. Calling local search on the kernel has been shown to produce a high-quality solution much faster than without kernelization~\cite{chang2017computing,dahlum2016accelerating}.
 
