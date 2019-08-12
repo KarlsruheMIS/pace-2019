@@ -184,13 +184,7 @@ Each algorithm was run sequentially with a time limit of 30 minutes. Our evaluat
 We now explain our main configuration that we use in our experimental setup.
 In the following \texttt{MoMC} runs the clique solver~\cite{DBLP:journals/cor/LiJM17} on the complement of the input graph, \texttt{RMoMC} applies reductions to the input graph exhaustively and then runs MoMC on the complement of the kernel graph, \texttt{BnR} applies reductions exhaustively, then runs local search to obtain a high-quality solution on the kernel which is used as a initial bound in the branch-and-reduce algorithm that is run on the kernel, \texttt{BnR-LS} applies reductions and then runs the branch-and-reduce algorithm on the kernel (no local search is used to improve an initial bound), \texttt{FullA} is the full algorithm as described above.
 
-Tables~\ref{tab:detailedresults1} and \ref{tab:detailedresults2} give an overview over the instances that each of the solver solved, about the kernel sizes as well as the optimal vertex cover size, if our full algorithm could solve the instance.
-Overall, \texttt{MoMC} can solve 30 out of the 100 instances. 
-Using reductions first, enables \texttt{RMoMC} to solve 68 instances. However, there are also instances that \texttt{MoMC} could solve, but \texttt{RMoMC} could not solve. 
-In these case, the number of nodes has been reduced, but the number of edges actually increased. This is due to the \emph{Alternative} reduction, which in some cases can create more edges than initially present. This is why our full algorithm also runs MoMC on the input graph (in order to be able to solve those instances as well).
-\texttt{BnR} can solve 55 out of the 100 instances. Here, priming the branch-and-reduce algorithm with an initial solution computed by local search has an important impact. Running the branch-and-reduce algorithm on the kernel without using local search can only solve 42 instances. In particular, using local search to find an initial bound helps to solve large instances in which the initial kernelization step does not reduce the graph fully. Our full algorithm \texttt{FullA} can solve 82 out of the 100 instances, and in particular, as expeced, dominates each of the other configurations.
 
-On the private instances, our full algorithm solved 87, the second place (peaty~\cite{}) solved 77, the third place (bogdan~\cite{}) solved 76 instances (of 100 instances). The peaty solver focused on using ..., whereas bogdan focussed on ...
 %\section{Material}
 %\begin{itemize}
         %\item MoMC solves 30 / 100 instances 
@@ -337,11 +331,23 @@ inst\# & $n$ &$m$& $n'$& $m'$ & \texttt{MoMC} & \texttt{RMoMC} & \texttt{BnR} & 
 \bottomrule
 \end{tabular}
 \end{table*}
-\vfill 
-\pagebreak
-\
-\vfill
-\pagebreak
+Tables~\ref{tab:detailedresults1} and \ref{tab:detailedresults2} give an overview over the instances that each of the solver solved, about the kernel sizes as well as the optimal vertex cover size, if our full algorithm could solve the instance.
+Overall, \texttt{MoMC} can solve 30 out of the 100 instances. 
+Using reductions first, enables \texttt{RMoMC} to solve 68 instances. However, there are also instances that \texttt{MoMC} could solve, but \texttt{RMoMC} could not solve. 
+In these case, the number of nodes has been reduced, but the number of edges actually increased. This is due to the \emph{Alternative} reduction, which in some cases can create more edges than initially present. This is why our full algorithm also runs MoMC on the input graph (in order to be able to solve those instances as well).
+\texttt{BnR} can solve 55 out of the 100 instances. Here, priming the branch-and-reduce algorithm with an initial solution computed by local search has an important impact. Running the branch-and-reduce algorithm on the kernel without using local search can only solve 42 instances. In particular, using local search to find an initial bound helps to solve large instances in which the initial kernelization step does not reduce the graph fully. Our full algorithm \texttt{FullA} can solve 82 out of the 100 instances, and in particular, as expeced, dominates each of the other configurations.
+
+On the private instances, our full algorithm solved 87, the second place (peaty~\cite{}) solved 77, the third place (bogdan~\cite{}) solved 76 instances (of 100 instances). The peaty solver focused on using ..., whereas bogdan focussed on ...
+
+
+\section{Conclusion}
+We presented the winning solver of the PACE 2019 Implementation Challenge Vertex Cover Track. Our algorithm uses a portfolio of techniques, including an aggressive kernelization strategy with all known reduction rules, local search, branch-and-reduce, and a state-of-the-art branch-and-bound solver. Of particular interest is that several of our techniques were \emph{not} from the literature on the vertex over problem: they were originally published to solve the (complementary) maximum independent set and maximum clique problems. Lastly, we performed extensive experiments to show the impact of the different solver techniques on the number of instances solved during the challenge. In particular, the results emphasize that data reductions play an important tool to boost the performance of the clique solver, and local search is highly effective to boost the performance of a branch-and-reduce solver for the independent set problem.
+
+%\vfill 
+%\pagebreak
+%\
+%\vfill
+%\pagebreak
 \bibliographystyle{plainurl}
 \bibliography{references}
 \vfill
