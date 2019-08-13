@@ -134,12 +134,29 @@ C.{-}M. Li, H.~Jiang, and F.~Many{\`{a}}.
 \newblock \href {http://dx.doi.org/10.1016/j.cor.2017.02.017}
   {\path{doi:10.1016/j.cor.2017.02.017}}.
 
+\bibitem{DBLP:conf/aaai/LiQ10}
+Chu~Min Li and Zhe Quan.
+\newblock An efficient branch-and-bound algorithm based on maxsat for the
+  maximum clique problem.
+\newblock In {\em Proceedings of the Twenty-Fourth {AAAI} Conference on
+  Artificial Intelligence, {AAAI} 2010, Atlanta, Georgia, USA, July 11-15,
+  2010}, 2010.
+\newblock URL:
+  \url{http://www.aaai.org/ocs/index.php/AAAI/AAAI10/paper/view/1611}.
+
 \bibitem{nemhauser-1975}
 G.L. Nemhauser and L.~E. {Trotter Jr.}
 \newblock Vertex packings: Structural properties and algorithms.
 \newblock {\em Mathematical Programming}, 8(1):232--248, 1975.
 \newblock \href {http://dx.doi.org/10.1007/BF01580444}
   {\path{doi:10.1007/BF01580444}}.
+
+\bibitem{james_trimble_2019_3082356}
+Patrick Prosser and James Trimble.
+\newblock {Peaty: an exact solver for the vertex cover problem}, May 2019.
+\newblock URL: \url{https://doi.org/10.5281/zenodo.3082356}, \href
+  {http://dx.doi.org/10.5281/zenodo.3082356}
+  {\path{doi:10.5281/zenodo.3082356}}.
 
 \bibitem{segundo-recoloring}
 P.~San~Segundo, F.~Matia, D.~Rodriguez-Losada, and M.~Hernando.
@@ -229,5 +246,12 @@ Mingyu Xiao and Hiroshi Nagamochi.
 \newblock {\em Information and Computation}, 255:126--146, 2017.
 \newblock \href {http://dx.doi.org/10.1016/j.ic.2017.06.001}
   {\path{doi:10.1016/j.ic.2017.06.001}}.
+
+\bibitem{zbogdan_2019_3228802}
+zbogdan.
+\newblock zbogdan/pace-2019 a, May 2019.
+\newblock URL: \url{https://doi.org/10.5281/zenodo.3228802}, \href
+  {http://dx.doi.org/10.5281/zenodo.3228802}
+  {\path{doi:10.5281/zenodo.3228802}}.
 
 \end{thebibliography}

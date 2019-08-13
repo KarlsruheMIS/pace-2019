@@ -1,5 +1,5 @@
-This is BibTeX, Version 0.99d (TeX Live 2018)
-Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: csc_submission.aux
 The style file: plainurl.bst
 Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
@@ -31,47 +31,50 @@ Repeated entry---line 3381 of file references.bib
  : @article{nemhauser-1975
  :                        ,
 I'm skipping whatever remains of this entry
+A bad cross reference---entry "DBLP:conf/aaai/LiQ10"
+refers to entry "DBLP:conf/aaai/2010", which doesn't exist
+Warning--I didn't find a database entry for "DBLP:conf/aaai/2010"
 Warning--can't use both author and editor fields in fellows2018known
 Warning--empty booktitle in larson-2007
-You've used 28 entries,
+You've used 31 entries,
             2849 wiz_defined-function locations,
-            861 strings with 11924 characters,
-and the built_in function-call counts, 15808 in all, are:
-= -- 1730
-> -- 559
+            880 strings with 12585 characters,
+and the built_in function-call counts, 16944 in all, are:
+= -- 1845
+> -- 595
 < -- 16
-+ -- 205
-- -- 171
-* -- 1044
-:= -- 2183
-add.period$ -- 118
-call.type$ -- 28
-change.case$ -- 165
++ -- 219
+- -- 181
+* -- 1100
+:= -- 2333
+add.period$ -- 128
+call.type$ -- 31
+change.case$ -- 179
 chr.to.int$ -- 0
-cite$ -- 30
-duplicate$ -- 475
-empty$ -- 1411
-format.name$ -- 171
-if$ -- 4017
+cite$ -- 33
+duplicate$ -- 509
+empty$ -- 1539
+format.name$ -- 181
+if$ -- 4325
 int.to.chr$ -- 0
-int.to.str$ -- 28
-missing$ -- 30
-newline$ -- 169
-num.names$ -- 60
-pop$ -- 263
+int.to.str$ -- 31
+missing$ -- 31
+newline$ -- 185
+num.names$ -- 66
+pop$ -- 303
 preamble$ -- 1
-purify$ -- 139
+purify$ -- 150
 quote$ -- 0
-skip$ -- 1056
+skip$ -- 1145
 stack$ -- 0
-substring$ -- 879
-swap$ -- 203
+substring$ -- 895
+swap$ -- 211
 text.length$ -- 16
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 108
+type$ -- 120
 warning$ -- 2
-while$ -- 119
-width$ -- 30
-write$ -- 382
-(There were 6 error messages)
+while$ -- 125
+width$ -- 33
+write$ -- 416
+(There were 7 error messages)

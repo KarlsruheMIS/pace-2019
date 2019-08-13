@@ -33,6 +33,7 @@
 \newcommand{\etal}{et~al.\xspace}
 \newcommand{\Wlog}{w.\,l.\,o.\,g.\ }
 \newcommand{\wrt}{w.\,r.\,t.\xspace}
+\newcommand{\csch}[1]{{\color{red} CS: #1}}
 
 \newcommand{\mytitle}{WeGotYouCovered: The Winning Solver from the 2019 PACE Implementation Challenge, Vertex Cover Track}
 
@@ -95,6 +96,9 @@ minimum vertex cover $C$ in $G$ is the complement of a maximum independent set $
 For our approach, we use a portfolio of solvers, using techniques from the literature on all three problems. These include data reduction rules and branch-and-reduce for the minimum vertex cover problem~\cite{akiba-tcs-2016}, iterated local search for the maximum independent set problem~\cite{andrade-2012}, and a state-of-the-art branch-and-bound maximum clique solver~\cite{DBLP:journals/cor/LiJM17}.
 
 We first briefly describe related work. Then we outline each of the techniques that we use, and finally describe how we combine all of the techniques in our final solver that scored most of the points during the PACE 2019 Implementation Challenge. Lastly, we perform an experimental evaluation to show the impact of the components used on the final number of instances solved during the challenge.
+Experiments emphasize that data reductions play an important role to boost the performance of a branch-and-bound clique solver, and local search is highly effective to boost the performance of a branch-and-reduce solver for the independent~set~problem. \csch{somehow emphasize that nothing like this has been done before}
+
+
 \section{Related Work}
 \label{sec:related_work}
 We now present important related work. 
@@ -178,9 +182,12 @@ A well-known~\cite{nemhauser-1975} linear programming relaxation for the MIS pro
 \fi
 
 \noindent\textbf{Alternative:} Two sets of vertices $A$ and $B$ are set to be \emph{alternatives} if $|A| = |B| \geq 1$ and there exists an MIS $\mathcal{I}$ such that $\mathcal{I}\cap(A\cup B)$ is either $A$ or $B$. Then we remove $A$ and $B$ and $C = N(A)\cap N(B)$ from $G$ and add edges from each $a \in N(A)\setminus C$ to each $b\in N(B)\setminus C$.
-Then we add either $A$ or $B$ to $\mathcal{I}$, depending on which neighborhood has vertices in $\mathcal{I}$. Two structures are detected as alternatives. First, if $N(v)\setminus \{u\}$ induces a complete graph, then $\{u\}$ and $\{v\}$ are alternatives (a \emph{funnel}). Next, if there is a cordless 4-cycle $a_1b_1a_2b_2$ where each vertex has at least degree 3. Then sets $A=\{a_1, a_2\}$ and $B=\{b_1, b_2\}$ are alternatives when $|N(A) \setminus B| \leq 2$, $|N(A) \setminus B| \leq 2$, and $N(A) \cap N(B) = \emptyset$. \\
+Then we add either $A$ or $B$ to $\mathcal{I}$, depending on which neighborhood has vertices in $\mathcal{I}$. Two structures are detected as alternatives. First, if $N(v)\setminus \{u\}$ induces a complete graph, then $\{u\}$ and $\{v\}$ are alternatives (a \emph{funnel}). Next, if there is a cordless 4-cycle $a_1b_1a_2b_2$ where each vertex has at least degree 3. Then sets $A=\{a_1, a_2\}$ and $B=\{b_1, b_2\}$ are alternatives (called a \emph{desk}) when $|N(A) \setminus B| \leq 2$, $|N(A) \setminus B| \leq 2$, and $N(A) \cap N(B) = \emptyset$. 
 
-\comment[id=DS]{Describe funnel and desk? How they implement Alternative.}
+
+
+
+\comment[id=DS]{Describe funnel and desk? How they implement Alternative. CS: integrated desk above, funnel has already been there }
 
 \subsection{Branch-and-Reduce.}
 Branch-and-reduce is a paradigm that intermixes data reduction rules and branching. We use the algorithm of Akiba and Iwata, which exhaustively applies their full suite of reduction rules before branching, and includes a number of advanced branching rules. When branching, a vertex is chosen at random for inclusion into the vertex cover.
@@ -387,7 +394,7 @@ Using reductions first, enables \texttt{RMoMC} to solve 68 instances. However, t
 In these case, the number of nodes has been reduced, but the number of edges actually increased. This is due to the \emph{Alternative} reduction, which in some cases can create more edges than initially present. This is why our full algorithm also runs MoMC on the input graph (in order to be able to solve those instances as well).
 \texttt{BnR} can solve 55 out of the 100 instances. Here, priming the branch-and-reduce algorithm with an initial solution computed by local search has an important impact. Running the branch-and-reduce algorithm on the kernel without using local search can only solve 42 instances. In particular, using local search to find an initial bound helps to solve large instances in which the initial kernelization step does not reduce the graph fully. Our full algorithm \texttt{FullA} can solve 82 out of the 100 instances, and in particular, as expected, dominates each of the other configurations.
 
-On the private instances, our full algorithm solved 87, the second place (\textsf{peaty}~\cite{}) solved 77, the third place (\textsf{bogdan}~\cite{}) solved 76 instances (of 100 instances). The \textsf{peaty} solver focused on using ..., whereas \replaced[id=DS]{\textsf{bogdan} implemented a small suite of simple reductions (including...) together with a recent maximum clique solver by Szab\'o and Zavalnij~\cite{szabo2018different}}{bogdan focused on ...}
+On the private instances, our full algorithm solved 87, the second place (\textsf{peaty}~\cite{james_trimble_2019_3082356}) solved 77, the third place (\textsf{bogdan}~\cite{zbogdan_2019_3228802}) solved 76 instances (of 100 instances). The \textsf{peaty} solver used reductions to compute a problem kernel of the input and then used an unpublished maximum weight clique solver on the complement of each of the connected components of the kernel to assemble a solution. The clique solver is similar to \cite{DBLP:conf/aaai/LiQ10}, but is more general. Here, also local search is used to obtain a good initial solution. On the other hand, \textsf{bogdan} implemented a small suite of simple reductions (including vertex folding. isolated vertex, degree-one removal) together with a recent maximum clique solver by Szab\'o and Zavalnij~\cite{szabo2018different}.
 
 
 \section{Conclusion}
