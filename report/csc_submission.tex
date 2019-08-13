@@ -239,7 +239,7 @@ All algorithms were implemented in C++11 and compiled with gcc~version 6.3.0 wit
 Each algorithm was run sequentially with a time limit of 30 minutes. Our evaluations focus on the total number of instances solved.
 \subsection{Evaluation.}
 We now explain our main configuration that we use in our experimental setup.
-In the following \texttt{MoMC} runs the clique solver~\cite{DBLP:journals/cor/LiJM17} on the complement of the input graph, \texttt{RMoMC} applies reductions to the input graph exhaustively and then runs MoMC on the complement of the kernel graph, \texttt{BnR} applies reductions exhaustively, then runs local search to obtain a high-quality solution on the kernel which is used as a initial bound in the branch-and-reduce algorithm that is run on the kernel, \texttt{BnR-LS} applies reductions and then runs the branch-and-reduce algorithm on the kernel (no local search is used to improve an initial bound), \texttt{FullA} is the full algorithm as described above.
+In the following \texttt{MoMC} runs the clique solver~\cite{DBLP:journals/cor/LiJM17} on the complement of the input graph, \texttt{RMoMC} applies reductions to the input graph exhaustively and then runs MoMC on the complement of the kernel graph, \texttt{LSBnR} applies reductions exhaustively, then runs local search to obtain a high-quality solution on the kernel which is used as a initial bound in the branch-and-reduce algorithm that is run on the kernel, \texttt{BnR} applies reductions and then runs the branch-and-reduce algorithm on the kernel (no local search is used to improve an initial bound), \texttt{FullA} is the full algorithm as described above.
 
 
 %\section{Material}
@@ -267,7 +267,7 @@ In the following \texttt{MoMC} runs the clique solver~\cite{DBLP:journals/cor/Li
 \label{tab:detailedresults1}
 \begin{tabular}{l@{\hskip 25pt} rrrr|ccccc|rc}
 \toprule
-inst\# & $n$ &$m$& $n'$& $m'$ & \texttt{MoMC} & \texttt{RMoMC} & \texttt{BnR} & \texttt{BnR-LS} & \texttt{FullA} & $|VC|$ \\
+inst\# & $n$ &$m$& $n'$& $m'$ & \texttt{MoMC} & \texttt{RMoMC} & \texttt{LSBnR} & \texttt{BnR} & \texttt{FullA} & $|VC|$ \\
                 \midrule
 
 001 &\numprint{6160}&\numprint{40207}&\numprint{0}&\numprint{0}&-&X&X&X&X&  \numprint{2586}&\\ 
@@ -331,7 +331,7 @@ inst\# & $n$ &$m$& $n'$& $m'$ & \texttt{MoMC} & \texttt{RMoMC} & \texttt{BnR} & 
 \label{tab:detailedresults2}
 \begin{tabular}{l@{\hskip 25pt} rrrr|ccccc|rc}
 \toprule
-inst\# & $n$ &$m$& $n'$& $m'$ & \texttt{MoMC} & \texttt{RMoMC} & \texttt{BnR} & \texttt{BnR-LS} & \texttt{FullA} & $|VC|$ \\
+inst\# & $n$ &$m$& $n'$& $m'$ & \texttt{MoMC} & \texttt{RMoMC} & \texttt{LSBnR} & \texttt{BnR} & \texttt{FullA} & $|VC|$ \\
                 \midrule
 
 101 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&X&-&X&  \numprint{16300}&\\ 
@@ -392,7 +392,7 @@ Tables~\ref{tab:detailedresults1} and \ref{tab:detailedresults2} give an overvie
 Overall, \texttt{MoMC} can solve 30 out of the 100 instances. 
 Using reductions first, enables \texttt{RMoMC} to solve 68 instances. However, there are also instances that \texttt{MoMC} could solve, but \texttt{RMoMC} could not solve. 
 In these case, the number of nodes has been reduced, but the number of edges actually increased. This is due to the \emph{Alternative} reduction, which in some cases can create more edges than initially present. This is why our full algorithm also runs MoMC on the input graph (in order to be able to solve those instances as well).
-\texttt{BnR} can solve 55 out of the 100 instances. Here, priming the branch-and-reduce algorithm with an initial solution computed by local search has an important impact. Running the branch-and-reduce algorithm on the kernel without using local search can only solve 42 instances. In particular, using local search to find an initial bound helps to solve large instances in which the initial kernelization step does not reduce the graph fully. Our full algorithm \texttt{FullA} can solve 82 out of the 100 instances, and in particular, as expected, dominates each of the other configurations.
+\texttt{LSBnR} can solve 55 out of the 100 instances. Here, priming the branch-and-reduce algorithm with an initial solution computed by local search has an important impact. Running the branch-and-reduce algorithm on the kernel without using local search can only solve 42 instances. In particular, using local search to find an initial bound helps to solve large instances in which the initial kernelization step does not reduce the graph fully. Our full algorithm \texttt{FullA} can solve 82 out of the 100 instances, and in particular, as expected, dominates each of the other configurations.
 
 On the private instances, our full algorithm solved 87, the second place (\textsf{peaty}~\cite{james_trimble_2019_3082356}) solved 77, the third place (\textsf{bogdan}~\cite{zbogdan_2019_3228802}) solved 76 instances (of 100 instances). The \textsf{peaty} solver used reductions to compute a problem kernel of the input and then used an unpublished maximum weight clique solver on the complement of each of the connected components of the kernel to assemble a solution. The clique solver is similar to \cite{DBLP:conf/aaai/LiQ10}, but is more general. Here, also local search is used to obtain a good initial solution. On the other hand, \textsf{bogdan} implemented a small suite of simple reductions (including vertex folding. isolated vertex, degree-one removal) together with a recent maximum clique solver by Szab\'o and Zavalnij~\cite{szabo2018different}.
 
