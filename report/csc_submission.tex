@@ -97,7 +97,11 @@ minimum vertex cover $C$ in $G$ is the complement of a maximum independent set $
 For our approach, we use a portfolio of solvers, using techniques from the literature on all three problems. These include data reduction rules and branch-and-reduce for the minimum vertex cover problem~\cite{akiba-tcs-2016}, iterated local search for the maximum independent set problem~\cite{andrade-2012}, and a state-of-the-art branch-and-bound maximum clique solver~\cite{DBLP:journals/cor/LiJM17}.
 
 We first briefly describe related work. Then we outline each of the techniques that we use, and finally describe how we combine all of the techniques in our final solver that scored most of the points during the PACE 2019 Implementation Challenge. Lastly, we perform an experimental evaluation to show the impact of the components used on the final number of instances solved during the challenge.
-Experiments emphasize that data reductions play an important role to boost the performance of a branch-and-bound clique solver, and local search is highly effective to boost the performance of a branch-and-reduce solver for the independent~set~problem. \csch{somehow emphasize that nothing like this has been done before}
+Experiments emphasize that data reductions play an important role to boost the
+performance of a branch-and-bound clique solver, and local search is highly
+effective to boost the performance of a branch-and-reduce solver for the
+independent~set~problem. \csch{somehow emphasize that nothing like this has been
+  done before}\comment[id=DH]{But it has for cliques (according to Section 2)}
 
 
 \section{Related Work}
