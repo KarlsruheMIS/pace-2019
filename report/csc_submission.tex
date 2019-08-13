@@ -45,6 +45,7 @@
 
 \usepackage{changes}
 \definechangesauthor[name={Darren Strash}, color=blue]{DS}
+\definechangesauthor[name={Demian Hespe}, color=blue]{DH}
 
 
 
@@ -96,7 +97,11 @@ minimum vertex cover $C$ in $G$ is the complement of a maximum independent set $
 For our approach, we use a portfolio of solvers, using techniques from the literature on all three problems. These include data reduction rules and branch-and-reduce for the minimum vertex cover problem~\cite{akiba-tcs-2016}, iterated local search for the maximum independent set problem~\cite{andrade-2012}, and a state-of-the-art branch-and-bound maximum clique solver~\cite{DBLP:journals/cor/LiJM17}.
 
 We first briefly describe related work. Then we outline each of the techniques that we use, and finally describe how we combine all of the techniques in our final solver that scored most of the points during the PACE 2019 Implementation Challenge. Lastly, we perform an experimental evaluation to show the impact of the components used on the final number of instances solved during the challenge.
-Experiments emphasize that data reductions play an important role to boost the performance of a branch-and-bound clique solver, and local search is highly effective to boost the performance of a branch-and-reduce solver for the independent~set~problem. \csch{somehow emphasize that nothing like this has been done before}
+Experiments emphasize that data reductions play an important role to boost the
+performance of a branch-and-bound clique solver, and local search is highly
+effective to boost the performance of a branch-and-reduce solver for the
+independent~set~problem. \csch{somehow emphasize that nothing like this has been
+  done before}\comment[id=DH]{But it has for cliques (according to Section 2)}
 
 
 \section{Related Work}
@@ -121,7 +126,7 @@ The most efficient maximum clique solvers use a branch-and-bound search with adv
 
 Data reductions have been successfully applied in practice to solve exact problems that are intractable with general algorithms. Butenko et al.~\cite{butenko-2002} were the first to show that simple reductions could be used to compute exact maximum independent sets on graphs with hundreds vertices for graphs derived from error-correcting codes. Their algorithm works by first applying \emph{isolated clique removal} reductions, then solving the remaining graph with a branch-and-bound algorithm. Later, Butenko and Trukhanov~\cite{butenko-trukhanov} further showed that applying a \emph{critical set} reduction could be used to solve graphs produced by the Sanchis graph generator.
 Larson~\cite{larson-2007} later proposed an algorithm to find a \emph{maximum} critical independent set, but in experiments it proved to be slow in practice~\cite{strash2016power}.
-Later Iwata~\cite{iwata-2014} showed how to remove a large collection of vertices from a maximum matching all at once; however, it is not known if these reductions are equivalent.
+Later Iwata~\etal~\cite{iwata-2014} showed how to remove a large collection of vertices from a maximum matching all at once; however, it is not known if these reductions are equivalent.
 
 For the minimum vertex cover, it has long been known that two such simple reductions, called \emph{pendant vertex removal} and \emph{vertex folding}, are particularly effective in practice. However, two seminal experimental works explored the efficacy of further reductions. Abu-Khzam et al.~\cite{abu-khzam-2007} showed that \emph{crown reductions} are effective in practice on \added[id=DS]{something... how effective?}{} graphs. We briefly note that \emph{crowns} are also critical sets\comment[id=DS]{check}, and thus in some ways this work replicates that of Butenko and Trukhanov~\cite{butenko-trukhanov}, though their experiments are run on different graphs.
 
@@ -200,7 +205,7 @@ Branch-and-reduce is a paradigm that intermixes data reduction rules and branchi
 
 \subsection{Iterated Local Search.}
 Batsyn et al.~\cite{batsyn-mcs-ils-2014} showed that if branch-and-bound search is primed with a high-quality solution from local search, then instances can be solved up to thousands of times faster. 
-We use iterated local search algorithm by Andrade et al.~\cite{andrade-2012} to prime the branch-and-reduce solver with a high-quality initial solution. Iterated local search was originally implemented for the maximum independent set problem, and is based on the notion of $(j,k)$-swaps. A $(j,k)$-swap removes $j$ nodes from the current solution and inserts $k$ nodes. The authors present a fast linear-time implementation that, given a maximal independent set, can find a $(1,2)$-swap or prove that none exists. Their algorithm applies $(1,2)$-swaps until reaching a local maximum, then perturbs the solution and repeats. We implemented the algorithm to find a high-quality solution on \emph{the kernel}. Calling local search on the kernel has been shown to produce a high-quality solution much faster than without kernelization~\cite{chang2017computing,dahlum2016accelerating}.
+We use the iterated local search algorithm by Andrade et al.~\cite{andrade-2012} to prime the branch-and-reduce solver with a high-quality initial solution. Iterated local search was originally implemented for the maximum independent set problem, and is based on the notion of $(j,k)$-swaps. A $(j,k)$-swap removes $j$ nodes from the current solution and inserts $k$ nodes. The authors present a fast linear-time implementation that, given a maximal independent set, can find a $(1,2)$-swap or prove that none exists. Their algorithm applies $(1,2)$-swaps until reaching a local maximum, then perturbs the solution and repeats. We implemented the algorithm to find a high-quality solution on \emph{the kernel}. Calling local search on the kernel has been shown to produce a high-quality solution much faster than without kernelization~\cite{chang2017computing,dahlum2016accelerating}.
 
 \section{Putting it all Together}
 Our algorithm first runs a preprocessing phase, followed by 4 phases of solvers.
