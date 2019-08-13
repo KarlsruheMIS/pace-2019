@@ -45,6 +45,7 @@
 
 \usepackage{changes}
 \definechangesauthor[name={Darren Strash}, color=blue]{DS}
+\definechangesauthor[name={Demian Hespe}, color=blue]{DH}
 
 
 
@@ -200,7 +201,7 @@ Branch-and-reduce is a paradigm that intermixes data reduction rules and branchi
 
 \subsection{Iterated Local Search.}
 Batsyn et al.~\cite{batsyn-mcs-ils-2014} showed that if branch-and-bound search is primed with a high-quality solution from local search, then instances can be solved up to thousands of times faster. 
-We use iterated local search algorithm by Andrade et al.~\cite{andrade-2012} to prime the branch-and-reduce solver with a high-quality initial solution. Iterated local search was originally implemented for the maximum independent set problem, and is based on the notion of $(j,k)$-swaps. A $(j,k)$-swap removes $j$ nodes from the current solution and inserts $k$ nodes. The authors present a fast linear-time implementation that, given a maximal independent set, can find a $(1,2)$-swap or prove that none exists. Their algorithm applies $(1,2)$-swaps until reaching a local maximum, then perturbs the solution and repeats. We implemented the algorithm to find a high-quality solution on \emph{the kernel}. Calling local search on the kernel has been shown to produce a high-quality solution much faster than without kernelization~\cite{chang2017computing,dahlum2016accelerating}.
+We use the iterated local search algorithm by Andrade et al.~\cite{andrade-2012} to prime the branch-and-reduce solver with a high-quality initial solution. Iterated local search was originally implemented for the maximum independent set problem, and is based on the notion of $(j,k)$-swaps. A $(j,k)$-swap removes $j$ nodes from the current solution and inserts $k$ nodes. The authors present a fast linear-time implementation that, given a maximal independent set, can find a $(1,2)$-swap or prove that none exists. Their algorithm applies $(1,2)$-swaps until reaching a local maximum, then perturbs the solution and repeats. We implemented the algorithm to find a high-quality solution on \emph{the kernel}. Calling local search on the kernel has been shown to produce a high-quality solution much faster than without kernelization~\cite{chang2017computing,dahlum2016accelerating}.
 
 \section{Putting it all Together}
 Our algorithm first runs a preprocessing phase, followed by 4 phases of solvers.
@@ -239,7 +240,14 @@ All algorithms were implemented in C++11 and compiled with gcc~version 6.3.0 wit
 Each algorithm was run sequentially with a time limit of 30 minutes. Our evaluations focus on the total number of instances solved.
 \subsection{Evaluation.}
 We now explain our main configuration that we use in our experimental setup.
-In the following \texttt{MoMC} runs the clique solver~\cite{DBLP:journals/cor/LiJM17} on the complement of the input graph, \texttt{RMoMC} applies reductions to the input graph exhaustively and then runs MoMC on the complement of the kernel graph, \texttt{BnR} applies reductions exhaustively, then runs local search to obtain a high-quality solution on the kernel which is used as a initial bound in the branch-and-reduce algorithm that is run on the kernel, \texttt{BnR-LS} applies reductions and then runs the branch-and-reduce algorithm on the kernel (no local search is used to improve an initial bound), \texttt{FullA} is the full algorithm as described above.
+In the following \texttt{MoMC} runs the clique
+solver~\cite{DBLP:journals/cor/LiJM17} on the complement of the input graph,
+\texttt{RMoMC} applies reductions to the input graph exhaustively and then runs
+MoMC on the complement of the kernel graph, \texttt{BnR} applies reductions
+exhaustively, then runs local search to obtain a high-quality solution on the
+kernel which is used as a initial bound in the branch-and-reduce algorithm that
+is run on the kernel, \texttt{BnR-LS}\comment[id=DH]{I find these names
+  confusing, why not \mbox{LSBnR} and BnR? The original BnR doesn't use local search} applies reductions and then runs the branch-and-reduce algorithm on the kernel (no local search is used to improve an initial bound), \texttt{FullA} is the full algorithm as described above.
 
 
 %\section{Material}
