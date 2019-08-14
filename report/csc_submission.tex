@@ -396,11 +396,25 @@ Applying reductions first enables \AlgName{RMoMC} to solve 68 instances. However
 In these cases, kernelization reduced the number of nodes, but \emph{increased} the number of edges. This is due to the \emph{alternative} reduction, which in some cases can create more edges than initially present. This is why we choose to also run MoMC on the unkernelized input graph in \AlgName{FullA} (in order to solve those instances as well).
 \AlgName{LSBnR} solves 55 of the 100 instances. Priming the branch-and-reduce algorithm with an initial solution computed by local search has a significant impact: \AlgName{LSBnR} solves 13 more instances than \AlgName{BnR}, which solve 42 instances. In particular, using local search to find an initial bound helps to solve large instances in which the initial kernelization step does not reduce the graph fully. Surprisingly, \AlgName{RMoMC} solves 26 instances that \AlgName{BnR} does not (and even \AlgName{LBnR} is only able to solve one of these instances). To the best of our knowledge, this is the first time that kernelization followed by branch-and-bound is shown to significantly outperform branch-and-reduce. Our full algorithm \AlgName{FullA} solves 82 of the 100 instances and, as expected, dominates each of the other configurations. \comment[id=DS]{Discuss density vs. solving time and number instances solved.}
 
+\begin{figure}
+    \centering
+    \input{plots/rt_solutions.pgf}
+  \caption{Number of instances solved over time by each algorithm.} 
+  \label{fig:solution_time}
+\end{figure}
+
 In addition to the 100 public instances, the PACE Implementation Challenge tests all submissions on 100 private instances, which are not yet available for additional experiments\footnote{However, the results are published at \url{https://pacechallenge.org/2019/} and \url{https://www.optil.io/optilion/problem/3155}.}. On the private instances, our full algorithm solved 87 of the 100 instances, which is 10 more instances than the second-place submission (\textsf{peaty}~\cite{james_trimble_2019_3082356}, solving 77), and 11 more than the third-place submission (\textsf{bogdan}~\cite{zbogdan_2019_3228802}), solving 76). Our solver dominates these other solvers: with the exception of one graph, our algorithm solves all instances that \textsf{peaty} and \textsf{bogdan} can solve combined. 
 
 We briefly describe these two solvers. The \textsf{peaty} solver uses reductions to compute a problem kernel of the input followed by an unpublished maximum weight clique solver on the complement of each of the connected components of the kernel to assemble a solution. The clique solver is similar to MaxCLQ by Li and Quan~\cite{DBLP:conf/aaai/LiQ10}, but is more general. Local search is used to obtain an initial solution. On the other hand, \textsf{bogdan} implemented a small suite of simple reductions (including vertex folding, isolated clique removal, and degree-one removal) together with a recent maximum clique solver by Szab\'o and Zavalnij~\cite{szabo2018different}. 
 
 Lastly, we note that our choice of using MoMC as our chosen branch-and-bound solver is significant on the private instances. Eight instances solved exclusively by our solver are solved in Phase 5, where MoMC is run until the end of the challenge time limit.
+
+\begin{figure}
+    \centering
+    \input{plots/rt_density.pgf}
+  \caption{Time required for each solver over graph density.} 
+  \label{fig:solution_time}
+\end{figure}
 
 \section{Conclusion}
 We presented the winning solver of the PACE 2019 Implementation Challenge Vertex Cover Track. Our algorithm uses a portfolio of techniques, including an aggressive kernelization strategy with all known reduction rules, local search, branch-and-reduce, and a state-of-the-art branch-and-bound solver. Of particular interest is that several of our techniques were not from the literature on the vertex over problem: they were originally published to solve the (complementary) maximum independent set and maximum clique problems. Lastly, our experiments show the impact of the different solver techniques on the number of instances solved during the challenge. In particular, the results emphasize that data reductions play an important tool to boost the performance of branch-and-bound, and local search is highly effective to boost the performance of branch-and-reduce.
