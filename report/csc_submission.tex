@@ -96,20 +96,23 @@ First, kernelization can boost the performance of branch-and-bound clique solver
 \section{Introduction}
 
 A \emph{vertex cover} of a graph $G=(V,E)$ is a set of vertices $S\subseteq V$ of $G$ such that every edge of $G$ has at least one of member of $S$ as an endpoint (i.e., $\forall (u,v) \in E\,\, [u\in S \textrm{ or } v \in S]$).
-A minimum vertex cover is a vertex cover of minimum cardinality. 
+The minimum vertex cover problem---that of computing a vertex cover of minimum cardinality---is a fundamental NP-hard problem, and has applications spanning many areas. These include computational biology~\cite{cheng2008prediction}, classificiation~\cite{gottlieb2014efficient}, mesh rendering~\cite{sander2008efficient}, and many more through its complementary problems~\cite{gnntbdmlisaac13,gardiner-docking-2000,harary-clique-1957,zaki-ecommerce-97}.
+
 Complementary to vertex covers are independent sets and cliques. An independent set is a set of vertices $I\subseteq V$, all pairs of which are not adjacent, and an clique is a set of vertices $K\subseteq V$ all pairs of which are adjacent. A maximum independent set (maximum clique) is an independent set (clique) of maximum cardinality. The goal of the maximum independent set problem (maximum clique problem) is to compute a maximum independent set (maximum clique).
 
 Many techniques have been proposed for solving these problems, and papers in the literature usually focus on one of these problems in particular. However, all of these problems are equivalent: a
 minimum vertex cover $C$ in $G$ is the complement of a maximum independent set $V\setminus C$ in $G$, which is a maximum clique $V\setminus C$ in $\overline{G}$. Thus, an algorithm that solves one of these problems can be used to~solve~the~others.
-For our approach, we use a portfolio of solvers, using techniques from the literature on all three problems. These include data reduction rules and branch-and-reduce for the minimum vertex cover problem~\cite{akiba-tcs-2016}, iterated local search for the maximum independent set problem~\cite{andrade-2012}, and a state-of-the-art branch-and-bound maximum clique solver~\cite{DBLP:journals/cor/LiJM17}.
+%
+To win the PACE 2019 Implementation Challenge, we deployed a portfolio of solvers, using techniques from the literature on all three problems. These include data reduction rules and branch-and-reduce for the minimum vertex cover problem~\cite{akiba-tcs-2016}, iterated local search for the maximum independent set problem~\cite{andrade-2012}, and a state-of-the-art branch-and-bound maximum clique solver~\cite{DBLP:journals/cor/LiJM17}.
 
 \paragraph*{Our Results.}
-Aside from illustrating our solver's performance in the PACE 2019 Implementation Challenge, our experiments provide several key insights not yet seen before in the literature.
-First, data reduction rules are able to boost the performance of branch-and-bound clique solvers to outperform branch-and-reduce solvers. Second, local search can significantly boost the performance of branch-and-reduce solvers. And finally, somewhat surprisingly, data reduction rules can sometimes make branch-and-bound algorithms perform \emph{worse} than running branch-and-bound alone.
-\csch{somehow emphasize that nothing like this has been
-  done before}
-  \comment[id=DH]{But it has for cliques (according to Section 2)}
-  \comment[id=DS]{those reductions have a different purpose, they only work on sparse graphs, removing low-degree vertices (or similar) based on a an initial clique from some inexact method. Clarified.}
+In this paper, we describe our techniques and solver in detail and analyze the results of our experiments on the data sets provided by the challenge.
+Not only do our experiments illustrate the power of the techniques spanning the literature, they also provide several new insights not yet seen before.
+In particular, kernelization followed by branch-and-bound can outperform branch-and-reduce solvers; seeding branch-and-reduce by an iniital solution from local search can significantly boost its performance; and, somewhat surprisingly, kernelization is sometimes counterproductive: branch-and-bound algorithms can perform significantly worse on the kernel than on the original input graph.
+%\csch{somehow emphasize that nothing like this has been
+%  done before}
+%  \comment[id=DH]{But it has for cliques (according to Section 2)}
+%  \comment[id=DS]{those reductions have a different purpose, they only work on sparse graphs, removing low-degree vertices (or similar) based on a an initial clique from some inexact method. Clarified.}
 
 \paragraph*{Organization.}
 We first briefly describe related work in Section~\ref{sec:related_work}. Then in Section~\ref{sec:techniques} we outline each of the techniques that we use, and in Section~\ref{sec:puttingtogether} finally describe how we combine all of the techniques in our final solver that scored the most points in the PACE 2019 Implementation Challenge. Lastly, in Section~\ref{sec:experiments} we perform an experimental evaluation to show the impact of the components used on the final number of instances solved during the challenge.
