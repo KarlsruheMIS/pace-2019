@@ -17,11 +17,11 @@ latexConf = {
     # "xtick.labelsize": "xx-large",  # fontsize of the tick labels
     # "ytick.labelsize": "xx-large",  # fontsize of the tick labels
     # "legend.fontsize": "xx-large", #legend font size
-    "axes.titlesize": "small",   # fontsize of the axes title
-    "axes.labelsize": "small",  # fontsize of the x any y labels
-    "xtick.labelsize": "small",  # fontsize of the tick labels
-    "ytick.labelsize": "small",  # fontsize of the tick labels
-    "legend.fontsize": "small", #legend font size
+    "axes.titlesize": "x-small",   # fontsize of the axes title
+    "axes.labelsize": "x-small",  # fontsize of the x any y labels
+    "xtick.labelsize": "x-small",  # fontsize of the tick labels
+    "ytick.labelsize": "x-small",  # fontsize of the tick labels
+    "legend.fontsize": "x-small", #legend font size
     "text.usetex": True,    # use inline math for ticks
     "pgf.rcfonts": False,   # don't setup fonts from rc parameters
     "pgf.preamble": [
@@ -109,6 +109,8 @@ def plot_solved(data, ax):
         times = sorted([float(x[solver]) for x in data])
         valid_times = [x for x in times if x < 1800.0]
         instances_solved = range(1, len(valid_times) + 1)
+        print(valid_times)
+        print(solver + ": " + str(len(valid_times) + 0))
         ax.plot(valid_times, instances_solved, lw=2, color=next(color), label=solver_labels[solver])
     ax.legend(bbox_to_anchor=anchor, ncol=3, loc='center', borderaxespad=0.)
     # update_colors(ax)
