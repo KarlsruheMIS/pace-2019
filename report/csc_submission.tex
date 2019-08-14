@@ -35,7 +35,7 @@
 \newcommand{\wrt}{w.\,r.\,t.\xspace}
 \newcommand{\csch}[1]{{\color{red} CS: #1}}
 
-\newcommand{\mytitle}{WeGotYouCovered: The Winning Solver from the 2019 PACE Implementation Challenge, Vertex Cover Track}
+\newcommand{\mytitle}{WeGotYouCovered: The Winning Solver from the PACE 2019 Implementation Challenge, Vertex Cover Track}
 
 \setlength\parfillskip{0pt plus .4\textwidth}
 \setlength\emergencystretch{.1\textwidth}
@@ -46,6 +46,8 @@
 \usepackage{changes}
 \definechangesauthor[name={Darren Strash}, color=blue]{DS}
 \definechangesauthor[name={Demian Hespe}, color=blue]{DH}
+
+\newcommand{\AlgName}[1]{\textsf{#1}}
 
 
 
@@ -81,7 +83,12 @@
 %\Copyright{}
 \maketitle
 \begin{abstract}
-We present the winning solver of the PACE 2019 Implementation Challenge Vertex Cover Track. The vertex cover problem is one of a handful of problems for which \emph{kernelization}---the repeated reducing of the input size via \emph{data reduction rules}---is known to be highly effective in practice. Our algorithm uses a portfolio of techniques, including an aggressive kernelization strategy with all known reduction rules, local search, branch-and-reduce, and a state-of-the-art branch-and-bound solver. Of particular interest is that several of our techniques were \emph{not} from the literature on the vertex over problem: they were originally published to solve the (complementary) maximum independent set and maximum clique problems. Lastly, we perform extensive experiments to show the impact of the different solver techniques on the number of instances solved during the challenge.
+We present the winning solver of the PACE 2019 Implementation Challenge, Vertex Cover Track. The minimum vertex cover problem is one of a handful of problems for which \emph{kernelization}---the repeated reducing of the input size via \emph{data reduction rules}---is known to be highly effective in practice. Our algorithm uses a portfolio of techniques, including an aggressive kernelization strategy, local search, branch-and-reduce, and a state-of-the-art branch-and-bound solver. Of particular interest is that several of our techniques were \emph{not} from the literature on the vertex over problem: they were originally published to solve the (complementary) maximum independent set and maximum clique problems. 
+
+%We perform extensive experiments to show the impact of the different solver techniques on the number of instances solved during the challenge.
+%
+Aside from illustrating our solver's performance in the PACE 2019 Implementation Challenge, our experiments provide several key insights not yet seen before in the literature.
+First, kernelization can boost the performance of branch-and-bound clique solvers enough to outperform branch-and-reduce solvers. Second, local search can significantly boost the performance of branch-and-reduce solvers. And finally, somewhat surprisingly, kernelization can sometimes make branch-and-bound algorithms perform \emph{worse} than running branch-and-bound alone.
 \end{abstract}
 
 %apply an initial aggressive kernelization strategy, using all known reduction rules for the problem. From there we use local search to produce a high-quality solution on the (hopefully smaller) kernel, which we use as a starting solution for a branch-and-bound solver. Our branch-and-bound solver also applies reduction rules via a branch-and-reduce scheme -- applying rules when possible, and branching otherwise -- though this may be toggled to omit reductions if they are not effective.
@@ -96,49 +103,54 @@ Many techniques have been proposed for solving these problems, and papers in the
 minimum vertex cover $C$ in $G$ is the complement of a maximum independent set $V\setminus C$ in $G$, which is a maximum clique $V\setminus C$ in $\overline{G}$. Thus, an algorithm that solves one of these problems can be used to~solve~the~others.
 For our approach, we use a portfolio of solvers, using techniques from the literature on all three problems. These include data reduction rules and branch-and-reduce for the minimum vertex cover problem~\cite{akiba-tcs-2016}, iterated local search for the maximum independent set problem~\cite{andrade-2012}, and a state-of-the-art branch-and-bound maximum clique solver~\cite{DBLP:journals/cor/LiJM17}.
 
-We first briefly describe related work. Then we outline each of the techniques that we use, and finally describe how we combine all of the techniques in our final solver that scored most of the points during the PACE 2019 Implementation Challenge. Lastly, we perform an experimental evaluation to show the impact of the components used on the final number of instances solved during the challenge.
-Experiments emphasize that data reductions play an important role to boost the
-performance of a branch-and-bound clique solver, and local search is highly
-effective to boost the performance of a branch-and-reduce solver for the
-independent~set~problem. \csch{somehow emphasize that nothing like this has been
-  done before}\comment[id=DH]{But it has for cliques (according to Section 2)}
+\paragraph*{Our Results.}
+Aside from illustrating our solver's performance in the PACE 2019 Implementation Challenge, our experiments provide several key insights not yet seen before in the literature.
+First, data reduction rules are able to boost the performance of branch-and-bound clique solvers to outperform branch-and-reduce solvers. Second, local search can significantly boost the performance of branch-and-reduce solvers. And finally, somewhat surprisingly, data reduction rules can sometimes make branch-and-bound algorithms perform \emph{worse} than running branch-and-bound alone.
+\csch{somehow emphasize that nothing like this has been
+  done before}
+  \comment[id=DH]{But it has for cliques (according to Section 2)}
+  \comment[id=DS]{those reductions have a different purpose, they only work on sparse graphs, removing low-degree vertices (or similar) based on a an initial clique from some inexact method. Clarified.}
+
+\paragraph*{Organization.}
+We first briefly describe related work in Section~\ref{sec:related_work}. Then in Section~\ref{sec:techniques} we outline each of the techniques that we use, and in Section~\ref{sec:puttingtogether} finally describe how we combine all of the techniques in our final solver that scored the most points in the PACE 2019 Implementation Challenge. Lastly, in Section~\ref{sec:experiments} we perform an experimental evaluation to show the impact of the components used on the final number of instances solved during the challenge.
+
+
 
 
 \section{Related Work}
 \label{sec:related_work}
-We now present important related work. 
-Research results in the area can be found through work on the minimum vertex cover problem and its complementary maximum clique and independent set problems, and can often be categorized depending on the angle of attack. In practice, the maximum clique problem is normally solved, for exact exponential (theoretical) algorithms, the maximum independent set problem is considered, and for parameterized algorithms, the minimum vertex cover problem is considered. However, these problems are only \emph{trivially} different --- techniques for solving one problem require only subtle modification to solve the other two.
+%We now present important related work. 
+Research results in the area can be found through work on the minimum vertex cover problem and its complementary maximum clique and independent set problems, and can often be categorized depending on the angle of attack. For exact exponential (theoretical) algorithms, the maximum independent set problem is considered, for parameterized algorithms, the minimum vertex cover problem is studied, and the maximum clique problem is normally solved in practice. However, these problems are only \emph{trivially} different --- techniques for solving one problem require only subtle modifications to solve the other two.
 
 \paragraph*{Exponential-time Algorithms.}
 The best known algorithms for solving the independent set problem on general graphs have exponential running time, and much research has be devoted to reducing the base of the exponent. The main technique is  to develop rules to modify the graph, removing or contracting subgraphs that can be solved simply, which reduces the graph to a smaller instance. These rules are referred to as \emph{data reduction rules} (often simplified to \emph{reduction rules} or \emph{reductions}).
 Reduction rules have been used to reduce the running time of the brute force $O(n^22^n)$ algorithm to the $O(2^{n/3})$ time algorithm of Tarjan and Trojanowski~\cite{tarjan-1977}, and to the current best polynomial space algorithm with running time of $O^*(1.1996^n)$ by Xiao and Nagamochi~\cite{xiao2017exact}. 
-The reduction rules used for these algorithms are often staggeringly simple, including \emph{pendant vertex removal}, \emph{vertex folding}~\cite{chen-1999} and \emph{twin} reductions~\cite{Xiao201392}, which eliminate nearly all vertices of degree three or less from the graph. 
-These algorithms apply reductions during recursion, only branching when the graph can no longer be reduced~\cite{fomin-2010}, and are often referred to as \emph{branch-and-reduce} algorithm. Further techniques used to accelerate these algorithms include \emph{branching rules}~\cite{} which eliminate unnecessary branches from the search tree, as well as faster exponential-time graphs for graphs of degree 3 or less~\cite{}.
+
+The reduction rules used for these algorithms are often staggeringly simple, including \emph{pendant vertex removal}, \emph{vertex folding}~\cite{chen1999} and \emph{twin} reductions~\cite{Xiao201392}, which eliminate nearly all vertices of degree three or less from the graph. 
+These algorithms apply reductions during recursion, only branching when the graph can no longer be reduced~\cite{fomin-2010}, and are referred to as \emph{branch-and-reduce} algorithms. Further techniques used to accelerate these algorithms include \emph{branching rules}~\cite{kneis2009fine,fomin2009measure} which eliminate unnecessary branches from the search tree, as well as faster exponential-time algorithms for graphs of small maximum degree~\cite{xiao2017exact}.
 
 \paragraph*{Parameterized Algorithms.}
-The most efficient algorithms for computing a minimum vertex cover in both theory and practice repeatedly apply data reduction rules to obtain a (hopefully) much smaller problem instance. If this smaller instance has size bounded by a function of some parameter, it's~called~a~\emph{kernel}, and producing a polynomially-sized kernel gives a fixed-parameter tractable in the chosen parameter. Reductions are surprisingly effective for the minimum vertex cover problem. In particular, letting $k$ be the size of minimum vertex cover, the well-known crown reduction rule produces a kernel of size $3k$~\cite{chor2005linear} and the LP-relaxation reduction due to Nemhauser and Trotter~\cite{nemhauser-1975}, produces a kernel that is within a constant factor of the minimum vertex cover size $2k$~\cite{chen1999}.
-
-\comment[id=DS]{some parameterized results for minimum vertex cover.}
+The most efficient algorithms for computing a minimum vertex cover in both theory and practice repeatedly apply data reduction rules to obtain a (hopefully) much smaller problem instance. If this smaller instance has size bounded by a function of some parameter, it's~called~a~\emph{kernel}, and producing a polynomially-sized kernel gives a fixed-parameter tractable in the chosen parameter. Reductions are surprisingly effective for the minimum vertex cover problem. In particular, letting $k$ be the size of a minimum vertex cover, the well-known crown reduction rule produces a kernel of size $3k$~\cite{chor2005linear} and the LP-relaxation reduction due to Nemhauser and Trotter~\cite{nemhauser-1975}, produces a kernel of size $2k$~\cite{chen1999}. Chen et al.~\cite{chen2010improved} developed the current best parameterized algorithm for minimum vertex cover, giving a branch-and-reduce algorithm with running time $O(1.2738^k +kn)$ and polynomial space.
 For more information on the history of vertex cover kernelization, see the recent survey by Fellows et al.~\cite{fellows2018known}.
 
 \paragraph*{Exact Algorithms in Practice.}
-The most efficient maximum clique solvers use a branch-and-bound search with advanced vertex reordering strategies and pruning (typically using approximation algorithms for graph coloring, MaxSAT~\cite{li-maxsat-2013} or constraint satisfaction). The long-standing canonical algorithms for finding the maximum clique are the MCS algorithm by Tomita et al.~\cite{tomita-recoloring} and the bit-parallel algorithms of San Segundo et al.~\cite{segundo-recoloring,segundo-bitboard-2011}. However, recently Li et al.~\cite{DBLP:journals/cor/LiJM17} introduced the MoMC algorithm, which introduces incremental MaxSAT logic to achieve speed ups of up to 1,000 over MCS. Experiments by Batsyn et al.~\cite{batsyn-mcs-ils-2014} show that MCS can be sped up significantly by giving an initial solution found through local search. However, even with these state-of-the-art algorithms, graphs on thousands of vertices remain intractable. For example, a difficult graph on 4,000 required 39 wall-clock hours in a highly-parallel MapReduce cluster, and is estimated to require over a year of sequential computation~\cite{xiang-2013}. A thorough discussion of many results in clique finding can be found in the survey of Wu and Hao~\cite{wu-hao-2015}.\comment[id=DS]{Mention reductions used to speed up maximum clique solvers? Buchanen; San Segundo; Chang}
+The most efficient maximum clique solvers use a branch-and-bound search with advanced vertex reordering strategies and pruning (typically using approximation algorithms for graph coloring, MaxSAT~\cite{li-maxsat-2013} or constraint satisfaction). The long-standing canonical algorithms for finding the maximum clique are the MCS algorithm by Tomita et al.~\cite{tomita-recoloring} and the bit-parallel algorithms of San Segundo et al.~\cite{segundo-recoloring,segundo-bitboard-2011}. However, recently Li et al.~\cite{DBLP:journals/cor/LiJM17} introduced the MoMC algorithm, which uses incremental MaxSAT logic to achieve speed ups of up to 1,000 over MCS. Experiments by Batsyn et al.~\cite{batsyn-mcs-ils-2014} show that MCS can be sped up significantly by giving an initial solution found through local search. However, even with these state-of-the-art algorithms, graphs on thousands of vertices remain intractable. For example, a difficult graph on 4,000 required 39 wall-clock hours in a highly-parallel MapReduce cluster, and is estimated to require over a year of sequential computation~\cite{xiang-2013}. Recent clique solvers for sparse graphs investigate applying simple data reduction rules, using an initial clique given by some inexact method~\cite{verma2015solving,sansegundo2016a,chang2019efficient}. However, these techniques rarely work on dense graphs, such as the complement graphs that we consider here.
+A thorough discussion of many results in clique finding can be found in the survey of Wu and Hao~\cite{wu-hao-2015}.
 
-Data reductions have been successfully applied in practice to solve exact problems that are intractable with general algorithms. Butenko et al.~\cite{butenko-2002} were the first to show that simple reductions could be used to compute exact maximum independent sets on graphs with hundreds vertices for graphs derived from error-correcting codes. Their algorithm works by first applying \emph{isolated clique removal} reductions, then solving the remaining graph with a branch-and-bound algorithm. Later, Butenko and Trukhanov~\cite{butenko-trukhanov} further showed that applying a \emph{critical set} reduction could be used to solve graphs produced by the Sanchis graph generator.
+Data reductions have been successfully applied in practice to solve many problems that are intractable with general algorithms. Butenko et al.~\cite{butenko-2002,butenko-correcting-codes-2009} were the first to show that simple reductions could be used to compute exact maximum independent sets on graphs with hundreds vertices for graphs derived from error-correcting codes. Their algorithm works by first applying \emph{isolated clique removal} reductions, then solving the remaining graph with a branch-and-bound algorithm. Later, Butenko and Trukhanov~\cite{butenko-trukhanov} introduced the \emph{critical independent set} reduction, which was able to solve graphs produced by the Sanchis graph generator.
 Larson~\cite{larson-2007} later proposed an algorithm to find a \emph{maximum} critical independent set, but in experiments it proved to be slow in practice~\cite{strash2016power}.
-Later Iwata~\etal~\cite{iwata-2014} showed how to remove a large collection of vertices from a maximum matching all at once; however, it is not known if these reductions are equivalent.
+Iwata~\etal~\cite{iwata-2014} then showed how to remove a large collection of vertices from a maximum matching all at once; however, it is not known if these reductions are equivalent.
 
-For the minimum vertex cover, it has long been known that two such simple reductions, called \emph{pendant vertex removal} and \emph{vertex folding}, are particularly effective in practice. However, two seminal experimental works explored the efficacy of further reductions. Abu-Khzam et al.~\cite{abu-khzam-2007} showed that \emph{crown reductions} are effective in practice on \added[id=DS]{something... how effective?}{} graphs. We briefly note that \emph{crowns} are also critical sets\comment[id=DS]{check}, and thus in some ways this work replicates that of Butenko and Trukhanov~\cite{butenko-trukhanov}, though their experiments are run on different graphs.
+For the minimum vertex cover problem, it has long been known that two such simple reductions, called \emph{pendant vertex removal} and \emph{vertex folding}, are particularly effective in practice. However, two seminal experimental works explored the efficacy of further reductions. Abu-Khzam et al.~\cite{abu-khzam-2007} showed that \emph{crown reductions} are as effective (and sometimes faster) in practice than performing the LP relaxation reduction (which, as they show in the paper, removes crowns) on graphs. We briefly note that critical indepedent sets, together with their neighborhoods, are in fact crowns, and thus in some ways the work of Butenko and Trukhanov~\cite{butenko-trukhanov} replicates that by Abu-Khzam et al.~\cite{abu-khzam-2007}, though their experiments are run on different graphs.
 
+Later, Akiba and Iwata~\cite{akiba-tcs-2016} showed that an extensive collection of advanced data reduction rules (together with branching rules and lower bounds for pruning search) are also highly effective in practice. Their algorithm finds exact minimum vertex covers on a corpus of large social networks with hundreds of thousands of vertices or more in mere seconds. More details on the reduction rules follow in Section~\ref{sec:techniques}.
 
-\comment[id=DS]{discuss crown reduction connection to LP relaxation, cite new paper.}
+We briefly note that we considered other reduction techniques that emphasize fast computation at the cost of a larger (irreducible) graph~\cite{chang2017computing,strash2016power,DBLP:conf/alenex/Hespe0S18}; however, we did not find them as effective as Akiba and Iwata~\cite{akiba-tcs-2016} for exactly solving difficult instances. This is somewhat expected, however, since these techniques are optimized to produce fast high-quality solutions when combined with inexact methods such as local search.
 
-Later, Akiba and Iwata~\cite{akiba-tcs-2016} showed that an extensive collection of advanced data reduction rules (together with branching rules) are also highly effective in practice. Their algorithm finds exact minimum vertex covers on a corpus of large social networks with hundreds of thousands of vertices or more in mere seconds. More details on the reduction rules follow in Section~\ref{sec:techniques}.
-
-\comment[id=DS]{Pay homage to new reduction rules, and further experiments.}
-
+\iffalse %doubt we will ever make another version of the paper, no need to discuss all of the version of local search algorithms, unless reviewers want it.
 \paragraph*{Inexact Algorithms.}
 \comment[id=DS]{Needed?}
+\fi
 
 
 \section{Techniques}
@@ -153,61 +165,45 @@ apply the current reduction $r_i$ to all vertices. If $r_i$ reduces at
 least one vertex, they restart with reduction~$r_1$. When reduction~$r_j$ 
 is executed, but does not reduce any vertex, all reductions have been applied
 exhaustively, and a kernel is found. Following their study we order the reductions
-as follows: degree-one vertex (i.e., pendant) removal, vertex folding~\cite{chen-1999}, a well-known linear-programming 
-relaxation~\cite{iwata-2014,nemhauser-1975} related to crown removal~\cite{abu-khzam-2007}, unconfined vertex removal~\cite{Xiao201392}, and twin, funnel, and desk reductions~\cite{Xiao201392}.
-To be self-contained, we now give a brief description of those reductions, in order of increasing complexity. Each reduction allows us to choose vertices that are either in some minimum vertex cover, or for which we can locally choose a vertex in a minimum vertex cover after solving the remaining graph, by following simple rules. If a minimum vertex cover  is found on the kernel graph $\mathcal{K}$, then each reduction may be undone, producing an vertex cover in the original graph. Refer to Akiba and Iwata~\cite{akiba-tcs-2016} for a more thorough discussion, including implementation details. We use our own implementation of the reduction algorithms in our method which is very similar to the original Java implementation. \\
+as follows: degree-one vertex (i.e., pendant) removal, unconfined vertex removal~\cite{Xiao201392}, a well-known linear-programming 
+relaxation~\cite{iwata-2014,nemhauser-1975} (which, consequently, removes crowns~\cite{abu-khzam-2007}),  vertex folding~\cite{chen1999}, and twin, funnel, and desk reductions~\cite{Xiao201392}.
 
-\noindent\textbf{Pendant vertices:} Any vertex $v$ of degree one, called a \emph{pendant}, is in some MIS; therefore $v$ and its neighbor $u$ can be removed from $G$. \\
+To be self-contained, we now give a brief description of those reductions, in order of increasing complexity. Each reduction allows us to choose vertices that are either in some minimum vertex cover, or for which we can locally choose a vertex in a minimum vertex cover after solving the remaining graph, by following simple rules. If a minimum vertex cover  is found in the kernel, then each reduction may be undone, producing a minimum vertex cover in the original graph. Refer to Akiba and Iwata~\cite{akiba-tcs-2016} for a more thorough discussion, including implementation details. Our implementation of the reductions is an adaptation of Akiba and Iwata's original code. \\
+
+\noindent\textbf{Pendant vertices:} Any vertex $v$ of degree one, called a \emph{pendant}, then its neighbor is in some minimum vertex cover, therefore $v$ and its neighbor $u$ can be removed from $G$. \\
 %We can see this as follows: Either $v$'s neighbor is in a MIS $I$, or not. Suppose it is not in $I$, then $v$ must be in $I$. Suppose it is, then it can be removed from the MIS, and add $v$.
 
 %\noindent\textbf{Dominance:} If there exist two vertices $u$ and $v$, such that $N(u) = N(v) \cup \{v\}$ then in any independent set $\mathcal{I}$ either both $v$ and $u$ will be excluded from $\mathcal{I}$, or exactly one of $u$ or $v$ will be in $\mathcal{I}$. Therefore, we may remove either $v$ or $u$ from the graph.
 
-\noindent\textbf{Vertex folding:} For a vertex $v$ with degree 2 whose neighbors $u$ and $w$ are not adjacent, either $v$ is in some MIS, or both $u$ and $w$ are in some MIS. Therefore, we can contract $u$, $v$, and $w$ to a single vertex $v'$ and decide which vertices are in the MIS later. \\
+\noindent\textbf{Vertex folding:} For a vertex $v$ with degree 2 whose neighbors $u$ and $w$ are not adjacent, either $v$ is in some minimum vertex cover, or both $u$ and $w$ are in some minimum vertex cover. Therefore, we can contract $u$, $v$, and $w$ to a single vertex $v'$ and decide which vertices are in the vertex cover after computing a minimum vertex cover on the reduced graph. \\
 %If $v'$ is in the computed MIS, then $u$ and $w$ are added to the independent set, otherwise $v$ is added. Thus, a vertex fold contributes an additional vertex to an independent set.
 
-\ifFull
-\noindent\textbf{Linear Programming:}
-First introduced by Nemhauser and Trotter~\cite{nemhauser-1975} for the vertex packing problem, they present a linear programming relaxation with a half-integral solution (i.e., using only values 0, 1/2, and 1) which can be solved using bipartite matching. Their relaxation may be formulated for the independent set problem as follows: maximize $\sum_{v\in V}{x_v}$, such at for each edge $(u, v) \in E$, $x_u + x_v \leq 1$ and for each vertex $v \in V$, $x_v \geq 0$. Vertices with value 1 must be in the MIS, and therefore are added to the solution. We use the further improvement from Iwata, Oka, and Yoshida~\cite{iwata-2014}, which computes a solution whose half-integral part is minimal. \\
-\else
-\noindent\textbf{Linear Programming:}
-A well-known~\cite{nemhauser-1975} linear programming relaxation for the MIS problem with a half-integral solution (i.e., using only values 0, 1/2, and 1) can be solved using bipartite matching: maximize $\sum_{v\in V}{x_v}$ such that $\forall (u, v) \in E$, $x_u + x_v \leq 1$ and $\forall v \in V$, $x_v \geq 0$. Vertices with value 1 must be in the MIS and can thus be removed from $G$ along with their neighbors. We use an improved version~\cite{iwata-2014} that computes a solution whose half-integral part is minimal.\\ % the further improvement from Iwata, Oka, and Yoshida
-\fi
+\noindent\textbf{Linear Programming Relaxation:}
+First introduced by Nemhauser and Trotter~\cite{nemhauser-1975} for the vertex packing problem, they present a linear programming relaxation with a half-integral solution (i.e., using only values 0, 1/2, and 1) which can be solved using bipartite matching. Their relaxation may be formulated for the minimum vertex cover problem as follows: minimize $\sum_{v\in V}{x_v}$, such at for each edge $(u, v) \in E$, $x_u + x_v \geq 1$ and for each vertex $v \in V$, $x_v \geq 0$. There is a minimum vertex cover containing no vertices with value $1$, and therefore ther neighbors are added to the solution and removed together with the vertices from the graph. We use the further improvement from Iwata et al.~\cite{iwata-2014}, which computes a solution whose half-integral part is minimal. \\
 
-\ifFull
-\noindent\textbf{Unconfined:} Developed by Xiao and Nagamochi~\cite{Xiao201392}, the unconfined reduction is a generalization of domination and \emph{satellite} reduction rules. A vertex $v$ is said to be unconfined if there exists a set $S$, such that $v\in S$ and $\exists u\in S$ such that $|N(u)\cap S| = 1$ and $N(u) \setminus N[S]$ is empty. Such a vertex is never in a MIS, so it can be removed from the graph.  \\
-\else
-%\noindent\textbf{Unconfined~\cite{Xiao201392}:} A vertex $v$ is \emph{unconfined} if there exists a set $S\subseteq V$, such that $v\in S$ and $\exists u\in S$ such that $|N(u)\cap S| = 1$ and $N(u) \setminus N[S]$ is empty. Such a vertex is never in any MIS, so it can be removed from $G$. \strash{Double check logic.}
-\noindent\textbf{Unconfined~\cite{Xiao201392}:} Though there are several definitions of \emph{unconfined} vertex in the literature, we use the simple one from Akiba and Iwata~\cite{akiba-tcs-2016}. A vertex $v$ is \emph{unconfined} when determined by the following simple algorithm. First, initialize $S = \{v\}$. Then find a $u \in N(S)$ such that $|N(u) \cap S| = 1$ and $|N(u) \setminus N[S]|$ is minimized. If there is no such vertex, then $v$ is confined. If $N(u) \setminus N[S] = \emptyset$, then $v$ is unconfined.  If $N(u)\setminus N[S]$ is a single vertex $w$, then add $w$ to $S$ and repeat the algorithm. Otherwise, $v$ is confined. Unconfined vertices can be removed from the graph, since there always exists an MIS $\mathcal{I}$ that contains no unconfined vertices. \\
-\fi
+\noindent\textbf{Unconfined~\cite{Xiao201392}:} Though there are several definitions of an \emph{unconfined} vertex in the literature, we use the simple one from Akiba and Iwata~\cite{akiba-tcs-2016}. A vertex $v$ is \emph{unconfined} when determined by the following simple algorithm. First, initialize $S = \{v\}$. Then find a $u \in N(S)$ such that $|N(u) \cap S| = 1$ and $|N(u) \setminus N[S]|$ is minimized. If there is no such vertex, then $v$ is confined. If $N(u) \setminus N[S] = \emptyset$, then $v$ is unconfined.  If $N(u)\setminus N[S]$ is a single vertex $w$, then add $w$ to $S$ and repeat the algorithm. Otherwise, $v$ is confined. Unconfined vertices can be removed from the graph, since there always exists a minimum vertex cover that contains unconfined vertices. \\
 
-\ifFull
-\noindent\textbf{Twin:} This is a generalization of the vertex folding rule. Suppose there are two vertices $u$ and $v$ that have degree 3 and share the same neighborhood. If $u$'s neighborhood $N(u)$ induces a graph with edges, then $u$ and $v$ are added to the independent set and $u$, $v$, and their neighborhoods are removed from the graph. Otherwise, vertices in $N(u)$ may belong in the independent set. We still remove $u$, $v$, and their neighborhoods, and add a new gadget vertex $w$ to the graph with edges to $u$'s two-neighborhood (vertices at a distance 2 from $u$). If $w$ is in some MIS, none of $u$'s two-neighbors are in the independent set, and therefore $N(u)$ is part of the independent set. Otherwise, if $w$ is not in the MIS, then some of $u$'s two-neighbors are in the independent set, and therefore $u$ and $v$ are added to the independent set. Thus, the twin reduction adds an additional two vertices to the computed~independent~set. \\
-\else
-\noindent\textbf{Twin~\cite{Xiao201392}:} Let $u$ and $v$ be vertices of degree 3 with $N(u) = N(v)$. If $G[N(u)]$ has edges, then add $u$ and $v$ to $\mathcal{I}$ and remove $u$, $v$, $N(u)$, $N(v)$ from $G$. Otherwise, some vertices in $N(u)$ may belong to some MIS $\mathcal{I}$. We still remove $u$, $v$, $N(u)$ and $N(v)$ from $G$, and add a new gadget vertex $w$ to $G$ with edges to $u$'s two-neighborhood (vertices at a distance 2 from $u$). If $w$ is in the computed MIS, then none of $u$'s two-neighbors are $\mathcal{I}$, and therefore $N(u) \subseteq \mathcal{I}$. Otherwise, if $w$ is not in the computed MIS, then some of $u$'s two-neighbors are in $\mathcal{I}$, and therefore $u$ and $v$ are added to $\mathcal{I}$.\\
-\fi
+\noindent\textbf{Twin~\cite{Xiao201392}:} Let $u$ and $v$ be vertices of degree 3 with $N(u) = N(v)$. If $G[N(u)]$ has edges, then add $N(u)$ to the minimum vertex cover and remove $u$, $v$, $N(u)$, $N(v)$ from $G$. Otherwise, some $u$ and $v$ may belong to some minimum vertex cover. We still remove $u$, $v$, $N(u)$ and $N(v)$ from $G$, and add a new gadget vertex $w$ to $G$ with edges to $u$'s two-neighborhood (vertices at a distance 2 from $u$). If $w$ is in the computed minimum vertex cover, then $u$'s (and $v$'s) neighbors are in some minimum vertex cover, otherwise $u$ and $v$ are in a minimum vertex cover.\\
 
-\noindent\textbf{Alternative:} Two sets of vertices $A$ and $B$ are set to be \emph{alternatives} if $|A| = |B| \geq 1$ and there exists an MIS $\mathcal{I}$ such that $\mathcal{I}\cap(A\cup B)$ is either $A$ or $B$. Then we remove $A$ and $B$ and $C = N(A)\cap N(B)$ from $G$ and add edges from each $a \in N(A)\setminus C$ to each $b\in N(B)\setminus C$.
-Then we add either $A$ or $B$ to $\mathcal{I}$, depending on which neighborhood has vertices in $\mathcal{I}$. Two structures are detected as alternatives. First, if $N(v)\setminus \{u\}$ induces a complete graph, then $\{u\}$ and $\{v\}$ are alternatives (a \emph{funnel}). Next, if there is a cordless 4-cycle $a_1b_1a_2b_2$ where each vertex has at least degree 3. Then sets $A=\{a_1, a_2\}$ and $B=\{b_1, b_2\}$ are alternatives (called a \emph{desk}) when $|N(A) \setminus B| \leq 2$, $|N(A) \setminus B| \leq 2$, and $N(A) \cap N(B) = \emptyset$. 
-
-
-
-
-\comment[id=DS]{Describe funnel and desk? How they implement Alternative. CS: integrated desk above, funnel has already been there }
+\noindent\textbf{Alternative:} Two sets of vertices $A$ and $B$ are set to be \emph{alternatives} if $|A| = |B| \geq 1$ and there exists an minimum vertex cover $C$ such that $C\cap(A\cup B)$ is either $A$ or $B$. Then we remove $A$ and $B$ and $C = N(A)\cap N(B)$ from $G$ and add edges from each $a \in N(A)\setminus C$ to each $b\in N(B)\setminus C$.
+Then we add either $A$ or $B$ to $C$, depending on which neighborhood has vertices in $C$. Two structures are detected as alternatives. First, if $N(v)\setminus \{u\}$ induces a complete graph, then $\{u\}$ and $\{v\}$ are alternatives (a \emph{funnel}). Next, if there is a cordless 4-cycle $a_1b_1a_2b_2$ where each vertex has at least degree 3. Then sets $A=\{a_1, a_2\}$ and $B=\{b_1, b_2\}$ are alternatives (called a \emph{desk}) when $|N(A) \setminus B| \leq 2$, $|N(A) \setminus B| \leq 2$, and $N(A) \cap N(B) = \emptyset$. 
 
 \subsection{Branch-and-Reduce.}
-Branch-and-reduce is a paradigm that intermixes data reduction rules and branching. We use the algorithm of Akiba and Iwata, which exhaustively applies their full suite of reduction rules before branching, and includes a number of advanced branching rules. When branching, a vertex is chosen at random for inclusion into the vertex cover.
+Branch-and-reduce is a paradigm that intermixes data reduction rules and branching. We use the algorithm of Akiba and Iwata, which exhaustively applies their full suite of reduction rules before branching, and includes a number of advanced branching rules as well as lower bounds to prune search. 
 
-\comment[id=DS]{Discuss Satellite and Mirror branching rules}
+\paragraph*{Branching.}
+When branching, a vertex of maximum degree is chosen for inclusion into the vertex cover. Mirrors and satellites are detected when branching, in order to eliminate branching on certain vertices. A \emph{mirror} of a vertex $v$ is a vertx $u\in N^2(v)$ such that $N(v)\setminus N(u)$ is a clique or empty. Fomin et al.~\cite{fomin2009measure} show that either the mirrors of $v$ or $N(v)$ is in a minimum vertex cover, and we can therefore branch on all mirrors at once. This branching prevents branching on mirrors individually and decreases the size of the remaining graph (and thus the depth of the search tree). A \emph{satellite} of a vertex $v$ is a vertex $u\in N^2(v)$ such that there exists a vertex $w\in N(v)$ such that $N(w)\setminus N[u] = \{u\}$. If a vertex has no mirrors, then either $v$ is in a minimum vertex cover or the neighbors of $v$'s satellites in a minimum vertex cover. Akiba and Iwata~\cite{akiba-tcs-2016} further introduce \emph{packing} branching, maintaining linear inequalities for each vertex included or excluded from the current vertex cover (called \emph{packing constraints}) throughout recursion; when a constraint is violated, further branching can be eliminated.
 
-\comment[id=DS]{lower bounds}
+\paragraph*{Lower Bounds.} We briefly remark that Akiba and Iwata~\cite{akiba-tcs-2016} implement lower bounds to prune the search space. Their lower bounds are based on clique cover, the LP relaxation, and cycle covers (see their paper for further details). The final lower bound used for pruning is the maximum of these three.
 
-\subsection{Branch-and-Bound.} Experiments by Strash \cite{strash2016power} show that the full power of branch-and-reduce is only needed \emph{very rarely} in real-world instances; kernelization followed by standard branch-and-bound solver is sufficient for many real-world instances. Furthermore, branch-and-reduce does not work well on many synthetic benchmark instances, where data reduction rules are ineffective~\cite{akiba-tcs-2016}, and instead add significant overhead to branch-and-bound. We use a state-of-the-art branch-and-bound maximum clique solver (MoMC) by Li et al.~\cite{DBLP:journals/cor/LiJM17}, which uses incremental MaxSAT reasoning to prune search, and a combination of static and dynamic vertex ordering to select the vertex for branching. We run the clique solver on the complement graph, giving a maximum independent set from which we derive a minimum vertex cover. In preliminary experiments, we found that a kernel can sometimes be harder for the solver than the original input; therefore, we run the algorithm on both the kernel and on the original graph.
+\subsection{Branch-and-Bound.} Experiments by Strash~\cite{strash2016power} show that the full power of branch-and-reduce is only needed \emph{very rarely} in real-world instances; kernelization followed by a standard branch-and-bound solver is sufficient for many real-world instances. Furthermore, branch-and-reduce does not work well on many synthetic benchmark instances, where data reduction rules are ineffective~\cite{akiba-tcs-2016}, and instead add significant overhead to branch-and-bound. We use a state-of-the-art branch-and-bound maximum clique solver (MoMC) by Li et al.~\cite{DBLP:journals/cor/LiJM17}, which uses incremental MaxSAT reasoning to prune search, and a combination of static and dynamic vertex ordering to select the vertex for branching. We run the clique solver on the complement graph, giving a maximum independent set from which we derive a minimum vertex cover. In preliminary experiments, we found that a kernel can sometimes be harder for the solver than the original input; therefore, we run the algorithm on both the kernel and on the original graph.
 
 \subsection{Iterated Local Search.}
 Batsyn et al.~\cite{batsyn-mcs-ils-2014} showed that if branch-and-bound search is primed with a high-quality solution from local search, then instances can be solved up to thousands of times faster. 
-We use the iterated local search algorithm by Andrade et al.~\cite{andrade-2012} to prime the branch-and-reduce solver with a high-quality initial solution. Iterated local search was originally implemented for the maximum independent set problem, and is based on the notion of $(j,k)$-swaps. A $(j,k)$-swap removes $j$ nodes from the current solution and inserts $k$ nodes. The authors present a fast linear-time implementation that, given a maximal independent set, can find a $(1,2)$-swap or prove that none exists. Their algorithm applies $(1,2)$-swaps until reaching a local maximum, then perturbs the solution and repeats. We implemented the algorithm to find a high-quality solution on \emph{the kernel}. Calling local search on the kernel has been shown to produce a high-quality solution much faster than without kernelization~\cite{chang2017computing,dahlum2016accelerating}.
+We use the iterated local search algorithm by Andrade et al.~\cite{andrade-2012} to prime the \emph{branch-and-reduce} solver with a high-quality initial solution. To the best of our knowledge, this has not been tried before. Iterated local search was originally implemented for the maximum independent set problem, and is based on the notion of $(j,k)$-swaps. A $(j,k)$-swap removes $j$ nodes from the current solution and inserts $k$ nodes. The authors present a fast linear-time implementation that, given a maximal independent set, can find a $(1,2)$-swap or prove that none exists. Their algorithm applies $(1,2)$-swaps until reaching a local maximum, then perturbs the solution and repeats. We implemented the algorithm to find a high-quality solution on \emph{the kernel}. Calling local search on the kernel has been shown to produce a high-quality solution much faster than without kernelization~\cite{chang2017computing,dahlum2016accelerating}.
 
 \section{Putting it all Together}
+\label{sec:puttingtogether}
 Our algorithm first runs a preprocessing phase, followed by 4 phases of solvers.
 
 %Our solver is a combination of different kernelization techniques \cite{DBLP:conf/alenex/Hespe0S18}, local search~\cite{DBLP:conf/wea/AndradeRW08}, as well as branch-and-reduce~\cite{akiba-tcs-2016,DBLP:journals/cor/LiJM17}.
@@ -221,30 +217,31 @@ From there we use iterated local search to produce a high-quality solution $S_{\
 \item[Phase 2. (Branch-and-Reduce, short)]
 We prime a branch-and-reduce solver with the initial solution $S_{\textrm{init}}$ and run it with a short time limit.
 \item[Phase 3. (Branch-and-Bound, short)]
-If Phase 2 is unsuccessful, we run the MoMC~\cite{DBLP:journals/cor/LiJM17} clique solver on the complement of the kernel, also using a short time limit. Sometimes kernelization can make the problem harder for MoMC. Therefore, if the first call was unsuccessful we also run MoMC on the complement of the original (unkernelized) input with the same short time limit.
+If Phase 2 is unsuccessful, we run the MoMC~\cite{DBLP:journals/cor/LiJM17} clique solver on the complement of the kernel, also using a short time limit\footnote{Note that repeatedly checking the time can slow down a highly optmized branch-and-bound solver considerably; we therefore simulate time checking by using a limit on the number of branches.}. Sometimes kernelization can make the problem harder for MoMC. Therefore, if the first call was unsuccessful we also run MoMC on the complement of the original (unkernelized) input with the same short time limit.
 
 \item[Phase 4. (Branch-and-Reduce, long)]
 If we have still not found a solution, we run branch-and-reduce on the kernel using initial solution $S_{\textrm{init}}$ and a longer time limit. We opt for this second phase because, while most graphs amenable to reductions are solved very quickly with branch-and-reduce (less than a second),
 experiments by Akiba and Iwata~\cite{akiba-tcs-2016} showed that other slower instances either finish in at most a few minutes, or take significantly longer---more than the time limit allotted for the challenge. This second phase of branch-and-reduce is meant to catch any instances that still benefit from reductions.
 
 \item[Phase 5. (Branch-and-Bound, remaining time)]
-If all previous phases were unsuccessful, we run MoMC on the original (unkernelized) input graph until the end of the time given to the program by the challenge. This is meant to capture only the most hard-to-compute instances.
+If all previous phases were unsuccessful, we run MoMC on the original (unkernelized) input graph until the end of the time given to the program by the challenge. This is meant to capture only the hardest-to-compute instances.
 \end{description}
 
 The ordering and time limits were carefully chosen so that the overall algorithm outputs solutions of the ``easy'' instances \emph{quickly}, while still being able to solve hard instances.
 \vfill\pagebreak
 \section{Experimental Results}
+\label{sec:experiments}
 We now look at the impact of the algorithmic components on the number of instances solved.
-Here, we use the public instances -- obtained from \url{https://pacechallenge.org/files/pace2019-vc-exact-public-v2.tar.bz2} -- of the PACE 2019 Track A implementation challenge. This set contains 100 instances overall. Afterwards, we present the results comparing against the second and third best competing algorithms during the challenge. 
+Here, we use the public instances -- obtained from \url{https://pacechallenge.org/files/pace2019-vc-exact-public-v2.tar.bz2} -- of the PACE 2019 Implementation Challenge, Vetex Cover Track A. This set contains 100 instances overall. Afterwards, we present the results comparing against the second and third best competing algorithms during the challenge. 
 
 \subsection{Methodology and Setup.}
 All of our experiments were run on a machine with  four Sixteen-Core Intel Xeon Haswell-EX E7-8867 processors running at $2.5$ GHz, $1$ TB of main memory, and $32768$ KB L2-Cache.
 The machine runs Debian GNU/Linux 9 and Linux kernel version 4.9.0-9.
-All algorithms were implemented in C++11 and compiled with gcc~version 6.3.0 with optimization flag \texttt{-O3}.
-Each algorithm was run sequentially with a time limit of 30 minutes. Our evaluations focus on the total number of instances solved.
+All algorithms were implemented in C++11 and compiled with gcc~version 6.3.0 with optimization flag \texttt{-O3}. Our source code is publically available under the MIT license at~\cite{wegotyoucovered2019}.
+Each algorithm was run sequentially with a time limit of 30 minutes---the time alloted to solve a single data set in the PACE 2019 Implementation Challenge. Our primary focus is on the total number of instances solved.
 \subsection{Evaluation.}
-We now explain our main configuration that we use in our experimental setup.
-In the following \texttt{MoMC} runs the clique solver~\cite{DBLP:journals/cor/LiJM17} on the complement of the input graph, \texttt{RMoMC} applies reductions to the input graph exhaustively and then runs MoMC on the complement of the kernel graph, \texttt{LSBnR} applies reductions exhaustively, then runs local search to obtain a high-quality solution on the kernel which is used as a initial bound in the branch-and-reduce algorithm that is run on the kernel, \texttt{BnR} applies reductions and then runs the branch-and-reduce algorithm on the kernel (no local search is used to improve an initial bound), \texttt{FullA} is the full algorithm as described above.
+We now explain the main configuration that we use in our experimental setup.
+In the following \AlgName{MoMC} runs the clique solver~\cite{DBLP:journals/cor/LiJM17} on the complement of the input graph; \AlgName{RMoMC} applies reductions to the input graph exhaustively and then runs MoMC on the complement of the kernel; \AlgName{LSBnR} applies reductions exhaustively, then runs local search to obtain a high-quality solution on the kernel which is used as a initial bound in the branch-and-reduce algorithm that is run on the kernel; \AlgName{BnR} applies reductions and then runs the branch-and-reduce algorithm on the kernel (no local search is used to improve an initial bound); \AlgName{FullA} is the full algorithm as described above, using a short time limit of one second\iffalse (and a budget of 50,000 branches for MoMC)\comment[id=DS]{we use 100,000 for the run on the original graph. D'oh.}\fi and a long time limit of thirty seconds.
 
 
 %\section{Material}
@@ -268,11 +265,11 @@ In the following \texttt{MoMC} runs the clique solver~\cite{DBLP:journals/cor/Li
 %\end{itemize}
 \begin{table*}
 \centering
-\caption{Detailed per instance results. The columns $n$,$m$ refer to the number of nodes and edges of the input graph, $n'$,$m'$ refer to the number of nodes and edges of the kernel graph after reductions have been applied exhaustively, and $|VC|$ refers to the size of the optimal vertex cover of the input graph. With X we denote if a solver has been solving an instance, and with - we denote if this has not been the case.}
+\caption{Detailed per instance results. The columns $n$,$m$ refer to the number of nodes and edges of the input graph, $n'$,$m'$ refer to the number of nodes and edges of the kernel graph after reductions have been applied exhaustively, and $|VC|$ refers to the size of the minimum vertex cover of the input graph. With X we denote if a solver has been solving an instance, and with - we denote if this has not been the case.}
 \label{tab:detailedresults1}
 \begin{tabular}{l@{\hskip 25pt} rrrr|ccccc|rc}
 \toprule
-inst\# & $n$ &$m$& $n'$& $m'$ & \texttt{MoMC} & \texttt{RMoMC} & \texttt{LSBnR} & \texttt{BnR} & \texttt{FullA} & $|VC|$ \\
+inst\# & $n$ &$m$& $n'$& $m'$ & \AlgName{MoMC} & \AlgName{RMoMC} & \AlgName{LSBnR} & \AlgName{BnR} & \AlgName{FullA} & $|VC|$ \\
                 \midrule
 
 001 &\numprint{6160}&\numprint{40207}&\numprint{0}&\numprint{0}&-&X&X&X&X&  \numprint{2586}&\\ 
@@ -332,11 +329,11 @@ inst\# & $n$ &$m$& $n'$& $m'$ & \texttt{MoMC} & \texttt{RMoMC} & \texttt{LSBnR} 
 \begin{table*}
 \centering
 
-\caption{Detailed per instance results. The columns $n$,$m$ refer to the number of nodes and edges of the input graph, $n'$,$m'$ refer to the number of nodes and edges of the kernel graph after reductions have been applied exhaustively, and $|VC|$ refers to the size of the optimal vertex cover of the input graph. With X we denote if a solver has been solving an instance, and with - we denote if this has not been the case.}
+\caption{Detailed per instance results. The columns $n$,$m$ refer to the number of nodes and edges of the input graph, $n'$,$m'$ refer to the number of nodes and edges of the kernel graph after reductions have been applied exhaustively, and $|VC|$ refers to the size of a minimum vertex cover of the input graph. With X we denote if a solver has been solving an instance, and with - we denote if this has not been the case.}
 \label{tab:detailedresults2}
 \begin{tabular}{l@{\hskip 25pt} rrrr|ccccc|rc}
 \toprule
-inst\# & $n$ &$m$& $n'$& $m'$ & \texttt{MoMC} & \texttt{RMoMC} & \texttt{LSBnR} & \texttt{BnR} & \texttt{FullA} & $|VC|$ \\
+inst\# & $n$ &$m$& $n'$& $m'$ & \AlgName{MoMC} & \AlgName{RMoMC} & \AlgName{LSBnR} & \AlgName{BnR} & \AlgName{FullA} & $|VC|$ \\
                 \midrule
 
 101 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&X&-&X&  \numprint{16300}&\\ 
@@ -393,17 +390,39 @@ inst\# & $n$ &$m$& $n'$& $m'$ & \texttt{MoMC} & \texttt{RMoMC} & \texttt{LSBnR} 
 \bottomrule
 \end{tabular}
 \end{table*}
-Tables~\ref{tab:detailedresults1} and \ref{tab:detailedresults2} give an overview over the instances that each of the solver solved, about the kernel sizes as well as the optimal vertex cover size, if our full algorithm could solve the instance.
-Overall, \texttt{MoMC} can solve 30 out of the 100 instances. 
-Using reductions first, enables \texttt{RMoMC} to solve 68 instances. However, there are also instances that \texttt{MoMC} could solve, but \texttt{RMoMC} could not solve. 
-In these case, the number of nodes has been reduced, but the number of edges actually increased. This is due to the \emph{Alternative} reduction, which in some cases can create more edges than initially present. This is why our full algorithm also runs MoMC on the input graph (in order to be able to solve those instances as well).
-\texttt{LSBnR} can solve 55 out of the 100 instances. Here, priming the branch-and-reduce algorithm with an initial solution computed by local search has an important impact. Running the branch-and-reduce algorithm on the kernel without using local search can only solve 42 instances. In particular, using local search to find an initial bound helps to solve large instances in which the initial kernelization step does not reduce the graph fully. Our full algorithm \texttt{FullA} can solve 82 out of the 100 instances, and in particular, as expected, dominates each of the other configurations. 
+Tables~\ref{tab:detailedresults1} and \ref{tab:detailedresults2} give an overview of the instances that each of the solver solved, including the kernel size, and the minimum vertex cover size for those instances solved by any of the four algorithms.
+Overall, \AlgName{MoMC} can solve 30 out of the 100 instances. 
+Applying reductions first enables \AlgName{RMoMC} to solve 68 instances. However, curiously, there are two instances (instances 131 and 157) that \AlgName{MoMC} solves, but that \AlgName{RMoMC} can not solve. 
+In these cases, kernelization reduced the number of nodes, but \emph{increased} the number of edges. This is due to the \emph{alternative} reduction, which in some cases can create more edges than initially present. This is why we choose to also run MoMC on the unkernelized input graph in \AlgName{FullA} (in order to solve those instances as well).
+\AlgName{LSBnR} solves 55 of the 100 instances. Priming the branch-and-reduce algorithm with an initial solution computed by local search has a significant impact: \AlgName{LSBnR} solves 13 more instances than \AlgName{BnR}, which solve 42 instances. In particular, using local search to find an initial bound helps to solve large instances in which the initial kernelization step does not reduce the graph fully. Surprisingly, \AlgName{RMoMC} solves 26 instances that \AlgName{BnR} does not (and even \AlgName{LBnR} is only able to solve one of these instances). To the best of our knowledge, this is the first time that kernelization followed by branch-and-bound is shown to significantly outperform branch-and-reduce. Our full algorithm \AlgName{FullA} solves 82 of the 100 instances and, as expected, dominates each of the other configurations. \comment[id=DS]{Discuss density vs. solving time and number instances solved.}
 
-On the private instances, our full algorithm solved 87, the second place (\textsf{peaty}~\cite{james_trimble_2019_3082356}) solved 77, the third place (\textsf{bogdan}~\cite{zbogdan_2019_3228802}) solved 76 instances (of 100 instances). Our solver dominates the other solvers: with one exeception, our algorithm solves all instances that peaty and bogdan can solve combined. The \textsf{peaty} solver used reductions to compute a problem kernel of the input and then used an unpublished maximum weight clique solver on the complement of each of the connected components of the kernel to assemble a solution. The clique solver is similar to \cite{DBLP:conf/aaai/LiQ10}, but is more general. Here, also local search is used to obtain a good initial solution. On the other hand, \textsf{bogdan} implemented a small suite of simple reductions (including vertex folding. isolated vertex, degree-one removal) together with a recent maximum clique solver by Szab\'o and Zavalnij~\cite{szabo2018different}. 
+\begin{figure}
+    \centering
+    \input{plots/rt_solutions.pgf}
+  \caption{Number of instances solved over time by each algorithm.} 
+  \label{fig:solution_time}
+\end{figure}
 
+In addition to the 100 public instances, the PACE Implementation Challenge tests all submissions on 100 private instances, which are not yet available for additional experiments\footnote{However, the results are published at \url{https://pacechallenge.org/2019/} and \url{https://www.optil.io/optilion/problem/3155}.}. On the private instances, our full algorithm solved 87 of the 100 instances, which is 10 more instances than the second-place submission (\textsf{peaty}~\cite{james_trimble_2019_3082356}, solving 77), and 11 more than the third-place submission (\textsf{bogdan}~\cite{zbogdan_2019_3228802}), solving 76). Our solver dominates these other solvers: with the exception of one graph, our algorithm solves all instances that \textsf{peaty} and \textsf{bogdan} can solve combined. 
+
+We briefly describe these two solvers. The \textsf{peaty} solver uses reductions to compute a problem kernel of the input followed by an unpublished maximum weight clique solver on the complement of each of the connected components of the kernel to assemble a solution. The clique solver is similar to MaxCLQ by Li and Quan~\cite{DBLP:conf/aaai/LiQ10}, but is more general. Local search is used to obtain an initial solution. On the other hand, \textsf{bogdan} implemented a small suite of simple reductions (including vertex folding, isolated clique removal, and degree-one removal) together with a recent maximum clique solver by Szab\'o and Zavalnij~\cite{szabo2018different}. 
+
+Lastly, we note that our choice of using MoMC as our chosen branch-and-bound solver is significant on the private instances. Eight instances solved exclusively by our solver are solved in Phase 5, where MoMC is run until the end of the challenge time limit.
+
+\begin{figure}
+    \centering
+    \input{plots/rt_density.pgf}
+  \caption{Time required for each solver over graph density.} 
+  \label{fig:solution_time}
+\end{figure}
 
 \section{Conclusion}
-We presented the winning solver of the PACE 2019 Implementation Challenge Vertex Cover Track. Our algorithm uses a portfolio of techniques, including an aggressive kernelization strategy with all known reduction rules, local search, branch-and-reduce, and a state-of-the-art branch-and-bound solver. Of particular interest is that several of our techniques were \emph{not} from the literature on the vertex over problem: they were originally published to solve the (complementary) maximum independent set and maximum clique problems. Lastly, we performed extensive experiments to show the impact of the different solver techniques on the number of instances solved during the challenge. In particular, the results emphasize that data reductions play an important tool to boost the performance of the clique solver, and local search is highly effective to boost the performance of a branch-and-reduce solver for the independent set problem.
+We presented the winning solver of the PACE 2019 Implementation Challenge Vertex Cover Track. Our algorithm uses a portfolio of techniques, including an aggressive kernelization strategy with all known reduction rules, local search, branch-and-reduce, and a state-of-the-art branch-and-bound solver. Of particular interest is that several of our techniques were not from the literature on the vertex over problem: they were originally published to solve the (complementary) maximum independent set and maximum clique problems. Lastly, our experiments show the impact of the different solver techniques on the number of instances solved during the challenge. In particular, the results emphasize that data reductions play an important tool to boost the performance of branch-and-bound, and local search is highly effective to boost the performance of branch-and-reduce.
+
+\subsection*{Acknowledgments.}
+We wish to thank the organizers of the PACE 2019 Implementation Challenge for providing us with the opportunity and means to test our algorithmic ideas. We also are indebted to Takuya Akiba and  Yoichi Iwata for sharing their original branch-and-reduce source code\footnote{\url{https://github.com/wata-orz/vertex_cover}}, and to Chu-Min Li, Hua Jiang, and Felip Many\`a for not only sharing---but even open sourcing---their code for MoMC at our request\footnote{\url{https://home.mis.u-picardie.fr/~cli/EnglishPage.html}}. Their solver was of critical importance to our algorithm's success.
+
+\comment[id=DS]{Put full running times in appendix.}
 
 %\vfill 
 %\pagebreak
