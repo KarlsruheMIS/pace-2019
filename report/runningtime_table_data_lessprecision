@@ -1,102 +1,102 @@
 inst# & n                 & m                 & n'               & m'                & m / n            & MoMC               & RMoMC              & FullBnR            & BnrwithoutLS       & FullAlgorithm
-001   & \numprint{6160}   & \numprint{40207}  & \numprint{0}     & \numprint{0}      & \numprint{6.53}  & \numprint{1801.49} & \numprint{0.44}    & \numprint{0.36}    & \numprint{0.42}    & \numprint{0.43}    & \\
-003   & \numprint{60541}  & \numprint{74220}  & \numprint{0}     & \numprint{0}      & \numprint{1.23}  & \numprint{63.42}   & \numprint{0.43}    & \numprint{0.36}    & \numprint{0.42}    & \numprint{0.43}    & \\
-005   & \numprint{200}    & \numprint{819}    & \numprint{192}   & \numprint{800}    & \numprint{4.09}  & \numprint{1.20}    & \numprint{0.49}    & \numprint{2.39}    & \numprint{2.39}    & \numprint{0.54}    & \\
-007   & \numprint{8794}   & \numprint{10130}  & \numprint{0}     & \numprint{0}      & \numprint{1.15}  & \numprint{1801.61} & \numprint{0.43}    & \numprint{0.35}    & \numprint{0.41}    & \numprint{0.43}    & \\
-009   & \numprint{38452}  & \numprint{174645} & \numprint{0}     & \numprint{0}      & \numprint{4.54}  & \numprint{29.83}   & \numprint{0.42}    & \numprint{0.34}    & \numprint{0.41}    & \numprint{0.43}    & \\
-011   & \numprint{9877}   & \numprint{25973}  & \numprint{0}     & \numprint{0}      & \numprint{2.63}  & \numprint{1801.73} & \numprint{0.42}    & \numprint{0.34}    & \numprint{0.40}    & \numprint{0.42}    & \\
-013   & \numprint{45307}  & \numprint{55440}  & \numprint{0}     & \numprint{0}      & \numprint{1.22}  & \numprint{35.18}   & \numprint{0.42}    & \numprint{0.34}    & \numprint{0.40}    & \numprint{0.42}    & \\
-015   & \numprint{53610}  & \numprint{65952}  & \numprint{0}     & \numprint{0}      & \numprint{1.23}  & \numprint{57.17}   & \numprint{0.41}    & \numprint{0.34}    & \numprint{0.40}    & \numprint{0.42}    & \\
-017   & \numprint{23541}  & \numprint{51747}  & \numprint{0}     & \numprint{0}      & \numprint{2.20}  & \numprint{16.95}   & \numprint{0.41}    & \numprint{0.33}    & \numprint{0.39}    & \numprint{0.42}    & \\
-019   & \numprint{200}    & \numprint{884}    & \numprint{194}   & \numprint{862}    & \numprint{4.42}  & \numprint{1.98}    & \numprint{0.46}    & \numprint{3.67}    & \numprint{3.83}    & \numprint{0.45}    & \\
-021   & \numprint{24765}  & \numprint{30242}  & \numprint{0}     & \numprint{0}      & \numprint{1.22}  & \numprint{17.58}   & \numprint{0.40}    & \numprint{0.33}    & \numprint{0.38}    & \numprint{0.41}    & \\
-023   & \numprint{27717}  & \numprint{133665} & \numprint{0}     & \numprint{0}      & \numprint{4.82}  & \numprint{18.23}   & \numprint{0.40}    & \numprint{0.32}    & \numprint{0.38}    & \numprint{0.41}    & \\
-025   & \numprint{23194}  & \numprint{28221}  & \numprint{0}     & \numprint{0}      & \numprint{1.22}  & \numprint{17.27}   & \numprint{0.40}    & \numprint{0.32}    & \numprint{0.38}    & \numprint{0.41}    & \\
-027   & \numprint{65866}  & \numprint{81245}  & \numprint{0}     & \numprint{0}      & \numprint{1.23}  & \numprint{89.77}   & \numprint{0.39}    & \numprint{0.41}    & \numprint{0.38}    & \numprint{0.41}    & \\
-029   & \numprint{13431}  & \numprint{21999}  & \numprint{0}     & \numprint{0}      & \numprint{1.64}  & \numprint{1801.89} & \numprint{0.39}    & \numprint{0.31}    & \numprint{0.37}    & \numprint{0.40}    & \\
-031   & \numprint{200}    & \numprint{813}    & \numprint{198}   & \numprint{818}    & \numprint{4.07}  & \numprint{2.29}    & \numprint{1.50}    & \numprint{64.54}   & \numprint{81.86}   & \numprint{1.36}    & \\
-033   & \numprint{4410}   & \numprint{6885}   & \numprint{138}   & \numprint{471}    & \numprint{1.56}  & \numprint{1802.12} & \numprint{0.49}    & \numprint{0.99}    & \numprint{0.97}    & \numprint{0.45}    & \\
-035   & \numprint{200}    & \numprint{884}    & \numprint{189}   & \numprint{859}    & \numprint{4.42}  & \numprint{1.56}    & \numprint{0.65}    & \numprint{8.50}    & \numprint{9.32}    & \numprint{0.59}    & \\
-037   & \numprint{198}    & \numprint{824}    & \numprint{194}   & \numprint{810}    & \numprint{4.16}  & \numprint{1.51}    & \numprint{0.70}    & \numprint{11.53}   & \numprint{12.36}   & \numprint{0.64}    & \\
-039   & \numprint{6795}   & \numprint{10620}  & \numprint{219}   & \numprint{753}    & \numprint{1.56}  & \numprint{1802.20} & \numprint{0.65}    & \numprint{93.49}   & \numprint{100.86}  & \numprint{0.55}    & \\
-041   & \numprint{200}    & \numprint{1040}   & \numprint{200}   & \numprint{1023}   & \numprint{5.20}  & \numprint{1.87}    & \numprint{1.02}    & \numprint{49.23}   & \numprint{58.60}   & \numprint{1.10}    & \\
-043   & \numprint{200}    & \numprint{841}    & \numprint{198}   & \numprint{844}    & \numprint{4.21}  & \numprint{3.17}    & \numprint{2.02}    & \numprint{183.95}  & \numprint{188.08}  & \numprint{5.03}    & \\
-045   & \numprint{200}    & \numprint{1044}   & \numprint{200}   & \numprint{1020}   & \numprint{5.22}  & \numprint{1.66}    & \numprint{0.89}    & \numprint{28.69}   & \numprint{29.50}   & \numprint{0.80}    & \\
-047   & \numprint{200}    & \numprint{1120}   & \numprint{198}   & \numprint{1080}   & \numprint{5.60}  & \numprint{1.99}    & \numprint{1.35}    & \numprint{62.76}   & \numprint{68.96}   & \numprint{1.39}    & \\
-049   & \numprint{200}    & \numprint{957}    & \numprint{198}   & \numprint{930}    & \numprint{4.79}  & \numprint{1.67}    & \numprint{1.00}    & \numprint{22.11}   & \numprint{22.71}   & \numprint{0.91}    & \\
-051   & \numprint{200}    & \numprint{1135}   & \numprint{200}   & \numprint{1098}   & \numprint{5.67}  & \numprint{1.71}    & \numprint{0.94}    & \numprint{61.10}   & \numprint{64.06}   & \numprint{1.17}    & \\
-053   & \numprint{200}    & \numprint{1062}   & \numprint{200}   & \numprint{1026}   & \numprint{5.31}  & \numprint{1.82}    & \numprint{0.98}    & \numprint{62.93}   & \numprint{67.20}   & \numprint{1.30}    & \\
-055   & \numprint{200}    & \numprint{958}    & \numprint{194}   & \numprint{938}    & \numprint{4.79}  & \numprint{1.29}    & \numprint{0.64}    & \numprint{7.57}    & \numprint{8.26}    & \numprint{0.58}    & \\
-057   & \numprint{200}    & \numprint{1200}   & \numprint{197}   & \numprint{1139}   & \numprint{6.00}  & \numprint{1.92}    & \numprint{0.94}    & \numprint{70.49}   & \numprint{75.83}   & \numprint{1.02}    & \\
-059   & \numprint{200}    & \numprint{988}    & \numprint{193}   & \numprint{954}    & \numprint{4.94}  & \numprint{1.66}    & \numprint{0.81}    & \numprint{14.42}   & \numprint{16.07}   & \numprint{0.93}    & \\
-061   & \numprint{200}    & \numprint{952}    & \numprint{198}   & \numprint{914}    & \numprint{4.76}  & \numprint{2.44}    & \numprint{1.11}    & \numprint{21.21}   & \numprint{24.60}   & \numprint{1.32}    & \\
-063   & \numprint{200}    & \numprint{1040}   & \numprint{200}   & \numprint{1011}   & \numprint{5.20}  & \numprint{2.59}    & \numprint{1.28}    & \numprint{70.04}   & \numprint{77.07}   & \numprint{1.58}    & \\
-065   & \numprint{200}    & \numprint{1037}   & \numprint{200}   & \numprint{1011}   & \numprint{5.18}  & \numprint{2.21}    & \numprint{0.86}    & \numprint{39.05}   & \numprint{41.82}   & \numprint{1.11}    & \\
-067   & \numprint{200}    & \numprint{1201}   & \numprint{200}   & \numprint{1174}   & \numprint{6.00}  & \numprint{2.72}    & \numprint{1.45}    & \numprint{129.04}  & \numprint{133.87}  & \numprint{1.58}    & \\
-069   & \numprint{200}    & \numprint{1120}   & \numprint{196}   & \numprint{1077}   & \numprint{5.60}  & \numprint{2.56}    & \numprint{0.98}    & \numprint{47.08}   & \numprint{49.84}   & \numprint{1.22}    & \\
-071   & \numprint{200}    & \numprint{984}    & \numprint{200}   & \numprint{952}    & \numprint{4.92}  & \numprint{2.21}    & \numprint{0.82}    & \numprint{38.40}   & \numprint{42.80}   & \numprint{1.04}    & \\
-073   & \numprint{200}    & \numprint{1107}   & \numprint{200}   & \numprint{1078}   & \numprint{5.54}  & \numprint{2.52}    & \numprint{1.03}    & \numprint{46.46}   & \numprint{50.17}   & \numprint{1.24}    & \\
-075   & \numprint{26300}  & \numprint{41500}  & \numprint{500}   & \numprint{3000}   & \numprint{1.58}  & \numprint{18.87}   & \numprint{1801.28} & \numprint{0.24}    & \numprint{1800.55} & \numprint{2.62}    & \\
-077   & \numprint{200}    & \numprint{988}    & \numprint{193}   & \numprint{954}    & \numprint{4.94}  & \numprint{2.19}    & \numprint{0.79}    & \numprint{15.63}   & \numprint{16.04}   & \numprint{0.81}    & \\
-079   & \numprint{26300}  & \numprint{41500}  & \numprint{500}   & \numprint{3000}   & \numprint{1.58}  & \numprint{18.25}   & \numprint{1801.30} & \numprint{0.24}    & \numprint{1800.54} & \numprint{1.99}    & \\
-081   & \numprint{199}    & \numprint{1124}   & \numprint{197}   & \numprint{1087}   & \numprint{5.65}  & \numprint{3.42}    & \numprint{1.45}    & \numprint{145.12}  & \numprint{154.87}  & \numprint{1.64}    & \\
-083   & \numprint{200}    & \numprint{1215}   & \numprint{198}   & \numprint{1182}   & \numprint{6.08}  & \numprint{3.83}    & \numprint{2.37}    & \numprint{187.40}  & \numprint{195.56}  & \numprint{5.94}    & \\
-085   & \numprint{11470}  & \numprint{17408}  & \numprint{3539}  & \numprint{25955}  & \numprint{1.52}  & \numprint{1802.23} & \numprint{1801.31} & \numprint{1801.19} & \numprint{1801.64} & \numprint{1800.68} & \\
-087   & \numprint{13590}  & \numprint{21240}  & \numprint{441}   & \numprint{1512}   & \numprint{1.56}  & \numprint{1802.40} & \numprint{1.90}    & \numprint{1801.19} & \numprint{1801.64} & \numprint{2.36}    & \\
-089   & \numprint{57316}  & \numprint{77978}  & \numprint{16834} & \numprint{54847}  & \numprint{1.36}  & \numprint{56.89}   & \numprint{6.51}    & \numprint{1801.19} & \numprint{1801.62} & \numprint{1800.67} & \\
-091   & \numprint{200}    & \numprint{1196}   & \numprint{200}   & \numprint{1163}   & \numprint{5.98}  & \numprint{4.24}    & \numprint{3.41}    & \numprint{230.42}  & \numprint{238.33}  & \numprint{39.18}   & \\
-093   & \numprint{200}    & \numprint{1207}   & \numprint{200}   & \numprint{1162}   & \numprint{6.04}  & \numprint{3.58}    & \numprint{2.38}    & \numprint{108.90}  & \numprint{114.13}  & \numprint{5.08}    & \\
-095   & \numprint{15783}  & \numprint{24663}  & \numprint{510}   & \numprint{1746}   & \numprint{1.56}  & \numprint{6.81}    & \numprint{2.34}    & \numprint{1801.18} & \numprint{1801.61} & \numprint{2.81}    & \\
-097   & \numprint{18096}  & \numprint{28281}  & \numprint{579}   & \numprint{1995}   & \numprint{1.56}  & \numprint{10.58}   & \numprint{4.66}    & \numprint{1801.18} & \numprint{1801.61} & \numprint{5.08}    & \\
-099   & \numprint{26300}  & \numprint{41500}  & \numprint{500}   & \numprint{3000}   & \numprint{1.58}  & \numprint{18.41}   & \numprint{1801.33} & \numprint{0.21}    & \numprint{1801.60} & \numprint{2.81}    & \\
-101   & \numprint{26300}  & \numprint{41500}  & \numprint{500}   & \numprint{3000}   & \numprint{1.58}  & \numprint{15.12}   & \numprint{1801.36} & \numprint{0.22}    & \numprint{1801.60} & \numprint{2.65}    & \\
-103   & \numprint{15783}  & \numprint{24663}  & \numprint{513}   & \numprint{1752}   & \numprint{1.56}  & \numprint{5.62}    & \numprint{2.59}    & \numprint{1801.17} & \numprint{1801.60} & \numprint{3.19}    & \\
-105   & \numprint{26300}  & \numprint{41500}  & \numprint{500}   & \numprint{3000}   & \numprint{1.58}  & \numprint{14.86}   & \numprint{1801.39} & \numprint{0.24}    & \numprint{1801.60} & \numprint{2.38}    & \\
-107   & \numprint{13590}  & \numprint{21240}  & \numprint{435}   & \numprint{1500}   & \numprint{1.56}  & \numprint{1802.58} & \numprint{1.98}    & \numprint{1801.17} & \numprint{1801.59} & \numprint{1.75}    & \\
-109   & \numprint{66992}  & \numprint{90970}  & \numprint{20336} & \numprint{66350}  & \numprint{1.36}  & \numprint{91.69}   & \numprint{7.50}    & \numprint{1801.16} & \numprint{1801.59} & \numprint{1800.62} & \\
-111   & \numprint{450}    & \numprint{17831}  & \numprint{450}   & \numprint{17831}  & \numprint{39.62} & \numprint{2.34}    & \numprint{0.84}    & \numprint{1801.16} & \numprint{1801.59} & \numprint{1.00}    & \\
-113   & \numprint{26300}  & \numprint{41500}  & \numprint{500}   & \numprint{3000}   & \numprint{1.58}  & \numprint{16.01}   & \numprint{1801.42} & \numprint{0.28}    & \numprint{1801.58} & \numprint{2.29}    & \\
-115   & \numprint{18096}  & \numprint{28281}  & \numprint{573}   & \numprint{1986}   & \numprint{1.56}  & \numprint{9.24}    & \numprint{3.41}    & \numprint{1801.16} & \numprint{1801.57} & \numprint{4.23}    & \\
-117   & \numprint{18096}  & \numprint{28281}  & \numprint{582}   & \numprint{2007}   & \numprint{1.56}  & \numprint{9.52}    & \numprint{3.70}    & \numprint{1801.16} & \numprint{1801.57} & \numprint{4.11}    & \\
-119   & \numprint{18096}  & \numprint{28281}  & \numprint{588}   & \numprint{2016}   & \numprint{1.56}  & \numprint{9.68}    & \numprint{3.97}    & \numprint{1801.15} & \numprint{1801.57} & \numprint{4.13}    & \\
-121   & \numprint{18096}  & \numprint{28281}  & \numprint{579}   & \numprint{1998}   & \numprint{1.56}  & \numprint{11.05}   & \numprint{3.56}    & \numprint{1801.15} & \numprint{1801.56} & \numprint{3.88}    & \\
-123   & \numprint{26300}  & \numprint{41500}  & \numprint{500}   & \numprint{3000}   & \numprint{1.58}  & \numprint{15.85}   & \numprint{1801.42} & \numprint{0.21}    & \numprint{1801.56} & \numprint{2.96}    & \\
-125   & \numprint{26300}  & \numprint{41500}  & \numprint{500}   & \numprint{3000}   & \numprint{1.58}  & \numprint{18.77}   & \numprint{1801.45} & \numprint{0.23}    & \numprint{1801.55} & \numprint{2.93}    & \\
-127   & \numprint{18096}  & \numprint{28281}  & \numprint{582}   & \numprint{2001}   & \numprint{1.56}  & \numprint{11.38}   & \numprint{3.59}    & \numprint{1801.14} & \numprint{1801.55} & \numprint{4.17}    & \\
-129   & \numprint{15783}  & \numprint{24663}  & \numprint{507}   & \numprint{1752}   & \numprint{1.56}  & \numprint{7.69}    & \numprint{3.05}    & \numprint{1801.14} & \numprint{1801.55} & \numprint{3.49}    & \\
-131   & \numprint{2980}   & \numprint{5360}   & \numprint{2179}  & \numprint{6951}   & \numprint{1.80}  & \numprint{351.83}  & \numprint{1801.47} & \numprint{1801.14} & \numprint{1801.54} & \numprint{402.30}  & \\
-133   & \numprint{15783}  & \numprint{24663}  & \numprint{507}   & \numprint{1746}   & \numprint{1.56}  & \numprint{7.98}    & \numprint{2.85}    & \numprint{1801.14} & \numprint{1801.54} & \numprint{2.87}    & \\
-135   & \numprint{26300}  & \numprint{41500}  & \numprint{500}   & \numprint{3000}   & \numprint{1.58}  & \numprint{17.09}   & \numprint{1801.50} & \numprint{0.25}    & \numprint{1801.54} & \numprint{2.85}    & \\
-137   & \numprint{26300}  & \numprint{41500}  & \numprint{500}   & \numprint{3000}   & \numprint{1.58}  & \numprint{17.20}   & \numprint{1801.52} & \numprint{0.25}    & \numprint{1801.54} & \numprint{3.14}    & \\
-139   & \numprint{18096}  & \numprint{28281}  & \numprint{579}   & \numprint{1995}   & \numprint{1.56}  & \numprint{10.51}   & \numprint{3.96}    & \numprint{1801.13} & \numprint{1801.54} & \numprint{4.80}    & \\
-141   & \numprint{18096}  & \numprint{28281}  & \numprint{576}   & \numprint{1995}   & \numprint{1.56}  & \numprint{10.16}   & \numprint{4.01}    & \numprint{1801.13} & \numprint{1801.54} & \numprint{3.91}    & \\
-143   & \numprint{18096}  & \numprint{28281}  & \numprint{582}   & \numprint{2001}   & \numprint{1.56}  & \numprint{9.88}    & \numprint{3.99}    & \numprint{1801.13} & \numprint{1801.53} & \numprint{4.13}    & \\
-145   & \numprint{18096}  & \numprint{28281}  & \numprint{576}   & \numprint{1989}   & \numprint{1.56}  & \numprint{9.71}    & \numprint{3.45}    & \numprint{1801.13} & \numprint{1801.53} & \numprint{3.72}    & \\
-147   & \numprint{18096}  & \numprint{28281}  & \numprint{567}   & \numprint{1974}   & \numprint{1.56}  & \numprint{9.91}    & \numprint{3.15}    & \numprint{1801.13} & \numprint{1801.53} & \numprint{3.22}    & \\
-149   & \numprint{26300}  & \numprint{41500}  & \numprint{500}   & \numprint{3000}   & \numprint{1.58}  & \numprint{15.96}   & \numprint{1801.52} & \numprint{0.21}    & \numprint{1801.53} & \numprint{2.83}    & \\
-151   & \numprint{15783}  & \numprint{24663}  & \numprint{501}   & \numprint{1728}   & \numprint{1.56}  & \numprint{6.06}    & \numprint{2.97}    & \numprint{1801.10} & \numprint{1801.52} & \numprint{3.10}    & \\
-153   & \numprint{29076}  & \numprint{45570}  & \numprint{2124}  & \numprint{16266}  & \numprint{1.57}  & \numprint{15.95}   & \numprint{1801.54} & \numprint{1801.10} & \numprint{1801.52} & \numprint{1800.48} & \\
-155   & \numprint{26300}  & \numprint{41500}  & \numprint{500}   & \numprint{3000}   & \numprint{1.58}  & \numprint{14.99}   & \numprint{1801.57} & \numprint{0.26}    & \numprint{1801.52} & \numprint{2.15}    & \\
-157   & \numprint{2980}   & \numprint{5360}   & \numprint{2169}  & \numprint{6898}   & \numprint{1.80}  & \numprint{369.82}  & \numprint{1801.59} & \numprint{1801.09} & \numprint{1801.52} & \numprint{435.25}  & \\
-159   & \numprint{18096}  & \numprint{28281}  & \numprint{582}   & \numprint{2004}   & \numprint{1.56}  & \numprint{9.45}    & \numprint{4.17}    & \numprint{1801.09} & \numprint{1801.51} & \numprint{4.11}    & \\
-161   & \numprint{138141} & \numprint{227241} & \numprint{41926} & \numprint{202869} & \numprint{1.64}  & \numprint{336.50}  & \numprint{28.38}   & \numprint{1801.08} & \numprint{1801.51} & \numprint{1800.50} & \\
-163   & \numprint{18096}  & \numprint{28281}  & \numprint{582}   & \numprint{2004}   & \numprint{1.56}  & \numprint{9.31}    & \numprint{3.78}    & \numprint{1801.08} & \numprint{1801.52} & \numprint{3.96}    & \\
-165   & \numprint{18096}  & \numprint{28281}  & \numprint{576}   & \numprint{1995}   & \numprint{1.56}  & \numprint{9.44}    & \numprint{3.85}    & \numprint{1801.08} & \numprint{1801.51} & \numprint{3.82}    & \\
-167   & \numprint{15783}  & \numprint{24663}  & \numprint{510}   & \numprint{1746}   & \numprint{1.56}  & \numprint{5.84}    & \numprint{3.08}    & \numprint{1801.08} & \numprint{1801.50} & \numprint{3.22}    & \\
-169   & \numprint{4768}   & \numprint{8576}   & \numprint{3458}  & \numprint{11014}  & \numprint{1.80}  & \numprint{1802.63} & \numprint{1801.58} & \numprint{1801.08} & \numprint{1801.49} & \numprint{1800.49} & \\
-171   & \numprint{18096}  & \numprint{28281}  & \numprint{576}   & \numprint{1989}   & \numprint{1.56}  & \numprint{8.13}    & \numprint{3.51}    & \numprint{1801.06} & \numprint{1801.49} & \numprint{4.19}    & \\
-173   & \numprint{56860}  & \numprint{77264}  & \numprint{17090} & \numprint{55568}  & \numprint{1.36}  & \numprint{57.55}   & \numprint{6.77}    & \numprint{1801.06} & \numprint{1801.49} & \numprint{1800.48} & \\
-175   & \numprint{3523}   & \numprint{6446}   & \numprint{2723}  & \numprint{8570}   & \numprint{1.83}  & \numprint{1802.74} & \numprint{1801.60} & \numprint{1801.06} & \numprint{1801.49} & \numprint{1800.48} & \\
-177   & \numprint{5066}   & \numprint{9112}   & \numprint{3704}  & \numprint{11797}  & \numprint{1.80}  & \numprint{1802.82} & \numprint{1801.63} & \numprint{1801.05} & \numprint{1801.48} & \numprint{1800.52} & \\
-179   & \numprint{15783}  & \numprint{24663}  & \numprint{504}   & \numprint{1740}   & \numprint{1.56}  & \numprint{8.12}    & \numprint{2.85}    & \numprint{1801.05} & \numprint{1801.48} & \numprint{3.15}    & \\
-181   & \numprint{18096}  & \numprint{28281}  & \numprint{573}   & \numprint{1989}   & \numprint{1.56}  & \numprint{11.09}   & \numprint{3.65}    & \numprint{0.18}    & \numprint{1801.48} & \numprint{3.93}    & \\
-183   & \numprint{72420}  & \numprint{118362} & \numprint{30340} & \numprint{133872} & \numprint{1.63}  & \numprint{96.16}   & \numprint{14.60}   & \numprint{1801.05} & \numprint{1801.48} & \numprint{1800.51} & \\
-185   & \numprint{3523}   & \numprint{6446}   & \numprint{2723}  & \numprint{8568}   & \numprint{1.83}  & \numprint{1802.90} & \numprint{1801.65} & \numprint{1801.05} & \numprint{1801.48} & \numprint{1800.51} & \\
-187   & \numprint{4227}   & \numprint{7734}   & \numprint{3264}  & \numprint{10286}  & \numprint{1.83}  & \numprint{1802.98} & \numprint{1801.68} & \numprint{1801.03} & \numprint{1801.48} & \numprint{1800.55} & \\
-189   & \numprint{7400}   & \numprint{13600}  & \numprint{5802}  & \numprint{18212}  & \numprint{1.84}  & \numprint{1803.06} & \numprint{1801.76} & \numprint{1801.03} & \numprint{1801.47} & \numprint{1800.55} & \\
-191   & \numprint{4579}   & \numprint{8378}   & \numprint{3539}  & \numprint{11137}  & \numprint{1.83}  & \numprint{1803.19} & \numprint{1801.81} & \numprint{1801.03} & \numprint{1801.47} & \numprint{1800.54} & \\
-193   & \numprint{7030}   & \numprint{12920}  & \numprint{5510}  & \numprint{17294}  & \numprint{1.84}  & \numprint{1803.28} & \numprint{1801.86} & \numprint{1801.03} & \numprint{1801.47} & \numprint{1800.54} & \\
-195   & \numprint{1150}   & \numprint{81068}  & \numprint{1150}  & \numprint{81068}  & \numprint{70.49} & \numprint{1803.41} & \numprint{1801.91} & \numprint{1801.03} & \numprint{1801.45} & \numprint{1800.54} & \\
-197   & \numprint{1534}   & \numprint{127011} & \numprint{1534}  & \numprint{127011} & \numprint{82.80} & \numprint{1803.47} & \numprint{1801.94} & \numprint{1801.03} & \numprint{1801.44} & \numprint{1800.55} & \\
-199   & \numprint{1534}   & \numprint{126163} & \numprint{1534}  & \numprint{126163} & \numprint{82.24} & \numprint{1803.55} & \numprint{1801.98} & \numprint{1801.02} & \numprint{1801.44} & \numprint{1800.59} & \\
+001 &\numprint{6160}&\numprint{40207}&\numprint{0}&\numprint{0}&\numprint{6.53}&1800&\numprint{0.44}&\numprint{0.36}&\numprint{0.42}&\numprint{0.43}&\\ 
+003 &\numprint{60541}&\numprint{74220}&\numprint{0}&\numprint{0}&\numprint{1.23}&1800&\numprint{0.43}&\numprint{0.36}&\numprint{0.42}&\numprint{0.42}&\\ 
+005 &\numprint{200}&\numprint{819}&\numprint{192}&\numprint{800}&\numprint{4.09}&\numprint{1.20}&\numprint{0.49}&\numprint{2.39}&\numprint{2.39}&\numprint{1.53}&\\ 
+007 &\numprint{8794}&\numprint{10130}&\numprint{0}&\numprint{0}&\numprint{1.15}&1800&\numprint{0.43}&\numprint{0.35}&\numprint{0.41}&\numprint{0.41}&\\ 
+009 &\numprint{38452}&\numprint{174645}&\numprint{0}&\numprint{0}&\numprint{4.54}&1800&\numprint{0.42}&\numprint{0.34}&\numprint{0.41}&\numprint{0.41}&\\ 
+011 &\numprint{9877}&\numprint{25973}&\numprint{0}&\numprint{0}&\numprint{2.63}&1800&\numprint{0.42}&\numprint{0.34}&\numprint{0.40}&\numprint{0.40}&\\ 
+013 &\numprint{45307}&\numprint{55440}&\numprint{0}&\numprint{0}&\numprint{1.22}&1800&\numprint{0.42}&\numprint{0.34}&\numprint{0.40}&\numprint{0.40}&\\ 
+015 &\numprint{53610}&\numprint{65952}&\numprint{0}&\numprint{0}&\numprint{1.23}&1800&\numprint{0.41}&\numprint{0.34}&\numprint{0.40}&\numprint{0.39}&\\ 
+017 &\numprint{23541}&\numprint{51747}&\numprint{0}&\numprint{0}&\numprint{2.20}&1800&\numprint{0.41}&\numprint{0.33}&\numprint{0.39}&\numprint{0.39}&\\ 
+019 &\numprint{200}&\numprint{884}&\numprint{194}&\numprint{862}&\numprint{4.42}&\numprint{1.98}&\numprint{0.46}&\numprint{3.67}&\numprint{3.83}&\numprint{1.50}&\\ 
+021 &\numprint{24765}&\numprint{30242}&\numprint{0}&\numprint{0}&\numprint{1.22}&1800&\numprint{0.40}&\numprint{0.33}&\numprint{0.38}&\numprint{0.38}&\\ 
+023 &\numprint{27717}&\numprint{133665}&\numprint{0}&\numprint{0}&\numprint{4.82}&1800&\numprint{0.40}&\numprint{0.32}&\numprint{0.38}&\numprint{0.38}&\\ 
+025 &\numprint{23194}&\numprint{28221}&\numprint{0}&\numprint{0}&\numprint{1.22}&1800&\numprint{0.40}&\numprint{0.32}&\numprint{0.38}&\numprint{0.38}&\\ 
+027 &\numprint{65866}&\numprint{81245}&\numprint{0}&\numprint{0}&\numprint{1.23}&1800&\numprint{0.39}&\numprint{0.41}&\numprint{0.38}&\numprint{0.37}&\\ 
+029 &\numprint{13431}&\numprint{21999}&\numprint{0}&\numprint{0}&\numprint{1.64}&1800&\numprint{0.39}&\numprint{0.31}&\numprint{0.37}&\numprint{0.36}&\\ 
+031 &\numprint{200}&\numprint{813}&\numprint{198}&\numprint{818}&\numprint{4.07}&\numprint{2.29}&\numprint{1.50}&\numprint{64.54}&\numprint{81.86}&\numprint{2.29}&\\ 
+033 &\numprint{4410}&\numprint{6885}&\numprint{138}&\numprint{471}&\numprint{1.56}&1800&\numprint{0.49}&\numprint{0.99}&\numprint{0.97}&\numprint{1.03}&\\ 
+035 &\numprint{200}&\numprint{884}&\numprint{189}&\numprint{859}&\numprint{4.42}&\numprint{1.56}&\numprint{0.65}&\numprint{8.50}&\numprint{9.32}&\numprint{1.67}&\\ 
+037 &\numprint{198}&\numprint{824}&\numprint{194}&\numprint{810}&\numprint{4.16}&\numprint{1.51}&\numprint{0.70}&\numprint{11.53}&\numprint{12.36}&\numprint{1.67}&\\ 
+039 &\numprint{6795}&\numprint{10620}&\numprint{219}&\numprint{753}&\numprint{1.56}&1800&\numprint{0.65}&\numprint{93.49}&\numprint{100.86}&\numprint{1.57}&\\ 
+041 &\numprint{200}&\numprint{1040}&\numprint{200}&\numprint{1023}&\numprint{5.20}&\numprint{1.87}&\numprint{1.02}&\numprint{49.23}&\numprint{58.60}&\numprint{2.08}&\\ 
+043 &\numprint{200}&\numprint{841}&\numprint{198}&\numprint{844}&\numprint{4.21}&\numprint{3.17}&\numprint{2.02}&\numprint{183.95}&\numprint{188.08}&\numprint{5.00}&\\ 
+045 &\numprint{200}&\numprint{1044}&\numprint{200}&\numprint{1020}&\numprint{5.22}&\numprint{1.66}&\numprint{0.89}&\numprint{28.69}&\numprint{29.50}&\numprint{1.99}&\\ 
+047 &\numprint{200}&\numprint{1120}&\numprint{198}&\numprint{1080}&\numprint{5.60}&\numprint{1.99}&\numprint{1.35}&\numprint{62.76}&\numprint{68.96}&\numprint{2.33}&\\ 
+049 &\numprint{200}&\numprint{957}&\numprint{198}&\numprint{930}&\numprint{4.79}&\numprint{1.67}&\numprint{1.00}&\numprint{22.11}&\numprint{22.71}&\numprint{1.84}&\\ 
+051 &\numprint{200}&\numprint{1135}&\numprint{200}&\numprint{1098}&\numprint{5.67}&\numprint{1.71}&\numprint{0.94}&\numprint{61.10}&\numprint{64.06}&\numprint{1.92}&\\ 
+053 &\numprint{200}&\numprint{1062}&\numprint{200}&\numprint{1026}&\numprint{5.31}&\numprint{1.82}&\numprint{0.98}&\numprint{62.93}&\numprint{67.20}&\numprint{2.04}&\\ 
+055 &\numprint{200}&\numprint{958}&\numprint{194}&\numprint{938}&\numprint{4.79}&\numprint{1.29}&\numprint{0.64}&\numprint{7.57}&\numprint{8.26}&\numprint{1.63}&\\ 
+057 &\numprint{200}&\numprint{1200}&\numprint{197}&\numprint{1139}&\numprint{6.00}&\numprint{1.92}&\numprint{0.94}&\numprint{70.49}&\numprint{75.83}&\numprint{1.95}&\\ 
+059 &\numprint{200}&\numprint{988}&\numprint{193}&\numprint{954}&\numprint{4.94}&\numprint{1.66}&\numprint{0.81}&\numprint{14.42}&\numprint{16.07}&\numprint{1.95}&\\ 
+061 &\numprint{200}&\numprint{952}&\numprint{198}&\numprint{914}&\numprint{4.76}&\numprint{2.44}&\numprint{1.11}&\numprint{21.21}&\numprint{24.60}&\numprint{2.26}&\\ 
+063 &\numprint{200}&\numprint{1040}&\numprint{200}&\numprint{1011}&\numprint{5.20}&\numprint{2.59}&\numprint{1.28}&\numprint{70.04}&\numprint{77.07}&\numprint{2.25}&\\ 
+065 &\numprint{200}&\numprint{1037}&\numprint{200}&\numprint{1011}&\numprint{5.18}&\numprint{2.21}&\numprint{0.86}&\numprint{39.05}&\numprint{41.82}&\numprint{1.89}&\\ 
+067 &\numprint{200}&\numprint{1201}&\numprint{200}&\numprint{1174}&\numprint{6.00}&\numprint{2.72}&\numprint{1.45}&\numprint{129.04}&\numprint{133.87}&\numprint{2.54}&\\ 
+069 &\numprint{200}&\numprint{1120}&\numprint{196}&\numprint{1077}&\numprint{5.60}&\numprint{2.56}&\numprint{0.98}&\numprint{47.08}&\numprint{49.84}&\numprint{1.97}&\\ 
+071 &\numprint{200}&\numprint{984}&\numprint{200}&\numprint{952}&\numprint{4.92}&\numprint{2.21}&\numprint{0.82}&\numprint{38.40}&\numprint{42.80}&\numprint{1.90}&\\ 
+073 &\numprint{200}&\numprint{1107}&\numprint{200}&\numprint{1078}&\numprint{5.54}&\numprint{2.52}&\numprint{1.03}&\numprint{46.46}&\numprint{50.17}&\numprint{2.07}&\\ 
+075 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&\numprint{1.58}&1800&1800&\numprint{0.24}&\numprint{1800.55}&\numprint{0.26}&\\ 
+077 &\numprint{200}&\numprint{988}&\numprint{193}&\numprint{954}&\numprint{4.94}&\numprint{2.19}&\numprint{0.79}&\numprint{15.63}&\numprint{16.04}&\numprint{1.77}&\\ 
+079 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&\numprint{1.58}&1800&1800&\numprint{0.24}&\numprint{1800.54}&\numprint{0.25}&\\ 
+081 &\numprint{199}&\numprint{1124}&\numprint{197}&\numprint{1087}&\numprint{5.65}&\numprint{3.42}&\numprint{1.45}&\numprint{145.12}&\numprint{154.87}&\numprint{2.49}&\\ 
+083 &\numprint{200}&\numprint{1215}&\numprint{198}&\numprint{1182}&\numprint{6.08}&\numprint{3.83}&\numprint{2.37}&\numprint{187.40}&\numprint{195.56}&\numprint{5.55}&\\ 
+085 &\numprint{11470}&\numprint{17408}&\numprint{3539}&\numprint{25955}&\numprint{1.52}&1800&1800&\numprint{1801.19}&\numprint{1801.64}&\numprint{1801.32}&\\ 
+087 &\numprint{13590}&\numprint{21240}&\numprint{441}&\numprint{1512}&\numprint{1.56}&1800&\numprint{1.90}&\numprint{1801.19}&\numprint{1801.64}&\numprint{3.05}&\\ 
+089 &\numprint{57316}&\numprint{77978}&\numprint{16834}&\numprint{54847}&\numprint{1.36}&1800&1800&\numprint{1801.19}&\numprint{1801.62}&\numprint{1801.31}&\\ 
+091 &\numprint{200}&\numprint{1196}&\numprint{200}&\numprint{1163}&\numprint{5.98}&\numprint{4.24}&\numprint{3.41}&\numprint{230.42}&\numprint{238.33}&\numprint{38.88}&\\ 
+093 &\numprint{200}&\numprint{1207}&\numprint{200}&\numprint{1162}&\numprint{6.04}&\numprint{3.58}&\numprint{2.38}&\numprint{108.90}&\numprint{114.13}&\numprint{4.69}&\\ 
+095 &\numprint{15783}&\numprint{24663}&\numprint{510}&\numprint{1746}&\numprint{1.56}&1800&\numprint{2.34}&\numprint{1801.18}&\numprint{1801.61}&\numprint{3.47}&\\ 
+097 &\numprint{18096}&\numprint{28281}&\numprint{579}&\numprint{1995}&\numprint{1.56}&1800&\numprint{4.66}&\numprint{1801.18}&\numprint{1801.61}&\numprint{5.60}&\\ 
+099 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&\numprint{1.58}&1800&1800&\numprint{0.21}&\numprint{1801.60}&\numprint{0.21}&\\ 
+101 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&\numprint{1.58}&1800&1800&\numprint{0.22}&\numprint{1801.60}&\numprint{0.21}&\\ 
+103 &\numprint{15783}&\numprint{24663}&\numprint{513}&\numprint{1752}&\numprint{1.56}&1800&\numprint{2.59}&\numprint{1801.17}&\numprint{1801.60}&\numprint{3.69}&\\ 
+105 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&\numprint{1.58}&1800&1800&\numprint{0.24}&\numprint{1801.60}&\numprint{0.26}&\\ 
+107 &\numprint{13590}&\numprint{21240}&\numprint{435}&\numprint{1500}&\numprint{1.56}&1800&\numprint{1.98}&\numprint{1801.17}&\numprint{1801.59}&\numprint{2.79}&\\ 
+109 &\numprint{66992}&\numprint{90970}&\numprint{20336}&\numprint{66350}&\numprint{1.36}&1800&1800&\numprint{1801.16}&\numprint{1801.59}&\numprint{1801.28}&\\ 
+111 &\numprint{450}&\numprint{17831}&\numprint{450}&\numprint{17831}&\numprint{39.62}&\numprint{2.34}&\numprint{0.84}&\numprint{1801.16}&\numprint{1801.59}&\numprint{2.31}&\\ 
+113 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&\numprint{1.58}&1800&1800&\numprint{0.28}&\numprint{1801.58}&\numprint{0.20}&\\ 
+115 &\numprint{18096}&\numprint{28281}&\numprint{573}&\numprint{1986}&\numprint{1.56}&1800&\numprint{3.41}&\numprint{1801.16}&\numprint{1801.57}&\numprint{4.45}&\\ 
+117 &\numprint{18096}&\numprint{28281}&\numprint{582}&\numprint{2007}&\numprint{1.56}&1800&\numprint{3.70}&\numprint{1801.16}&\numprint{1801.57}&\numprint{4.92}&\\ 
+119 &\numprint{18096}&\numprint{28281}&\numprint{588}&\numprint{2016}&\numprint{1.56}&1800&\numprint{3.97}&\numprint{1801.15}&\numprint{1801.57}&\numprint{4.81}&\\ 
+121 &\numprint{18096}&\numprint{28281}&\numprint{579}&\numprint{1998}&\numprint{1.56}&1800&\numprint{3.56}&\numprint{1801.15}&\numprint{1801.56}&\numprint{4.58}&\\ 
+123 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&\numprint{1.58}&1800&1800&\numprint{0.21}&\numprint{1801.56}&\numprint{0.18}&\\ 
+125 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&\numprint{1.58}&1800&1800&\numprint{0.23}&\numprint{1801.55}&\numprint{0.27}&\\ 
+127 &\numprint{18096}&\numprint{28281}&\numprint{582}&\numprint{2001}&\numprint{1.56}&1800&\numprint{3.59}&\numprint{1801.14}&\numprint{1801.55}&\numprint{4.72}&\\ 
+129 &\numprint{15783}&\numprint{24663}&\numprint{507}&\numprint{1752}&\numprint{1.56}&1800&\numprint{3.05}&\numprint{1801.14}&\numprint{1801.55}&\numprint{4.33}&\\ 
+131 &\numprint{2980}&\numprint{5360}&\numprint{2179}&\numprint{6951}&\numprint{1.80}&\numprint{351.83}&1800&\numprint{1801.14}&\numprint{1801.54}&\numprint{393.40}&\\ 
+133 &\numprint{15783}&\numprint{24663}&\numprint{507}&\numprint{1746}&\numprint{1.56}&1800&\numprint{2.85}&\numprint{1801.14}&\numprint{1801.54}&\numprint{3.49}&\\ 
+135 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&\numprint{1.58}&1800&1800&\numprint{0.25}&\numprint{1801.54}&\numprint{0.20}&\\ 
+137 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&\numprint{1.58}&1800&1800&\numprint{0.25}&\numprint{1801.54}&\numprint{0.22}&\\ 
+139 &\numprint{18096}&\numprint{28281}&\numprint{579}&\numprint{1995}&\numprint{1.56}&1800&\numprint{3.96}&\numprint{1801.13}&\numprint{1801.54}&\numprint{5.07}&\\ 
+141 &\numprint{18096}&\numprint{28281}&\numprint{576}&\numprint{1995}&\numprint{1.56}&1800&\numprint{4.01}&\numprint{1801.13}&\numprint{1801.54}&\numprint{4.70}&\\ 
+143 &\numprint{18096}&\numprint{28281}&\numprint{582}&\numprint{2001}&\numprint{1.56}&1800&\numprint{3.99}&\numprint{1801.13}&\numprint{1801.53}&\numprint{5.00}&\\ 
+145 &\numprint{18096}&\numprint{28281}&\numprint{576}&\numprint{1989}&\numprint{1.56}&1800&\numprint{3.45}&\numprint{1801.13}&\numprint{1801.53}&\numprint{4.39}&\\ 
+147 &\numprint{18096}&\numprint{28281}&\numprint{567}&\numprint{1974}&\numprint{1.56}&1800&\numprint{3.15}&\numprint{1801.13}&\numprint{1801.53}&\numprint{3.94}&\\ 
+149 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&\numprint{1.58}&1800&1800&\numprint{0.21}&\numprint{1801.53}&\numprint{0.26}&\\ 
+151 &\numprint{15783}&\numprint{24663}&\numprint{501}&\numprint{1728}&\numprint{1.56}&1800&\numprint{2.97}&\numprint{1801.10}&\numprint{1801.52}&\numprint{3.91}&\\ 
+153 &\numprint{29076}&\numprint{45570}&\numprint{2124}&\numprint{16266}&\numprint{1.57}&1800&1800&\numprint{1801.10}&\numprint{1801.52}&\numprint{1801.19}&\\ 
+155 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&\numprint{1.58}&1800&1800&\numprint{0.26}&\numprint{1801.52}&\numprint{0.26}&\\ 
+157 &\numprint{2980}&\numprint{5360}&\numprint{2169}&\numprint{6898}&\numprint{1.80}&\numprint{369.82}&1800&\numprint{1801.09}&\numprint{1801.52}&\numprint{404.57}&\\ 
+159 &\numprint{18096}&\numprint{28281}&\numprint{582}&\numprint{2004}&\numprint{1.56}&1800&\numprint{4.17}&\numprint{1801.09}&\numprint{1801.51}&\numprint{4.93}&\\ 
+161 &\numprint{138141}&\numprint{227241}&\numprint{41926}&\numprint{202869}&\numprint{1.64}&1800&1800&\numprint{1801.08}&\numprint{1801.51}&\numprint{1801.20}&\\ 
+163 &\numprint{18096}&\numprint{28281}&\numprint{582}&\numprint{2004}&\numprint{1.56}&1800&\numprint{3.78}&\numprint{1801.08}&\numprint{1801.52}&\numprint{4.80}&\\ 
+165 &\numprint{18096}&\numprint{28281}&\numprint{576}&\numprint{1995}&\numprint{1.56}&1800&\numprint{3.85}&\numprint{1801.08}&\numprint{1801.51}&\numprint{4.78}&\\ 
+167 &\numprint{15783}&\numprint{24663}&\numprint{510}&\numprint{1746}&\numprint{1.56}&1800&\numprint{3.08}&\numprint{1801.08}&\numprint{1801.50}&\numprint{4.23}&\\ 
+169 &\numprint{4768}&\numprint{8576}&\numprint{3458}&\numprint{11014}&\numprint{1.80}&1800&1800&\numprint{1801.08}&\numprint{1801.49}&\numprint{1801.19}&\\ 
+171 &\numprint{18096}&\numprint{28281}&\numprint{576}&\numprint{1989}&\numprint{1.56}&1800&\numprint{3.51}&\numprint{1801.06}&\numprint{1801.49}&\numprint{4.55}&\\ 
+173 &\numprint{56860}&\numprint{77264}&\numprint{17090}&\numprint{55568}&\numprint{1.36}&1800&1800&\numprint{1801.06}&\numprint{1801.49}&\numprint{1801.17}&\\ 
+175 &\numprint{3523}&\numprint{6446}&\numprint{2723}&\numprint{8570}&\numprint{1.83}&1800&1800&\numprint{1801.06}&\numprint{1801.49}&\numprint{1801.17}&\\ 
+177 &\numprint{5066}&\numprint{9112}&\numprint{3704}&\numprint{11797}&\numprint{1.80}&1800&1800&\numprint{1801.05}&\numprint{1801.48}&\numprint{1801.21}&\\ 
+179 &\numprint{15783}&\numprint{24663}&\numprint{504}&\numprint{1740}&\numprint{1.56}&1800&\numprint{2.85}&\numprint{1801.05}&\numprint{1801.48}&\numprint{3.69}&\\ 
+181 &\numprint{18096}&\numprint{28281}&\numprint{573}&\numprint{1989}&\numprint{1.56}&1800&\numprint{3.65}&\numprint{0.18}&\numprint{1801.48}&\numprint{0.21}&\\ 
+183 &\numprint{72420}&\numprint{118362}&\numprint{30340}&\numprint{133872}&\numprint{1.63}&1800&1800&\numprint{1801.05}&\numprint{1801.48}&\numprint{1801.20}&\\ 
+185 &\numprint{3523}&\numprint{6446}&\numprint{2723}&\numprint{8568}&\numprint{1.83}&1800&1800&\numprint{1801.05}&\numprint{1801.48}&\numprint{1801.21}&\\ 
+187 &\numprint{4227}&\numprint{7734}&\numprint{3264}&\numprint{10286}&\numprint{1.83}&1800&1800&\numprint{1801.03}&\numprint{1801.48}&\numprint{1801.25}&\\ 
+189 &\numprint{7400}&\numprint{13600}&\numprint{5802}&\numprint{18212}&\numprint{1.84}&1800&1800&\numprint{1801.03}&\numprint{1801.47}&\numprint{1801.25}&\\ 
+191 &\numprint{4579}&\numprint{8378}&\numprint{3539}&\numprint{11137}&\numprint{1.83}&1800&1800&\numprint{1801.03}&\numprint{1801.47}&\numprint{1801.25}&\\ 
+193 &\numprint{7030}&\numprint{12920}&\numprint{5510}&\numprint{17294}&\numprint{1.84}&1800&1800&\numprint{1801.03}&\numprint{1801.47}&\numprint{1801.25}&\\ 
+195 &\numprint{1150}&\numprint{81068}&\numprint{1150}&\numprint{81068}&\numprint{70.49}&1800&1800&\numprint{1801.03}&\numprint{1801.45}&\numprint{1801.25}&\\ 
+197 &\numprint{1534}&\numprint{127011}&\numprint{1534}&\numprint{127011}&\numprint{82.80}&1800&1800&\numprint{1801.03}&\numprint{1801.44}&\numprint{1801.28}&\\ 
+199 &\numprint{1534}&\numprint{126163}&\numprint{1534}&\numprint{126163}&\numprint{82.24}&1800&1800&\numprint{1801.02}&\numprint{1801.44}&\numprint{1801.33}&\\ 
 
