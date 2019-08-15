@@ -71,22 +71,33 @@ def plot_density(data, ax):
     print("Generate plot...")
 
     ax.grid(True)
-    ax.set_title("Solving time over density")
+    # ax.set_title("Solving time over density")
 
     ax.set_xscale("log", basex=10)
-    ax.set_xlabel("Density $\\frac{2m}{n(n-1)}$")
+    # ax.set_xlabel("Density $\\frac{2m}{n(n-1)}$")
+    # ax.set_xlabel("Edges $m$")
+    ax.set_xlabel("Metric")
     # ax.set_xlim(xmax=0.2)
     ax.get_xaxis().set_major_formatter(mpl.ticker.FuncFormatter(log_format))
 
+    ax.set_yscale('log', basey=10)
     ax.set_ylabel("Time $t$ (s)")
-    ax.set_ylim(ymax=500)
+    # ax.set_ylim(ymax=500)
 
     density = [2*float(x['m'])/(float(x['n'])*float(x['n']) - 1) for x in data]
+    density_kernel = [2*float(x['m\''])/(float(x['n\''])*float(x['n\'']) - 1) for x in data]
+    vertices = [float(x['n']) for x in data]
+    vertices_kernel = [float(x['n\'']) for x in data]
+    edges = [float(x['m']) for x in data]
+    edges_kernel = [float(x['m\'']) for x in data]
+    size = [float(x['n']) + float(x['m']) for x in data]
+    size_kernel = [float(x['n\'']) + float(x['m\'']) for x in data]
+    quotient = [float(x['n\'']) / float(x['n']) for x in data]
 
     for solver in solvers:
         times = sorted([float(x[solver]) for x in data])
         # valid_times = [x for x in times if x < 1800.0]
-        ax.scatter(x=density, y=times, color=next(color), lw=1, s=10, marker=next(marker), label=solver_labels[solver])
+        ax.scatter(x=quotient, y=times, color=next(color), lw=1, s=10, marker=next(marker), label=solver_labels[solver])
     ax.legend(bbox_to_anchor=anchor, ncol=3, loc='center', borderaxespad=0.)
     # update_colors(ax)
 
@@ -94,7 +105,7 @@ def plot_solved(data, ax):
     print("Generate plot...")
 
     ax.grid(True)
-    ax.set_title("Instances solved over time")
+    # ax.set_title("Instances solved over time")
 
     ax.set_xscale("log", basex=10)
     ax.set_xlabel("Time $t$ (s)")
@@ -109,10 +120,9 @@ def plot_solved(data, ax):
         times = sorted([float(x[solver]) for x in data])
         valid_times = [x for x in times if x < 1800.0]
         instances_solved = range(1, len(valid_times) + 1)
-        print(valid_times)
         print(solver + ": " + str(len(valid_times) + 0))
         ax.plot(valid_times, instances_solved, lw=2, color=next(color), label=solver_labels[solver])
-    ax.legend(bbox_to_anchor=anchor, ncol=3, loc='center', borderaxespad=0.)
+    ax.legend(bbox_to_anchor=solved_anchor, ncol=3, loc='center', borderaxespad=0.)
     # update_colors(ax)
 
 def parse_file(input_file):
@@ -141,6 +151,7 @@ cm = plt.get_cmap('gist_earth')
 color = itertools.cycle(("g", "r", "b", "y", "c")) 
 marker = itertools.cycle(("o", "v", "x", "d", "^")) 
 
+solved_anchor = [0.5, -0.45]
 anchor = [0.5, -0.6]
 
 solvers = ['MoMC', 'RMoMC', 'FullBnR', 'BnrwithoutLS', 'FullAlgorithm']
