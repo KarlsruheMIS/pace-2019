@@ -248,7 +248,16 @@ All algorithms were implemented in C++11 and compiled with gcc~version 6.3.0 wit
 Each algorithm was run sequentially with a time limit of 30 minutes---the time allotted to solve a single data set in the PACE 2019 Implementation Challenge. Our primary focus is on the total number of instances solved.
 \subsection{Evaluation.}
 We now explain the main configuration that we use in our experimental setup.
-In the following, \AlgName{MoMC} runs the MoMC clique solver by Li et al.~\cite{DBLP:journals/cor/LiJM17} on the complement of the input graph; \AlgName{RMoMC} applies reductions to the input graph exhaustively, and then runs MoMC on the complement of the resulting kernel; \AlgName{LSBnR} applies reductions exhaustively, then runs local search to obtain a high-quality solution on the kernel which is used as a initial bound in the branch-and-reduce algorithm that is run on the kernel; \AlgName{BnR} applies reductions and then runs the branch-and-reduce algorithm on the kernel (no local search is used to improve an initial bound); \AlgName{FullA} is the full algorithm as described in the previous section, using a short time limit of one second\iffalse (and a budget of \numprint{50000} branches for MoMC)\comment[id=DS]{we use 100,000 for the run on the original graph. D'oh.}\fi and a long time limit of thirty seconds.
+In the following, \AlgName{MoMC} runs the MoMC clique solver by Li et
+al.~\cite{DBLP:journals/cor/LiJM17} on the complement of the input graph;
+\AlgName{RMoMC} applies reductions to the input graph exhaustively, and then
+runs MoMC on the complement of the resulting kernel; \AlgName{LSBnR} applies
+reductions exhaustively, then runs local search to obtain a high-quality
+solution on the kernel which is used as a initial bound in the branch-and-reduce
+algorithm that is run on the kernel; \AlgName{BnR} applies reductions and then
+runs the branch-and-reduce algorithm on the kernel (no local search is used to
+improve an initial bound); \AlgName{FullA} is the full algorithm as described in
+the previous section, using a short time limit of one second \iffalse (and a budget of \numprint{50000} branches for MoMC)\comment[id=DS]{we use 100,000 for the run on the original graph. D'oh.}\fi and a long time limit of thirty seconds.
 
 
 %\section{Material}
