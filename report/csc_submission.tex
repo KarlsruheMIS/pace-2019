@@ -289,9 +289,10 @@ In these cases, kernelization reduced the number of nodes, but \emph{increased} 
     \centering
     \includegraphics[width=8cm]{plots/rt_solutions_all.pdf}
   \caption{Number of instances solved over time by each algorithm over \emph{all} instances. At each time step $t$, we count each instance solved by the algorithm in at most $t$ seconds.} 
+  \vspace*{-.5cm}
   \label{fig:solution_time}
 \end{figure}
-In addition to the 100 public instances, the PACE Implementation Challenge tests all submissions on 100 private instances. Tables~\ref{tab:detailedresultsprivate} and \ref{tab:detailedresults2private} give detailed per instances results on those instances. %, which are not yet available for additional experiments.
+In addition to the 100 public instances, the PACE Implementation Challenge tests all submissions on 100 private instances. Tables~\ref{tab:detailedresultsprivate} and \ref{tab:detailedresults2private} give detailed per instances results on those instances. The results are similar to the results on the private instances. %, which are not yet available for additional experiments.
 %\footnote{However, the results are published at \url{https://pacechallenge.org/2019/} and \url{https://www.optil.io/optilion/problem/3155}.} 
 On the private instances, \AlgName{MoMC} can solve 35 out of the 100 instances, \AlgName{RMoMC} solves 62, \AlgName{LSBnR} solves 58 and \AlgName{BnR} solves 35 instances.
 Our full algorithm \AlgName{FullA} solved 87 of the 100 instances, which is 10 more instances than the second-place submission (\textsf{peaty}~\cite{james_trimble_2019_3082356}, solving 77), and 11 more than the third-place submission (\textsf{bogdan}~\cite{zbogdan_2019_3228802}), solving 76). Our solver dominates these other solvers: with the exception of one graph, our algorithm solves all instances that \textsf{peaty} and \textsf{bogdan} can solve combined. 
