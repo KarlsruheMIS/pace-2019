@@ -113,7 +113,7 @@ def plot_solved(data, ax):
 
     # ax.set_yscale("log", basey=2)
     ax.set_ylabel("Instances solved")
-    ax.set_ylim(ymax=100)
+    ax.set_ylim(ymax=200)
     ax.yaxis.set_major_locator(plt.MaxNLocator(5))
 
     for solver in solvers:
@@ -166,8 +166,8 @@ plt.rc('figure', figsize=(3, 1.75))
 
 f, axarr = plt.subplots(1, 1)
 plot_density(parse_file(input_file), axarr)
-plt.savefig(output_file + "_density.pgf", bbox_inches="tight")
+plt.savefig(output_file + "_density.pdf", bbox_inches="tight")
 
 f, axarr = plt.subplots(1, 1)
 plot_solved(parse_file(input_file), axarr)
-plt.savefig(output_file + "_solutions.pgf", bbox_inches="tight")
+plt.savefig(output_file + "_solutions.pdf", bbox_inches="tight")
