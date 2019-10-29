@@ -198,7 +198,14 @@ To be self-contained, we now give a brief description of those reductions, in or
 %If $v'$ is in the computed MIS, then $u$ and $w$ are added to the independent set, otherwise $v$ is added. Thus, a vertex fold contributes an additional vertex to an independent set.
 
 \noindent\textbf{Linear Programming Relaxation:}
-First introduced by Nemhauser and Trotter~\cite{nemhauser-1975} for the vertex packing problem, they present a linear programming relaxation with a half-integral solution (i.e., using only values 0, 1/2, and 1) which can be solved using bipartite matching. Their relaxation may be formulated for the minimum vertex cover problem as follows: minimize $\sum_{v\in V}{x_v}$, such at for each edge $(u, v) \in E$, $x_u + x_v \geq 1$ and for each vertex $v \in V$, $x_v \geq 0$. There is a minimum vertex cover containing no vertices with value $1$, and therefore their neighbors are added to the solution and removed together with the vertices from the graph. We use the further improvement from Iwata et al.~\cite{iwata-2014}, which computes a solution whose half-integral part is minimal. \\
+First introduced by Nemhauser and Trotter~\cite{nemhauser-1975} for the vertex
+packing problem, they present a linear programming relaxation with a
+half-integral solution (i.e., using only values 0, 1/2, and 1) which can be
+solved using bipartite matching. Their relaxation may be formulated for the
+minimum vertex cover problem as follows: minimize $\sum_{v\in V}{x_v}$, such at
+for each edge $(u, v) \in E$, $x_u + x_v \geq 1$ and for each vertex $v \in V$,
+$x_v \geq 0$. There is a minimum vertex cover containing all vertices with value
+$1$ and no vertices with value $0$. We use the further improvement from Iwata et al.~\cite{iwata-2014}, which computes a solution whose half-integral part is minimal. \\
 
 \noindent\textbf{Unconfined~\cite{Xiao201392}:} Though there are several definitions of an \emph{unconfined} vertex in the literature, we use the simple one from Akiba and Iwata~\cite{akiba-tcs-2016}. A vertex $v$ is \emph{unconfined} when determined by the following simple algorithm. First, initialize $S = \{v\}$. Then find a $u \in N(S)$ such that $|N(u) \cap S| = 1$ and $|N(u) \setminus N[S]|$ is minimized. If there is no such vertex, then $v$ is confined. If $N(u) \setminus N[S] = \emptyset$, then $v$ is unconfined.  If $N(u)\setminus N[S]$ is a single vertex $w$, then add $w$ to $S$ and repeat the algorithm. Otherwise, $v$ is confined. Unconfined vertices can be removed from the graph, since there always exists a minimum vertex cover that contains unconfined vertices. \\
 
