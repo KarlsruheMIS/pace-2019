@@ -153,7 +153,15 @@ incremental MaxSAT logic to achieve speed ups of up to \numprint{1000} over MCS.
 Experiments by Batsyn et al.~\cite{batsyn-mcs-ils-2014} show that MCS can be
 sped up significantly by giving an initial solution found through local search.
 However, even with these state-of-the-art algorithms, graphs on thousands of
-vertices remain intractable. For example, a difficult graph on \numprint{4000} vertices required 39 wall-clock hours in a highly-parallel MapReduce cluster, and is estimated to require over a year of sequential computation~\cite{xiang-2013}. Recent clique solvers for sparse graphs investigate applying simple data reduction rules, using an initial clique given by some inexact method~\cite{verma2015solving,sansegundo2016a,chang2019efficient}. However, these techniques rarely work on dense graphs, such as the complement graphs that we consider here.
+vertices remain intractable. For example, a difficult graph on \numprint{4000} vertices required 39 wall-clock hours in a highly-parallel MapReduce cluster, and is estimated to require over a year of sequential computation~\cite{xiang-2013}. 
+
+We briefly note that these algorithms are designed for the
+most difficult-to-solve instances. Many solvers have been recently introduced
+that solve very sparse instances~\cite{rossi-2015,verma2015solving,sansegundo2016a,chang2019efficient}, however, these
+instances are very \emph{easy} to solve in general~\cite{walters-2018}.
+%
+%
+However, worth noting is that these recent clique solvers for sparse graphs apply simple data reduction rules, using an initial clique given by some inexact method~\cite{verma2015solving,sansegundo2016a,chang2019efficient}. However, these techniques rarely work on dense graphs, such as the complement graphs that we consider here.
 A thorough discussion of many results in clique finding can be found in the survey of Wu and Hao~\cite{wu-hao-2015}.
 
 Data reductions have been successfully applied in practice to solve many problems that are intractable with general algorithms. Butenko et al.~\cite{butenko-2002,butenko-correcting-codes-2009} were the first to show that simple reductions could be used to compute exact maximum independent sets on graphs with hundreds of vertices for graphs derived from error-correcting codes. Their algorithm works by first applying \emph{isolated clique removal} reductions, then solving the remaining graph with a branch-and-bound algorithm. Later, Butenko and Trukhanov~\cite{butenko-trukhanov} introduced the \emph{critical independent set} reduction, which was able to solve graphs produced by the Sanchis graph generator.
