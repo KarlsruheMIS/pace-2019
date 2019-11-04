@@ -312,7 +312,7 @@ Overall, \AlgName{MoMC} can solve 30 out of the 100 instances.
 Applying reductions first enables \AlgName{RMoMC} to solve 68 instances. However, curiously, there are two instances (instances 131 and 157) that \AlgName{MoMC} solves, but that \AlgName{RMoMC} can not solve. 
 In these cases, kernelization reduced the number of nodes, but \emph{increased} the number of edges. This is due to the \emph{alternative} reduction, which in some cases can create more edges than initially present. This is why we choose to also run MoMC on the unkernelized input graph in \AlgName{FullA} (in order to solve those instances as well).
 
-\AlgName{LSBnR} solves 55 of the 100 instances. Priming the branch-and-reduce algorithm with an initial solution computed by local search has a significant impact: \AlgName{LSBnR} solves 13 more instances than \AlgName{BnR}, which solve 42 instances. In particular, using local search to find an initial bound helps to solve large instances in which the initial kernelization step does not reduce the graph fully. Surprisingly, \AlgName{RMoMC} solves 26 instances that \AlgName{BnR} does not (and even \AlgName{LSBnR} is only able to solve one of these instances). To the best of our knowledge, this is the first time that kernelization followed by branch-and-bound is shown to significantly outperform branch-and-reduce. Our full algorithm \AlgName{FullA} solves 82 of the 100 instances and, as expected, dominates each of the other configurations. This can be further seen from the plot in Figure~\ref{fig:solution_time}, which shows how many instances each algorithm solves over time (this includes all 100 public and 100 private instances of the challenge). Note that \AlgName{LSBnR} and \AlgName{RMoMC} solve more instances in narrow time gaps, due to \AlgName{FullA}'s set up cost and  running multiple algorithms. However, \AlgName{FullA} quickly makes up for this and overtakes all algorithms at approximately eight seconds.
+\AlgName{LSBnR} solves 55 of the 100 instances. Priming the branch-and-reduce algorithm with an initial solution computed by local search has a significant impact: \AlgName{LSBnR} solves 13 more instances than \AlgName{BnR}, which solve 42 instances. In particular, using local search to find an initial bound helps to solve large instances in which the initial kernelization step does not reduce the graph fully. Surprisingly, \AlgName{RMoMC} solves 26 instances that \AlgName{BnR} does not (and even \AlgName{LSBnR} is only able to solve one of these instances). To the best of our knowledge, this is the first time that kernelization followed by branch-and-bound is shown to significantly outperform branch-and-reduce. Our full algorithm \AlgName{FullA} solves 82 of the 100 instances and, as expected, dominates each of the other configurations. This can be further seen from the plot in Figure~\ref{fig:solution_time}, which shows how many instances each algorithm solves over time (this includes all 100 public and 100 private instances of the challenge). Note that \AlgName{LSBnR} and \AlgName{RMoMC} solve more instances in narrow time gaps, due to \AlgName{FullA}'s set up cost and  running multiple algorithms. However, \AlgName{FullA} quickly makes up for this and overtakes all algorithms at approximately eight~seconds.
 \begin{figure}
     \centering
     \includegraphics[width=8cm]{plots/rt_solutions_all.pdf}
@@ -320,33 +320,6 @@ In these cases, kernelization reduced the number of nodes, but \emph{increased} 
   \vspace*{-.5cm}
   \label{fig:solution_time}
 \end{figure}
-In addition to the 100 public instances, the PACE Implementation Challenge tests all submissions on 100 private instances. Tables~\ref{tab:detailedresultsprivate} and \ref{tab:detailedresults2private} give detailed per instances results on those instances. The results are similar to the results on the private instances. %, which are not yet available for additional experiments.
-%\footnote{However, the results are published at \url{https://pacechallenge.org/2019/} and \url{https://www.optil.io/optilion/problem/3155}.} 
-On the private instances, \AlgName{MoMC} can solve 35 out of the 100 instances, \AlgName{RMoMC} solves 62, \AlgName{LSBnR} solves 58 and \AlgName{BnR} solves 35 instances.
-Our full algorithm \AlgName{FullA} solved 87 of the 100 instances, which is 10 more instances than the second-place submission (\textsf{peaty}~\cite{james_trimble_2019_3082356}, solving 77), and 11 more than the third-place submission (\textsf{bogdan}~\cite{zbogdan_2019_3228802}), solving 76). Our solver dominates these other solvers: with the exception of one graph, our algorithm solves all instances that \textsf{peaty} and \textsf{bogdan} can solve combined. 
-
-We briefly describe these two solvers. The \textsf{peaty} solver uses reductions to compute a problem kernel of the input followed by an unpublished maximum weight clique solver on the complement of each of the connected components of the kernel to assemble a solution. The clique solver is similar to MaxCLQ by Li and Quan~\cite{DBLP:conf/aaai/LiQ10}, but is more general. Local search is used to obtain an initial solution. On the other hand, \textsf{bogdan} implemented a small suite of simple reductions (including vertex folding, isolated clique removal, and degree-one removal) together with a recent maximum clique solver by Szab\'o and Zavalnij~\cite{szabo2018different}. 
-
-Lastly, we note that our choice of using MoMC as our chosen branch-and-bound solver is significant on the private instances. Eight instances solved exclusively by our solver are solved in Phase 5, where MoMC is run until the end of the challenge time limit.
-%\vfill
-\section{Conclusion}
-We presented the winning solver of the PACE 2019 Implementation Challenge Vertex Cover Track. Our algorithm uses a portfolio of techniques, including an aggressive kernelization strategy with all known reduction rules, local search, branch-and-reduce, and a state-of-the-art branch-and-bound solver. Of particular interest is that several of our techniques were not from the literature on the vertex over problem: they were originally published to solve the (complementary) maximum independent set and maximum clique problems. Moreover, the two closest competitors in the challenge also applied reductions and a clique solver. Lastly, our experiments show the impact of the different solver techniques on the number of instances solved during the challenge. In particular, the results emphasize that data reductions play an important tool to boost the performance of branch-and-bound, and local search is highly effective to boost the performance of branch-and-reduce.
-
-\subsection*{Acknowledgments.}
-We wish to thank the organizers of the PACE 2019 Implementation Challenge for providing us with the opportunity and means to test our algorithmic ideas. We also are indebted to Takuya Akiba and  Yoichi Iwata for sharing their original branch-and-reduce source code\footnote{\url{https://github.com/wata-orz/vertex_cover}}, and to Chu-Min Li, Hua Jiang, and Felip Many\`a for not only sharing---but even open sourcing---their code for MoMC at our request\footnote{\url{https://home.mis.u-picardie.fr/~cli/EnglishPage.html}}. Their solver was of critical importance to our algorithm's success.
-
-\iffalse %Consensus seems to be that the plot is enough
-\comment[id=DS]{Put full running times in appendix.}
-\fi
-
-%\vfill 
-%\pagebreak
-%\
-%\vfill
-%\pagebreak
-\bibliographystyle{plainurl}
-\bibliography{references}
-\vfill
 \begin{table*}
 \centering
 \caption{Detailed per instance results for public instances. The columns $n$ and $m$ refer to the number of nodes and edges of the input graph, $n'$ and $m'$ refer to the number of nodes and edges of the kernel graph after reductions have been applied exhaustively, and $|VC|$ refers to the size of the minimum vertex cover of the input graph. We list a `\checkmark' when a solver successfully solved the given instance in the time limit, and `-' otherwise.}
@@ -475,129 +448,157 @@ inst\# & $n$ &$m$& $n'$& $m'$ & \AlgName{MoMC} & \AlgName{RMoMC} & \AlgName{LSBn
 \end{tabular}
 \end{table*}
 
-\begin{table*}
-\centering
+%\begin{table*}
+%\centering
 
-\caption{Detailed per instance results for private instances. The columns $n$ and $m$ refer to the number of nodes and edges of the input graph, $n'$ and $m'$ refer to the number of nodes and edges of the kernel graph after reductions have been applied exhaustively, and $|VC|$ refers to the size of the minimum vertex cover of the input graph. We list a `\checkmark' when a solver successfully solved the given instance in the time limit, and `-' otherwise.}
-\label{tab:detailedresultsprivate}
-\begin{tabular}{l@{\hskip 25pt} rrrr|ccccc|rc}
-\toprule
-inst\# & $n$ &$m$& $n'$& $m'$ & \AlgName{MoMC} & \AlgName{RMoMC} & \AlgName{LSBnR} & \AlgName{BnR} & \AlgName{FullA} & $|VC|$ \\
-                \midrule
-002 &\numprint{51795}&\numprint{63334}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{10605}&\\ 
-004 &\numprint{8114}&\numprint{26013}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{2574}&\\ 
-006 &\numprint{200}&\numprint{751}&\numprint{188}&\numprint{716}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{126}&\\ 
-008 &\numprint{7537}&\numprint{72833}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{3345}&\\ 
-010 &\numprint{199}&\numprint{774}&\numprint{189}&\numprint{756}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{127}&\\ 
-012 &\numprint{53444}&\numprint{68044}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{10918}&\\ 
-014 &\numprint{25123}&\numprint{31552}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{5111}&\\ 
-016 &\numprint{153}&\numprint{802}&\numprint{153}&\numprint{802}&-&-&-&-&-&  &\\ 
-018 &\numprint{49212}&\numprint{63601}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{10201}&\\ 
-020 &\numprint{57287}&\numprint{71155}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{11648}&\\ 
-022 &\numprint{12589}&\numprint{33129}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{6749}&\\ 
-024 &\numprint{7620}&\numprint{47293}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{4364}&\\ 
-026 &\numprint{6140}&\numprint{36767}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{2506}&\\ 
-028 &\numprint{54991}&\numprint{67000}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{11211}&\\ 
-030 &\numprint{62853}&\numprint{79557}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{13338}&\\ 
-032 &\numprint{1490}&\numprint{2680}&\numprint{1081}&\numprint{3426}&\checkmark&-&-&-&\checkmark&  \numprint{960}&\\ 
-034 &\numprint{1490}&\numprint{2680}&\numprint{1090}&\numprint{3467}&\checkmark&\checkmark&-&-&\checkmark&  \numprint{960}&\\ 
-036 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{16300}&\\ 
-038 &\numprint{786}&\numprint{14024}&\numprint{460}&\numprint{6623}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{605}&\\ 
-040 &\numprint{210}&\numprint{625}&\numprint{210}&\numprint{625}&\checkmark&\checkmark&-&-&\checkmark&  \numprint{145}&\\ 
-042 &\numprint{200}&\numprint{974}&\numprint{200}&\numprint{952}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{136}&\\ 
-044 &\numprint{200}&\numprint{1186}&\numprint{200}&\numprint{1147}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{142}&\\ 
-046 &\numprint{200}&\numprint{812}&\numprint{200}&\numprint{812}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{137}&\\ 
-048 &\numprint{200}&\numprint{1052}&\numprint{198}&\numprint{1022}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{138}&\\ 
-050 &\numprint{200}&\numprint{1048}&\numprint{200}&\numprint{1025}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{140}&\\ 
-052 &\numprint{200}&\numprint{1019}&\numprint{198}&\numprint{1000}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{138}&\\ 
-054 &\numprint{200}&\numprint{985}&\numprint{198}&\numprint{951}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{137}&\\ 
-056 &\numprint{200}&\numprint{1117}&\numprint{200}&\numprint{1089}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{141}&\\ 
-058 &\numprint{200}&\numprint{1202}&\numprint{200}&\numprint{1171}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{142}&\\ 
-060 &\numprint{200}&\numprint{1147}&\numprint{200}&\numprint{1118}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{141}&\\ 
-062 &\numprint{199}&\numprint{1164}&\numprint{199}&\numprint{1128}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{141}&\\ 
-064 &\numprint{200}&\numprint{1071}&\numprint{198}&\numprint{1040}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{138}&\\ 
-066 &\numprint{200}&\numprint{884}&\numprint{198}&\numprint{875}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{134}&\\ 
-068 &\numprint{200}&\numprint{983}&\numprint{198}&\numprint{961}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{135}&\\ 
-070 &\numprint{200}&\numprint{887}&\numprint{198}&\numprint{856}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{133}&\\ 
-072 &\numprint{200}&\numprint{1204}&\numprint{198}&\numprint{1176}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{140}&\\ 
-074 &\numprint{200}&\numprint{820}&\numprint{194}&\numprint{785}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{132}&\\ 
-076 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&\checkmark&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-078 &\numprint{11349}&\numprint{17739}&\numprint{357}&\numprint{1245}&-&\checkmark&-&-&\checkmark&  \numprint{7015}&\\ 
-080 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-082 &\numprint{200}&\numprint{978}&\numprint{196}&\numprint{956}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{138}&\\ 
-084 &\numprint{13590}&\numprint{21240}&\numprint{435}&\numprint{1503}&-&\checkmark&-&-&\checkmark&  \numprint{8400}&\\ 
-086 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&\checkmark&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-088 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&\checkmark&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-090 &\numprint{11349}&\numprint{17739}&\numprint{357}&\numprint{1245}&-&\checkmark&-&-&\checkmark&  \numprint{7015}&\\ 
-092 &\numprint{450}&\numprint{17794}&\numprint{450}&\numprint{17794}&\checkmark&\checkmark&-&-&\checkmark&  \numprint{420}&\\ 
-094 &\numprint{5960}&\numprint{10720}&\numprint{4217}&\numprint{13456}&-&-&-&-&-&  &\\ 
-096 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-098 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-100 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{16300}&\\ 
-\bottomrule
-\end{tabular}
-\end{table*}
+%\caption{Detailed per instance results for private instances. The columns $n$ and $m$ refer to the number of nodes and edges of the input graph, $n'$ and $m'$ refer to the number of nodes and edges of the kernel graph after reductions have been applied exhaustively, and $|VC|$ refers to the size of the minimum vertex cover of the input graph. We list a `\checkmark' when a solver successfully solved the given instance in the time limit, and `-' otherwise.}
+%\label{tab:detailedresultsprivate}
+%\begin{tabular}{l@{\hskip 25pt} rrrr|ccccc|rc}
+%\toprule
+%inst\# & $n$ &$m$& $n'$& $m'$ & \AlgName{MoMC} & \AlgName{RMoMC} & \AlgName{LSBnR} & \AlgName{BnR} & \AlgName{FullA} & $|VC|$ \\
+                %\midrule
+%002 &\numprint{51795}&\numprint{63334}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{10605}&\\ 
+%004 &\numprint{8114}&\numprint{26013}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{2574}&\\ 
+%006 &\numprint{200}&\numprint{751}&\numprint{188}&\numprint{716}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{126}&\\ 
+%008 &\numprint{7537}&\numprint{72833}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{3345}&\\ 
+%010 &\numprint{199}&\numprint{774}&\numprint{189}&\numprint{756}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{127}&\\ 
+%012 &\numprint{53444}&\numprint{68044}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{10918}&\\ 
+%014 &\numprint{25123}&\numprint{31552}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{5111}&\\ 
+%016 &\numprint{153}&\numprint{802}&\numprint{153}&\numprint{802}&-&-&-&-&-&  &\\ 
+%018 &\numprint{49212}&\numprint{63601}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{10201}&\\ 
+%020 &\numprint{57287}&\numprint{71155}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{11648}&\\ 
+%022 &\numprint{12589}&\numprint{33129}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{6749}&\\ 
+%024 &\numprint{7620}&\numprint{47293}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{4364}&\\ 
+%026 &\numprint{6140}&\numprint{36767}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{2506}&\\ 
+%028 &\numprint{54991}&\numprint{67000}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{11211}&\\ 
+%030 &\numprint{62853}&\numprint{79557}&\numprint{0}&\numprint{0}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{13338}&\\ 
+%032 &\numprint{1490}&\numprint{2680}&\numprint{1081}&\numprint{3426}&\checkmark&-&-&-&\checkmark&  \numprint{960}&\\ 
+%034 &\numprint{1490}&\numprint{2680}&\numprint{1090}&\numprint{3467}&\checkmark&\checkmark&-&-&\checkmark&  \numprint{960}&\\ 
+%036 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{16300}&\\ 
+%038 &\numprint{786}&\numprint{14024}&\numprint{460}&\numprint{6623}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{605}&\\ 
+%040 &\numprint{210}&\numprint{625}&\numprint{210}&\numprint{625}&\checkmark&\checkmark&-&-&\checkmark&  \numprint{145}&\\ 
+%042 &\numprint{200}&\numprint{974}&\numprint{200}&\numprint{952}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{136}&\\ 
+%044 &\numprint{200}&\numprint{1186}&\numprint{200}&\numprint{1147}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{142}&\\ 
+%046 &\numprint{200}&\numprint{812}&\numprint{200}&\numprint{812}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{137}&\\ 
+%048 &\numprint{200}&\numprint{1052}&\numprint{198}&\numprint{1022}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{138}&\\ 
+%050 &\numprint{200}&\numprint{1048}&\numprint{200}&\numprint{1025}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{140}&\\ 
+%052 &\numprint{200}&\numprint{1019}&\numprint{198}&\numprint{1000}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{138}&\\ 
+%054 &\numprint{200}&\numprint{985}&\numprint{198}&\numprint{951}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{137}&\\ 
+%056 &\numprint{200}&\numprint{1117}&\numprint{200}&\numprint{1089}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{141}&\\ 
+%058 &\numprint{200}&\numprint{1202}&\numprint{200}&\numprint{1171}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{142}&\\ 
+%060 &\numprint{200}&\numprint{1147}&\numprint{200}&\numprint{1118}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{141}&\\ 
+%062 &\numprint{199}&\numprint{1164}&\numprint{199}&\numprint{1128}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{141}&\\ 
+%064 &\numprint{200}&\numprint{1071}&\numprint{198}&\numprint{1040}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{138}&\\ 
+%066 &\numprint{200}&\numprint{884}&\numprint{198}&\numprint{875}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{134}&\\ 
+%068 &\numprint{200}&\numprint{983}&\numprint{198}&\numprint{961}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{135}&\\ 
+%070 &\numprint{200}&\numprint{887}&\numprint{198}&\numprint{856}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{133}&\\ 
+%072 &\numprint{200}&\numprint{1204}&\numprint{198}&\numprint{1176}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{140}&\\ 
+%074 &\numprint{200}&\numprint{820}&\numprint{194}&\numprint{785}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{132}&\\ 
+%076 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&\checkmark&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%078 &\numprint{11349}&\numprint{17739}&\numprint{357}&\numprint{1245}&-&\checkmark&-&-&\checkmark&  \numprint{7015}&\\ 
+%080 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%082 &\numprint{200}&\numprint{978}&\numprint{196}&\numprint{956}&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{138}&\\ 
+%084 &\numprint{13590}&\numprint{21240}&\numprint{435}&\numprint{1503}&-&\checkmark&-&-&\checkmark&  \numprint{8400}&\\ 
+%086 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&\checkmark&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%088 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&\checkmark&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%090 &\numprint{11349}&\numprint{17739}&\numprint{357}&\numprint{1245}&-&\checkmark&-&-&\checkmark&  \numprint{7015}&\\ 
+%092 &\numprint{450}&\numprint{17794}&\numprint{450}&\numprint{17794}&\checkmark&\checkmark&-&-&\checkmark&  \numprint{420}&\\ 
+%094 &\numprint{5960}&\numprint{10720}&\numprint{4217}&\numprint{13456}&-&-&-&-&-&  &\\ 
+%096 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%098 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%100 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&\checkmark&\checkmark&\checkmark&\checkmark&  \numprint{16300}&\\ 
+%\bottomrule
+%\end{tabular}
+%\end{table*}
 
-\begin{table*}
-\centering
+%\begin{table*}
+%\centering
 
-\caption{Detailed per instance results for private instances. The columns $n$ and $m$ refer to the number of nodes and edges of the input graph, $n'$ and $m'$ refer to the number of nodes and edges of the kernel graph after reductions have been applied exhaustively, and $|VC|$ refers to the size of the minimum vertex cover of the input graph. We list a `\checkmark' when a solver successfully solved the given instance in the time limit, and `-' otherwise.}
-\label{tab:detailedresults2private}
-\begin{tabular}{l@{\hskip 25pt} rrrr|ccccc|rc}
-\toprule
-inst\# & $n$ &$m$& $n'$& $m'$ & \AlgName{MoMC} & \AlgName{RMoMC} & \AlgName{LSBnR} & \AlgName{BnR} & \AlgName{FullA} & $|VC|$ \\
-                \midrule
-102 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-104 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-106 &\numprint{2980}&\numprint{5360}&\numprint{2136}&\numprint{6809}&\checkmark&-&-&-&\checkmark&  \numprint{1920}&\\ 
-108 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-110 &\numprint{98128}&\numprint{161357}&\numprint{29168}&\numprint{140392}&-&-&-&-&-&  &\\ 
-112 &\numprint{18096}&\numprint{28281}&\numprint{576}&\numprint{1992}&-&\checkmark&-&-&\checkmark&  \numprint{11185}&\\ 
-114 &\numprint{15783}&\numprint{24663}&\numprint{504}&\numprint{1740}&-&\checkmark&-&-&\checkmark&  \numprint{9755}&\\ 
-116 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-118 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-120 &\numprint{70144}&\numprint{116378}&\numprint{6029}&\numprint{38285}&-&-&-&-&-&  &\\ 
-122 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-124 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-126 &\numprint{18096}&\numprint{28281}&\numprint{582}&\numprint{2001}&-&\checkmark&-&-&\checkmark&  \numprint{11185}&\\ 
-128 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&-&-&-&  &\\ 
-130 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-132 &\numprint{15783}&\numprint{24663}&\numprint{513}&\numprint{1755}&-&\checkmark&-&-&\checkmark&  \numprint{9755}&\\ 
-134 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-136 &\numprint{18096}&\numprint{28281}&\numprint{585}&\numprint{2007}&-&\checkmark&-&-&\checkmark&  \numprint{11185}&\\ 
-138 &\numprint{18096}&\numprint{28281}&\numprint{576}&\numprint{1992}&-&\checkmark&-&-&\checkmark&  \numprint{11185}&\\ 
-140 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-142 &\numprint{2980}&\numprint{5360}&\numprint{2180}&\numprint{6946}&\checkmark&-&-&-&\checkmark&  \numprint{1920}&\\ 
-144 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-146 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-148 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-150 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-152 &\numprint{13590}&\numprint{21240}&\numprint{438}&\numprint{1506}&-&\checkmark&\checkmark&-&\checkmark&  \numprint{8400}&\\ 
-154 &\numprint{15783}&\numprint{24663}&\numprint{504}&\numprint{1737}&-&\checkmark&-&-&\checkmark&  \numprint{9755}&\\ 
-156 &\numprint{450}&\numprint{17809}&\numprint{450}&\numprint{17809}&\checkmark&\checkmark&-&-&\checkmark&  \numprint{420}&\\ 
-158 &\numprint{15783}&\numprint{24663}&\numprint{507}&\numprint{1746}&-&\checkmark&-&-&\checkmark&  \numprint{9755}&\\ 
-160 &\numprint{18096}&\numprint{28281}&\numprint{576}&\numprint{1989}&-&\checkmark&-&-&\checkmark&  \numprint{11185}&\\ 
-162 &\numprint{50635}&\numprint{83075}&\numprint{13066}&\numprint{63758}&-&-&-&-&-&  &\\ 
-164 &\numprint{29296}&\numprint{46040}&\numprint{1210}&\numprint{8666}&-&-&-&-&-&  &\\ 
-166 &\numprint{3278}&\numprint{5896}&\numprint{2400}&\numprint{7643}&\checkmark&-&-&-&-&  &\\ 
-168 &\numprint{2980}&\numprint{5360}&\numprint{2180}&\numprint{6943}&\checkmark&-&-&-&\checkmark&  \numprint{1920}&\\ 
-170 &\numprint{15783}&\numprint{24663}&\numprint{507}&\numprint{1746}&-&\checkmark&-&-&\checkmark&  \numprint{9755}&\\ 
-172 &\numprint{4025}&\numprint{7435}&\numprint{3158}&\numprint{9863}&-&-&-&-&-&  &\\ 
-174 &\numprint{2980}&\numprint{5360}&\numprint{2180}&\numprint{6955}&\checkmark&-&-&-&\checkmark&  \numprint{1920}&\\ 
-176 &\numprint{15783}&\numprint{24663}&\numprint{501}&\numprint{1734}&-&\checkmark&-&-&\checkmark&  \numprint{9755}&\\ 
-178 &\numprint{18096}&\numprint{28281}&\numprint{573}&\numprint{1995}&-&\checkmark&-&-&\checkmark&  \numprint{11185}&\\ 
-180 &\numprint{15783}&\numprint{24663}&\numprint{501}&\numprint{1731}&-&\checkmark&-&-&\checkmark&  \numprint{9755}&\\ 
-182 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-184 &\numprint{6290}&\numprint{11560}&\numprint{4904}&\numprint{15397}&-&-&-&-&-&  &\\ 
-186 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
-188 &\numprint{6660}&\numprint{12240}&\numprint{5220}&\numprint{16375}&-&-&-&-&-&  &\\ 
-190 &\numprint{3875}&\numprint{7090}&\numprint{2997}&\numprint{9424}&-&-&-&-&-&  &\\ 
-192 &\numprint{2980}&\numprint{5360}&\numprint{2180}&\numprint{6941}&\checkmark&-&-&-&\checkmark&  \numprint{1920}&\\ 
-194 &\numprint{1150}&\numprint{80851}&\numprint{1150}&\numprint{80851}&\checkmark&\checkmark&-&-&\checkmark&  \numprint{1100}&\\ 
-196 &\numprint{1534}&\numprint{126082}&\numprint{1534}&\numprint{126082}&-&-&-&-&-&  &\\ 
-198 &\numprint{1150}&\numprint{80072}&\numprint{1150}&\numprint{80072}&\checkmark&\checkmark&-&-&\checkmark&  \numprint{1100}&\\ 
-200 &\numprint{1150}&\numprint{80258}&\numprint{1150}&\numprint{80258}&\checkmark&\checkmark&-&-&\checkmark&  \numprint{1100}&\\
-\bottomrule
-\end{tabular}
-\end{table*}
+%\caption{Detailed per instance results for private instances. The columns $n$ and $m$ refer to the number of nodes and edges of the input graph, $n'$ and $m'$ refer to the number of nodes and edges of the kernel graph after reductions have been applied exhaustively, and $|VC|$ refers to the size of the minimum vertex cover of the input graph. We list a `\checkmark' when a solver successfully solved the given instance in the time limit, and `-' otherwise.}
+%\label{tab:detailedresults2private}
+%\begin{tabular}{l@{\hskip 25pt} rrrr|ccccc|rc}
+%\toprule
+%inst\# & $n$ &$m$& $n'$& $m'$ & \AlgName{MoMC} & \AlgName{RMoMC} & \AlgName{LSBnR} & \AlgName{BnR} & \AlgName{FullA} & $|VC|$ \\
+                %\midrule
+%102 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%104 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%106 &\numprint{2980}&\numprint{5360}&\numprint{2136}&\numprint{6809}&\checkmark&-&-&-&\checkmark&  \numprint{1920}&\\ 
+%108 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%110 &\numprint{98128}&\numprint{161357}&\numprint{29168}&\numprint{140392}&-&-&-&-&-&  &\\ 
+%112 &\numprint{18096}&\numprint{28281}&\numprint{576}&\numprint{1992}&-&\checkmark&-&-&\checkmark&  \numprint{11185}&\\ 
+%114 &\numprint{15783}&\numprint{24663}&\numprint{504}&\numprint{1740}&-&\checkmark&-&-&\checkmark&  \numprint{9755}&\\ 
+%116 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%118 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%120 &\numprint{70144}&\numprint{116378}&\numprint{6029}&\numprint{38285}&-&-&-&-&-&  &\\ 
+%122 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%124 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%126 &\numprint{18096}&\numprint{28281}&\numprint{582}&\numprint{2001}&-&\checkmark&-&-&\checkmark&  \numprint{11185}&\\ 
+%128 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&-&-&-&  &\\ 
+%130 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%132 &\numprint{15783}&\numprint{24663}&\numprint{513}&\numprint{1755}&-&\checkmark&-&-&\checkmark&  \numprint{9755}&\\ 
+%134 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%136 &\numprint{18096}&\numprint{28281}&\numprint{585}&\numprint{2007}&-&\checkmark&-&-&\checkmark&  \numprint{11185}&\\ 
+%138 &\numprint{18096}&\numprint{28281}&\numprint{576}&\numprint{1992}&-&\checkmark&-&-&\checkmark&  \numprint{11185}&\\ 
+%140 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%142 &\numprint{2980}&\numprint{5360}&\numprint{2180}&\numprint{6946}&\checkmark&-&-&-&\checkmark&  \numprint{1920}&\\ 
+%144 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%146 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%148 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%150 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%152 &\numprint{13590}&\numprint{21240}&\numprint{438}&\numprint{1506}&-&\checkmark&\checkmark&-&\checkmark&  \numprint{8400}&\\ 
+%154 &\numprint{15783}&\numprint{24663}&\numprint{504}&\numprint{1737}&-&\checkmark&-&-&\checkmark&  \numprint{9755}&\\ 
+%156 &\numprint{450}&\numprint{17809}&\numprint{450}&\numprint{17809}&\checkmark&\checkmark&-&-&\checkmark&  \numprint{420}&\\ 
+%158 &\numprint{15783}&\numprint{24663}&\numprint{507}&\numprint{1746}&-&\checkmark&-&-&\checkmark&  \numprint{9755}&\\ 
+%160 &\numprint{18096}&\numprint{28281}&\numprint{576}&\numprint{1989}&-&\checkmark&-&-&\checkmark&  \numprint{11185}&\\ 
+%162 &\numprint{50635}&\numprint{83075}&\numprint{13066}&\numprint{63758}&-&-&-&-&-&  &\\ 
+%164 &\numprint{29296}&\numprint{46040}&\numprint{1210}&\numprint{8666}&-&-&-&-&-&  &\\ 
+%166 &\numprint{3278}&\numprint{5896}&\numprint{2400}&\numprint{7643}&\checkmark&-&-&-&-&  &\\ 
+%168 &\numprint{2980}&\numprint{5360}&\numprint{2180}&\numprint{6943}&\checkmark&-&-&-&\checkmark&  \numprint{1920}&\\ 
+%170 &\numprint{15783}&\numprint{24663}&\numprint{507}&\numprint{1746}&-&\checkmark&-&-&\checkmark&  \numprint{9755}&\\ 
+%172 &\numprint{4025}&\numprint{7435}&\numprint{3158}&\numprint{9863}&-&-&-&-&-&  &\\ 
+%174 &\numprint{2980}&\numprint{5360}&\numprint{2180}&\numprint{6955}&\checkmark&-&-&-&\checkmark&  \numprint{1920}&\\ 
+%176 &\numprint{15783}&\numprint{24663}&\numprint{501}&\numprint{1734}&-&\checkmark&-&-&\checkmark&  \numprint{9755}&\\ 
+%178 &\numprint{18096}&\numprint{28281}&\numprint{573}&\numprint{1995}&-&\checkmark&-&-&\checkmark&  \numprint{11185}&\\ 
+%180 &\numprint{15783}&\numprint{24663}&\numprint{501}&\numprint{1731}&-&\checkmark&-&-&\checkmark&  \numprint{9755}&\\ 
+%182 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%184 &\numprint{6290}&\numprint{11560}&\numprint{4904}&\numprint{15397}&-&-&-&-&-&  &\\ 
+%186 &\numprint{26300}&\numprint{41500}&\numprint{500}&\numprint{3000}&-&-&\checkmark&-&\checkmark&  \numprint{16300}&\\ 
+%188 &\numprint{6660}&\numprint{12240}&\numprint{5220}&\numprint{16375}&-&-&-&-&-&  &\\ 
+%190 &\numprint{3875}&\numprint{7090}&\numprint{2997}&\numprint{9424}&-&-&-&-&-&  &\\ 
+%192 &\numprint{2980}&\numprint{5360}&\numprint{2180}&\numprint{6941}&\checkmark&-&-&-&\checkmark&  \numprint{1920}&\\ 
+%194 &\numprint{1150}&\numprint{80851}&\numprint{1150}&\numprint{80851}&\checkmark&\checkmark&-&-&\checkmark&  \numprint{1100}&\\ 
+%196 &\numprint{1534}&\numprint{126082}&\numprint{1534}&\numprint{126082}&-&-&-&-&-&  &\\ 
+%198 &\numprint{1150}&\numprint{80072}&\numprint{1150}&\numprint{80072}&\checkmark&\checkmark&-&-&\checkmark&  \numprint{1100}&\\ 
+%200 &\numprint{1150}&\numprint{80258}&\numprint{1150}&\numprint{80258}&\checkmark&\checkmark&-&-&\checkmark&  \numprint{1100}&\\
+%\bottomrule
+%\end{tabular}
+%\end{table*}
+
+In addition to the 100 public instances, the PACE Implementation Challenge tests all submissions on 100 private instances. Detailed results for those instances can be found in~\cite{PACETR}. The results are similar to the results on the private instances. %, which are not yet available for additional experiments.
+%\footnote{However, the results are published at \url{https://pacechallenge.org/2019/} and \url{https://www.optil.io/optilion/problem/3155}.} 
+On the private instances, \AlgName{MoMC} can solve 35 out of the 100 instances, \AlgName{RMoMC} solves 62, \AlgName{LSBnR} solves 58 and \AlgName{BnR} solves 35 instances.
+Our full algorithm \AlgName{FullA} solved 87 of the 100 instances, which is 10 more instances than the second-place submission (\textsf{peaty}~\cite{james_trimble_2019_3082356}, solving 77), and 11 more than the third-place submission (\textsf{bogdan}~\cite{zbogdan_2019_3228802}), solving 76). Our solver dominates these other solvers: with the exception of one graph, our algorithm solves all instances that \textsf{peaty} and \textsf{bogdan} can solve combined. 
+
+We briefly describe these two solvers. The \textsf{peaty} solver uses reductions to compute a problem kernel of the input followed by an unpublished maximum weight clique solver on the complement of each of the connected components of the kernel to assemble a solution. The clique solver is similar to MaxCLQ by Li and Quan~\cite{DBLP:conf/aaai/LiQ10}, but is more general. Local search is used to obtain an initial solution. On the other hand, \textsf{bogdan} implemented a small suite of simple reductions (including vertex folding, isolated clique removal, and degree-one removal) together with a recent maximum clique solver by Szab\'o and Zavalnij~\cite{szabo2018different}. 
+
+Lastly, we note that our choice of using MoMC as our chosen branch-and-bound solver is significant on the private instances. Eight instances solved exclusively by our solver are solved in Phase 5, where MoMC is run until the end of the challenge time limit.
+%\vfill
+\section{Conclusion}
+We presented the winning solver of the PACE 2019 Implementation Challenge Vertex Cover Track. Our algorithm uses a portfolio of techniques, including an aggressive kernelization strategy with all known reduction rules, local search, branch-and-reduce, and a state-of-the-art branch-and-bound solver. Of particular interest is that several of our techniques were not from the literature on the vertex over problem: they were originally published to solve the (complementary) maximum independent set and maximum clique problems. Moreover, the two closest competitors in the challenge also applied reductions and a clique solver. Lastly, our experiments show the impact of the different solver techniques on the number of instances solved during the challenge. In particular, the results emphasize that data reductions play an important tool to boost the performance of branch-and-bound, and local search is highly effective to boost the performance of branch-and-reduce.
+
+\subsection*{Acknowledgments.}
+We wish to thank the organizers of the PACE 2019 Implementation Challenge for providing us with the opportunity and means to test our algorithmic ideas. We also are indebted to Takuya Akiba and  Yoichi Iwata for sharing their original branch-and-reduce source code\footnote{\url{https://github.com/wata-orz/vertex_cover}}, and to Chu-Min Li, Hua Jiang, and Felip Many\`a for not only sharing---but even open sourcing---their code for MoMC at our request\footnote{\url{https://home.mis.u-picardie.fr/~cli/EnglishPage.html}}. Their solver was of critical importance to our algorithm's success.
+
+\iffalse %Consensus seems to be that the plot is enough
+\comment[id=DS]{Put full running times in appendix.}
+\fi
+
+%\vfill 
+%\pagebreak
+%\
+%\vfill
+%\pagebreak
+\bibliographystyle{plainurl}
+\bibliography{references}
+\vfill
 \end{document}
