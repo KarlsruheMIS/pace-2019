@@ -38,7 +38,7 @@
 \newcommand{\wrt}{w.\,r.\,t.\xspace}
 \newcommand{\csch}[1]{{\color{red} CS: #1}}
 
-\newcommand{\mytitle}{WeGotYouCovered: The Winning Solver from the PACE 2019 Implementation Challenge, Vertex Cover Track}
+\newcommand{\mytitle}{WeGotYouCovered: The Winning Solver from the PACE 2019 Challenge, Vertex Cover Track}
 
 \setlength\parfillskip{0pt plus .4\textwidth}
 \setlength\emergencystretch{.1\textwidth}
@@ -86,11 +86,11 @@
 %\Copyright{}
 \maketitle
 \begin{abstract}
-We present the winning solver of the PACE 2019 Implementation Challenge, Vertex Cover Track. The minimum vertex cover problem is one of a handful of problems for which \emph{kernelization}---the repeated reducing of the input size via \emph{data reduction rules}---is known to be highly effective in practice. Our algorithm uses a portfolio of techniques, including an aggressive kernelization strategy, local search, branch-and-reduce, and a state-of-the-art branch-and-bound solver. Of particular interest is that several of our techniques were \emph{not} from the literature on the vertex cover problem: they were originally published to solve the (complementary) maximum independent set and maximum clique problems. 
+We present the winning solver of the Parameterized Algorithms and Computational Experiments (PACE) 2019 Challenge, Vertex Cover Track. The minimum vertex cover problem is one of a handful of problems for which \emph{kernelization}---the repeated reducing of the input size via \emph{data reduction rules}---is known to be highly effective in practice. Our algorithm uses a portfolio of techniques, including an aggressive kernelization strategy, local search, branch-and-reduce, and a state-of-the-art branch-and-bound solver. Of particular interest is that several of our techniques were \emph{not} from the literature on the vertex cover problem: they were originally published to solve the (complementary) maximum independent set and maximum clique problems. 
 
 %We perform extensive experiments to show the impact of the different solver techniques on the number of instances solved during the challenge.
 %
-Aside from illustrating our solver's performance in the PACE 2019 Implementation Challenge, our experiments provide several key insights not yet seen before in the literature.
+Aside from illustrating our solver's performance in the PACE 2019 Challenge, our experiments provide several key insights not yet seen before in the literature.
 First, kernelization can boost the performance of branch-and-bound clique solvers enough to outperform branch-and-reduce solvers. Second, local search can significantly boost the performance of branch-and-reduce solvers. And finally, somewhat surprisingly, kernelization can sometimes make branch-and-bound algorithms perform \emph{worse} than running branch-and-bound alone.
 \end{abstract}
 
@@ -106,7 +106,7 @@ Complementary to vertex covers are independent sets and cliques. An independent 
 Many techniques have been proposed for solving these problems, and papers in the literature usually focus on one of these problems in particular. However, all of these problems are equivalent (when solved exactly): a
 minimum vertex cover $C$ in $G$ is the complement of a maximum independent set $V\setminus C$ in $G$, which is a maximum clique $V\setminus C$ in $\overline{G}$. Thus, an algorithm that solves one of these problems can be used to~solve~the~others.
 %
-To win the PACE 2019 Implementation Challenge, we deployed a portfolio of solvers, using techniques from the literature on all three problems. These include data reduction rules and branch-and-reduce for the minimum vertex cover problem~\cite{akiba-tcs-2016}, iterated local search for the maximum independent set problem~\cite{andrade-2012}, and a state-of-the-art branch-and-bound maximum clique solver~\cite{DBLP:journals/cor/LiJM17}.
+To win the Parameterized Algorithms and Computational Experiments (PACE) 2019 Challenge, we deployed a portfolio of solvers, using techniques from the literature on all three problems. These include data reduction rules and branch-and-reduce for the minimum vertex cover problem~\cite{akiba-tcs-2016}, iterated local search for the maximum independent set problem~\cite{andrade-2012}, and a state-of-the-art branch-and-bound maximum clique solver~\cite{DBLP:journals/cor/LiJM17}.
 
 \paragraph*{Our Results.}
 In this paper, we describe our techniques and solver in detail and analyze the results of our experiments on the data sets provided by the challenge.
@@ -118,7 +118,7 @@ In particular, kernelization followed by branch-and-bound can outperform branch-
 %  \comment[id=DS]{those reductions have a different purpose, they only work on sparse graphs, removing low-degree vertices (or similar) based on a an initial clique from some inexact method. Clarified.}
 
 \paragraph*{Organization.}
-We first briefly describe related work in Section~\ref{sec:related_work}. Then in Section~\ref{sec:techniques} we outline each of the techniques that we use, and in Section~\ref{sec:puttingtogether} finally describe how we combine all of the techniques in our final solver that scored the most points in the PACE 2019 Implementation Challenge. Lastly, in Section~\ref{sec:experiments} we perform an experimental evaluation to show the impact of the components used on the final number of instances solved during the challenge.
+We first briefly describe related work in Section~\ref{sec:related_work}. Then in Section~\ref{sec:techniques} we outline each of the techniques that we use, and in Section~\ref{sec:puttingtogether} finally describe how we combine all of the techniques in our final solver that scored the most points in the PACE 2019 Challenge. Lastly, in Section~\ref{sec:experiments} we perform an experimental evaluation to show the impact of the components used on the final number of instances solved during the challenge.
 
 \section{Preliminaries}
 \label{sec:preliminaries}
@@ -266,14 +266,14 @@ The algorithm time limits (discussed in the next section) and ordering were care
 \section{Experimental Results}
 \label{sec:experiments}
 We now look at the impact of the algorithmic components on the number of instances solved.
-Here, we focus on the public instances  of the PACE 2019 Implementation Challenge, Vertex Cover Track A, obtained from \url{https://pacechallenge.org/files/pace2019-vc-exact-public-v2.tar.bz2}. This set contains 100 instances overall. We also summarize the results comparing against the second and third best competing algorithms on the private instances during the challenge (which can be found at \url{https://pacechallenge.org/2019/} and \url{https://www.optil.io/optilion/problem/3155}). Note that the public instances used during the challenge are all odd numbered and the private instances are all even numbered. The instances stem from various applications such as road networks, satisfiability, transit networks or social networks.
+Here, we focus on the public instances  of the PACE 2019 Challenge, Vertex Cover Track A, obtained from \url{https://pacechallenge.org/files/pace2019-vc-exact-public-v2.tar.bz2}. This set contains 100 instances overall. We also summarize the results comparing against the second and third best competing algorithms on the private instances during the challenge (which can be found at \url{https://pacechallenge.org/2019/} and \url{https://www.optil.io/optilion/problem/3155}). Note that the public instances used during the challenge are all odd numbered and the private instances are all even numbered. The instances stem from various applications such as road networks, satisfiability, transit networks or social networks.
 %Note that further comparisons are not yet possible, as the private instances have not yet been released. 
 
 \subsection{Methodology and Setup.}
 All of our experiments were run on a machine with  four sixteen-core Intel Xeon Haswell-EX E7-8867 processors running at $2.5$ GHz, $1$ TB of main memory, and \numprint{32768} KB of L2-Cache.
 The machine runs Debian GNU/Linux 9 and Linux kernel version 4.9.0-9.
 All algorithms were implemented in C++11 and compiled with gcc~version 6.3.0 with optimization flag \texttt{-O3}. Our source code is publicly available under the MIT license at~\cite{wegotyoucovered2019}.
-Each algorithm was run sequentially with a time limit of 30 minutes---the time allotted to solve a single data set in the PACE 2019 Implementation Challenge. Our primary focus is on the total number of instances solved.
+Each algorithm was run sequentially with a time limit of 30 minutes---the time allotted to solve a single data set in the PACE 2019 Challenge. Our primary focus is on the total number of instances solved.
 \subsection{Evaluation.}
 We now explain the main configuration that we use in our experimental setup.
 In the following, \AlgName{MoMC} runs the MoMC clique solver by Li et
@@ -574,7 +574,7 @@ inst\# & $n$ &$m$& $n'$& $m'$ & \AlgName{MoMC} & \AlgName{RMoMC} & \AlgName{LSBn
 %\end{tabular}
 %\end{table*}
 
-In addition to the 100 public instances, the PACE Implementation Challenge tests all submissions on 100 private instances. Detailed results for those instances can be found in~\cite{PACETR}. The results are similar to the results on the private instances. %, which are not yet available for additional experiments.
+In addition to the 100 public instances, the PACE 2019 Challenge tests all submissions on 100 private instances. Detailed results for those instances can be found in~\cite{PACETR}. The results are similar to the results on the private instances. %, which are not yet available for additional experiments.
 %\footnote{However, the results are published at \url{https://pacechallenge.org/2019/} and \url{https://www.optil.io/optilion/problem/3155}.} 
 On the private instances, \AlgName{MoMC} can solve 35 out of the 100 instances, \AlgName{RMoMC} solves 62, \AlgName{LSBnR} solves 58 and \AlgName{BnR} solves 35 instances.
 Our full algorithm \AlgName{FullA} solved 87 of the 100 instances, which is 10 more instances than the second-place submission (\textsf{peaty}~\cite{james_trimble_2019_3082356}, solving 77), and 11 more than the third-place submission (\textsf{bogdan}~\cite{zbogdan_2019_3228802}), solving 76). Our solver dominates these other solvers: with the exception of one graph, our algorithm solves all instances that \textsf{peaty} and \textsf{bogdan} can solve combined. 
@@ -584,10 +584,10 @@ We briefly describe these two solvers. The \textsf{peaty} solver uses reductions
 Lastly, we note that our choice of using MoMC as our chosen branch-and-bound solver is significant on the private instances. Eight instances solved exclusively by our solver are solved in Phase 5, where MoMC is run until the end of the challenge time limit.
 %\vfill
 \section{Conclusion}
-We presented the winning solver of the PACE 2019 Implementation Challenge Vertex Cover Track. Our algorithm uses a portfolio of techniques, including an aggressive kernelization strategy with all known reduction rules, local search, branch-and-reduce, and a state-of-the-art branch-and-bound solver. Of particular interest is that several of our techniques were not from the literature on the vertex over problem: they were originally published to solve the (complementary) maximum independent set and maximum clique problems. Moreover, the two closest competitors in the challenge also applied reductions and a clique solver. Lastly, our experiments show the impact of the different solver techniques on the number of instances solved during the challenge. In particular, the results emphasize that data reductions play an important tool to boost the performance of branch-and-bound, and local search is highly effective to boost the performance of branch-and-reduce.
+We presented the winning solver of the PACE 2019 Challenge, Vertex Cover Track. Our algorithm uses a portfolio of techniques, including an aggressive kernelization strategy with all known reduction rules, local search, branch-and-reduce, and a state-of-the-art branch-and-bound solver. Of particular interest is that several of our techniques were not from the literature on the vertex over problem: they were originally published to solve the (complementary) maximum independent set and maximum clique problems. Moreover, the two closest competitors in the challenge also applied reductions and a clique solver. Lastly, our experiments show the impact of the different solver techniques on the number of instances solved during the challenge. In particular, the results emphasize that data reductions play an important tool to boost the performance of branch-and-bound, and local search is highly effective to boost the performance of branch-and-reduce.
 
 \subsection*{Acknowledgments.}
-We wish to thank the organizers of the PACE 2019 Implementation Challenge for providing us with the opportunity and means to test our algorithmic ideas. We also are indebted to Takuya Akiba and  Yoichi Iwata for sharing their original branch-and-reduce source code\footnote{\url{https://github.com/wata-orz/vertex_cover}}, and to Chu-Min Li, Hua Jiang, and Felip Many\`a for not only sharing---but even open sourcing---their code for MoMC at our request\footnote{\url{https://home.mis.u-picardie.fr/~cli/EnglishPage.html}}. Their solver was of critical importance to our algorithm's success.
+We wish to thank the organizers of the PACE 2019 Challenge for providing us with the opportunity and means to test our algorithmic ideas. We also are indebted to Takuya Akiba and  Yoichi Iwata for sharing their original branch-and-reduce source code\footnote{\url{https://github.com/wata-orz/vertex_cover}}, and to Chu-Min Li, Hua Jiang, and Felip Many\`a for not only sharing---but even open sourcing---their code for MoMC at our request\footnote{\url{https://home.mis.u-picardie.fr/~cli/EnglishPage.html}}. Their solver was of critical importance to our algorithm's success.
 
 \iffalse %Consensus seems to be that the plot is enough
 \comment[id=DS]{Put full running times in appendix.}
