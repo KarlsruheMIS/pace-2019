@@ -4,6 +4,7 @@ Framework for finding a minimum vertex cover.
 
 Demian Hespe, Sebastian Lamm, Christian Schulz and Darren Strash.
 
+```
 @inproceedings{hespe2020wegotyoucovered,
   title={WeGotYouCovered: The Winning Solver from the PACE 2019 Challenge, Vertex Cover Track},
   author={Hespe, Demian and Lamm, Sebastian and Schulz, Christian and Strash, Darren},
@@ -12,6 +13,7 @@ Demian Hespe, Sebastian Lamm, Christian Schulz and Darren Strash.
   year={2020},
   organization={SIAM}
 }
+```
 
 ## Usage ##
 `vc_solver FILE [options]`.
