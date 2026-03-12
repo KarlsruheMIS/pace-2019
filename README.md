@@ -1,4 +1,7 @@
 # WeGotYouCovered #
+
+Part of the [KarlsruheMIS](https://github.com/KarlsruheMIS) organization.
+
 ## Description ##
 Framework for finding a minimum vertex cover.
 
